@@ -1,0 +1,48 @@
+# Repository rules for the three-person SQE team
+
+These rules apply to work on the SQE fork. They supplement the upstream `CONTRIBUTING.md` and `AGENTS.md`; application security and contribution rules there still apply.
+
+## Starting team and area ownership
+
+| GitHub account | Primary owned area | Expected deliverables |
+| --- | --- | --- |
+| `@Artfever` | Static analysis, white-box unit tests, mutation analysis, CI quality gates | SonarQube report and complexity comparison, coverage/MC/DC, PIT and custom operators, blocked/passing PR evidence |
+| `@TahaSohail-Goat` | API/integration testing and generated test data | OpenAPI spec, EP/BVA generator, API test suite, cross-workflow and database read-back results |
+| `@Abdullah-SE-bit` | Use-case coordination, browser automation, usability/accessibility, security, performance/recovery | Playwright flow coverage, Lighthouse/axe, access/ZAP/dependency results, k6 and recovery evidence |
+
+These are starting assignments for planning, not a claim that the team has agreed to them. All three jointly maintain the risk register, test plan, traceability, weekly metrics, defect triage, final report, and AI-use record. Each member must author at least two use cases and commit identifiable work in the area they can explain during the viva. Ownership can change by a documented team decision; record the change in this table before work is reassigned.
+
+## Branch and pull request workflow
+
+1. Keep `main` as the reproducible integration branch. Create a short-lived branch from current `main` for each issue or focused task, named `sqe/<area>/<issue-number>-<short-name>` (for example, `sqe/api/12-borrow-boundaries`). The initial repository-rules branch may omit the issue number because Issues were disabled when these rules were drafted.
+2. Once the admin enables Issues, open an issue before implementation. Assign an owner and add requirement/rule/risk IDs. Use the SQE defect template for defects; link its reproduction and evidence.
+3. Push work to the task branch and open a PR to `main`. Use the PR template; include commands and actual results. Do not present upstream test counts as the team's tests.
+4. A different team member reviews and approves. Resolve review comments and rerun affected checks after changes. The PR author does not approve their own PR.
+5. Merge only after required CI checks pass and the reviewer approves. Use squash merge for a coherent task, preserving the human author in Git history. Do not force-push or delete `main`, bypass checks, or merge a known failing test just to make progress.
+6. Keep commits focused, imperative, and at most 72 characters on the first line. Preserve correct human author/committer metadata. Follow the upstream rule against automated co-author trailers and generated tool attribution in commit messages.
+
+## Test and evidence rules
+
+- Put team tests, generators, fixtures, and non-secret evidence under `tests/team/`. Keep raw outputs alongside a short interpretation and the exact commit/profile/tool version that produced them.
+- Use synthetic records and test accounts. Keep passwords and tokens out of Git, issues, PRs, screenshots, and logs. Never print resolved Compose secrets.
+- For every circulation test, record the starting state, action, expected response, item availability, and borrow-record state after both success and rejection.
+- Update requirement and risk traceability whenever a test is added, changed, or removed. Record failed runs honestly and link a defect or documented environment issue.
+- Do not change the upstream baseline commit record. Keep the original repository URL and baseline SHA in the report.
+
+## GitHub `main` rule to apply in repository Settings
+
+The connected accounts currently have push access but no repository admin permission, so GitHub's server-side settings must be enabled by an admin (`@Abdullah-SE-bit` if that account has admin access). First open **Settings → General → Features** and enable **Issues**; they were disabled at setup, which prevented creation of the first tracking issue. Then open **Settings → Rules → Rulesets → New branch ruleset** for the SQE fork:
+
+| Setting | Value |
+| --- | --- |
+| Target | Default branch `main`; enforcement **Active** |
+| Require a pull request before merging | On |
+| Required approvals | 1 from a team member other than the author |
+| Dismiss stale approvals when new commits are pushed | On |
+| Require review from Code Owners | On (uses `.github/CODEOWNERS`) |
+| Require status checks to pass | On; select the current CI job checks `build`, `javascript`, `phase5`, `backup-script`, and `docker-build` after they appear in a PR run; add the SQE quality jobs when implemented |
+| Require branches to be up to date before merging | On |
+| Block force pushes and deletions | On |
+| Bypass list | Empty for the three members, including admins when GitHub permits |
+
+Check the status-check names in the GitHub UI before selecting them; do not invent a check name that has never run. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process, but they do not themselves enforce GitHub branch protection.

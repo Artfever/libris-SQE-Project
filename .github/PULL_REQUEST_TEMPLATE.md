@@ -23,3 +23,13 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
+
+## SQE team checks (for `tests/team/` or circulation changes)
+
+- Linked issue, requirement/rule ID, and risk ID:
+- Owner and reviewer (reviewer must be another team member):
+- Test command, environment/profile, result, and evidence path:
+- [ ] New tests and fixtures are under `tests/team/` or are clearly identified as team work
+- [ ] Borrow/return changes verify item availability and borrow-record postconditions
+- [ ] No credentials, session data, personal data, or generated build output is committed
+- [ ] The relevant plan, traceability, evidence, and AI-use record are updated
