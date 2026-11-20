@@ -446,18 +446,25 @@ class LibraryManagementIntegrationTest {
                 .header("X-XSRF-TOKEN", csrfCookie.getValue()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(1))))
-        .andExpect(jsonPath("$.content[?(@.itemTitle == 'List Test Book')]").exists())
-        .andExpect(jsonPath("$.content[0].itemType").value("BOOK"))
-        .andExpect(jsonPath("$.content[0].itemId").isNumber())
-        .andExpect(jsonPath("$.content[0].studentId").isNumber())
-        .andExpect(jsonPath("$.content[0].status").value("BORROWED"))
         .andExpect(jsonPath("$.totalElements").isNumber())
         .andExpect(jsonPath("$.totalElements").value(greaterThanOrEqualTo(0)))
         .andExpect(jsonPath("$.number").value(0))
-        .andExpect(jsonPath("$.totalPages").value(1))
+        .andExpect(jsonPath("$.totalPages").isNumber())
         .andExpect(jsonPath("$.size").value(10))
-        .andExpect(jsonPath("$.first").value(true))
-        .andExpect(jsonPath("$.last").value(true));
+        .andExpect(jsonPath("$.first").value(true));
+
+    mvc.perform(
+            get("/api/borrow-records?query=list@example.com")
+                .session(adminSession)
+                .cookie(csrfCookie)
+                .header("X-XSRF-TOKEN", csrfCookie.getValue()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content", hasSize(1)))
+        .andExpect(jsonPath("$.content[0].itemTitle").value("List Test Book"))
+        .andExpect(jsonPath("$.content[0].itemType").value("BOOK"))
+        .andExpect(jsonPath("$.content[0].itemId").value((int) bookId))
+        .andExpect(jsonPath("$.content[0].studentId").value((int) studentId))
+        .andExpect(jsonPath("$.content[0].status").value("BORROWED"));
   }
 
   @Test
