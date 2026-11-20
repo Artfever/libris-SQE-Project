@@ -31,6 +31,13 @@ Lead: `@Abdullah-SE-bit` (#8–#11). All three members author two use cases each
 5. Create a risk register with at least eight product and two project risks, likelihood and impact scored 1–5 on a 5×5 matrix, and test controls mapped to each.
 6. Build the requirement-to-test traceability matrix and a three-point effort estimate. Update estimates with actual effort at completion.
 
+Draft artifacts are maintained in [the test basis](TEST_BASIS.md),
+[the use cases](USE_CASES.md), [the risk-based test plan](TEST_PLAN.md), and
+[the traceability/estimate](TRACEABILITY_ESTIMATE.md). The phase remains open
+until each teammate has revised and committed their own two use cases and the
+contributors record actual effort; the integrated drafts do not substitute for
+those human contributions.
+
 ## Phase 3 — design and automate functional tests
 
 Lead: `@TahaSohail-Goat` (#12–#16).
@@ -71,4 +78,8 @@ Lead: `@Abdullah-SE-bit` (#22–#25). All three contribute and review the final 
 
 ## Immediate next action
 
-Write `tests/team/TEST_BASIS.md` with the eight requirements and four rules, then seed one student and one item of each type and capture the initial availability. This gives every later test a shared, reviewable expected result.
+Have each teammate revise and commit their two assigned use cases in
+`tests/team/USE_CASES.md`, then record actual effort in
+`tests/team/TRACEABILITY_ESTIMATE.md`. The test basis and initial H2 fixture
+evidence are available for the next phase; continue to distinguish planned
+tests from executed results.
