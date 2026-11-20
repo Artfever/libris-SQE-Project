@@ -2,17 +2,17 @@
 
 These rules apply to work on the SQE fork. They supplement the upstream `CONTRIBUTING.md` and `AGENTS.md`; application security and contribution rules there still apply.
 
-## Starting team and area ownership
+## Team and phase ownership
 
-| GitHub account | Primary owned area | Expected deliverables |
+| GitHub account | Phase responsibility | Issues |
 | --- | --- | --- |
-| `@Artfever` | Static analysis, white-box unit tests, mutation analysis, CI quality gates | SonarQube report and complexity comparison, coverage/MC/DC, PIT and custom operators, blocked/passing PR evidence |
-| `@TahaSohail-Goat` | API/integration testing and generated test data | OpenAPI spec, EP/BVA generator, API test suite, cross-workflow and database read-back results |
-| `@Abdullah-SE-bit` | Use-case coordination, browser automation, usability/accessibility, security, performance/recovery | Playwright flow coverage, Lighthouse/axe, access/ZAP/dependency results, k6 and recovery evidence |
+| `@Abdullah-SE-bit` | Phase 2 test basis and management documents; Phase 5 quality gates, metrics, report, and submission coordination | #8–#11 and #22–#25 |
+| `@TahaSohail-Goat` | Phase 3 static analysis, unit/API tests, OpenAPI generator, and browser flows | #12–#16 |
+| `@Artfever` | Phase 4 mutation, accessibility, security, performance, and recovery evidence | #17–#21 |
 
-These are starting assignments for planning, not a claim that the team has agreed to them. All three jointly maintain the risk register, test plan, traceability, weekly metrics, defect triage, final report, and AI-use record. Each member must author at least two use cases and commit identifiable work in the area they can explain during the viva. Ownership can change by a documented team decision; record the change in this table before work is reassigned.
+The repository owner assigned these phase owners on 21 November 2026. The issue assignee is the lead responsible for coordinating and finishing that issue; it does not replace required contributions from the rest of the team. In particular, each member must author two of the six Phase 2 use cases and commit identifiable work for #9. All three must review and contribute evidence for the shared Phase 5 completion report, submission package, AI-use record, and viva preparation. The phase lead integrates those contributions. Record later ownership changes here and in GitHub Issues.
 
-Task exception recorded 20 November 2026: the repository owner requested that Phase 1 fixture issue #7 be completed under `@Artfever`. Issue #7 was reassigned from `@TahaSohail-Goat` to `@Artfever`. This does not change Taha's primary Phase 3 API and generated-data area above.
+Task exception recorded 20 November 2026: the repository owner requested that Phase 1 fixture issue #7 be completed under `@Artfever`. Issue #7 was reassigned from `@TahaSohail-Goat` to `@Artfever` and closed after the fixture evidence merged.
 
 ## Branch and pull request workflow
 

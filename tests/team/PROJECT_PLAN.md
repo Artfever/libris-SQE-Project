@@ -22,6 +22,8 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 
 ## Phase 2 — write the test basis and management documents
 
+Lead: `@Abdullah-SE-bit` (#8–#11). All three members author two use cases each for #9.
+
 1. Derive at least eight functional requirements across both workflows, at least three per workflow. Include validation, dates, availability, history, repeat requests, and role access.
 2. State at least four business rules. Include a boundary/limit, a decision with at least two Boolean conditions, and a state transition. Cite the code/docs or label assumptions.
 3. Define two use cases per team member (six total), each with main, at least two alternate, and two exception flows; record preconditions and postconditions.
@@ -31,6 +33,8 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 
 ## Phase 3 — design and automate functional tests
 
+Lead: `@TahaSohail-Goat` (#12–#16).
+
 1. Run SonarQube and record complexity, duplication, smells, bugs, vulnerabilities, coverage, debt, and ratings. Hand-calculate cyclomatic complexity for a circulation business-rule function and compare it with SonarQube.
 2. Unit-test all circulation server-side business logic to 100% statement and branch coverage; justify exclusions. Model the critical decision with an MCC table and cover its MC/DC pairs.
 3. API/integration-test all input equivalence classes and three-point boundaries (just below, at, and just above each limit). Include all item types, valid/invalid dates, exactly-one-item selection, unavailable items, duplicate returns, missing IDs, permissions, CSRF, response contracts/statuses, invalid state transitions, repeated requests, and read-back of availability and history after changes and rejections. Keep one invalid value per equivalence-partition test.
@@ -39,6 +43,8 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 
 ## Phase 4 — other quality evidence
 
+Lead: `@Artfever` (#17–#21).
+
 1. Use PIT for circulation mutation analysis, add two custom operators tied to the business rules, inspect at least 15 survivors, and justify the score threshold.
 2. Run one browser task per workflow with an invalid value followed by correction; include keyboard-only form navigation in one, checking focus order and keyboard submission. Run Lighthouse (accessibility, best practices, SEO) and a full axe-core scan on both key screens, record each issue's affected element and user impact, then rerun both tools after fixing one issue. Keep before/after reports; no participants or manual walkthroughs are required.
 3. Automate at least four role/access decisions across two roles, including allowed and denied actions with actual responses. Run OWASP ZAP passive scanning while the workflows execute and a dependency audit; document component versions, evidence, impact, correction, and verified controls. Assess only local synthetic data and test accounts.
@@ -46,6 +52,8 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 5. Automate a controlled failure and recovery of a state-changing operation; verify no duplicate record and the correct final availability.
 
 ## Phase 5 — gate, defects, and final submission
+
+Lead: `@Abdullah-SE-bit` (#22–#25). All three contribute and review the final report, package, AI-use record, and viva preparation.
 
 1. Add GitHub Actions gates for SonarQube, all team tests, coverage, and mutation score. Demonstrate both a blocked and passing pull request without bypasses.
 2. Track defects as GitHub issues with severity, priority, status, triage decision, and risk links. Perform 5 Whys plus fishbone for two major defects with corrective and preventive actions; report a defect-category Pareto and weekly progress/GQM metrics (defect density, requirements coverage, reopen rate) against the plan with control actions.
