@@ -1,14 +1,15 @@
 # Local test environment (Windows)
 
-Recorded 20 November 2026. Repository commit: `faf2bc0d28b68d4c8ff8c0ffb0fcf5bb87d42804`; upstream `main` matched this commit when checked.
+Recorded 20 November 2026. Upstream baseline commit: `faf2bc0d28b68d4c8ff8c0ffb0fcf5bb87d42804`; upstream `HEAD` matched this commit on 20 November 2026. The upstream repository is https://github.com/prathamkashyap/libris and its `LICENSE` at that commit is MIT. The team fork includes later setup and CI commits; keep the upstream baseline separate from those changes.
 
 ## Ready
 
 - Java: Eclipse Temurin JDK 21.0.13 at `C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot`.
 - Maven: bundled wrapper 3.9.11 (`backend\mvnw.cmd`); no separate Maven installation needed.
 - Node.js: 24.18.0. Python: 3.12.10.
-- Baseline: from `backend`, `mvnw.cmd clean verify` passed, 176 upstream tests, zero failures/errors/skips, and the configured JaCoCo check. Overall line coverage was 1425/1578 (90.3%); `BorrowRecordService` was 145/146 lines and 42/46 branches. These are upstream baseline results, not team test results.
-- Docker CLI and Compose are installed; the Docker engine was unavailable during setup. The initial H2/JUnit work does not require it.
+- Docker CLI: 29.9.2. Docker Compose: 5.6.1. `docker info` failed because the Docker Desktop Linux engine pipe was absent. A MySQL run is pending until the engine is available.
+- Clean verification: from `backend`, `mvnw.cmd spotless:check clean verify` passed with 176 upstream tests, zero failures/errors/skips, and the configured JaCoCo check. Overall line coverage was 1425/1578 (90.3%); `BorrowRecordService` was 145/146 lines and 42/46 branches. These are upstream baseline results, not team test results.
+- H2 startup: `spring-boot:run` with the `h2` profile and a private generated admin password started successfully on port 18080. `GET /actuator/health` returned `UP`; `GET /login.html` returned HTTP 200. The process was stopped and the port closed. See [the dated baseline evidence](evidence/baseline-2026-11-20.md).
 
 ## Reproduce the baseline
 
@@ -17,7 +18,7 @@ Open a new PowerShell terminal so it reads the installed Java environment. From 
 ```powershell
 cd backend
 .\mvnw.cmd -version
-.\mvnw.cmd clean verify
+.\mvnw.cmd spotless:check clean verify
 ```
 
 If an existing terminal still cannot find Java, set its process environment first:
@@ -35,6 +36,6 @@ The `h2` profile is suitable for initial API and browser tests. Supply a unique 
 .\mvnw.cmd spring-boot:run '-Dspring-boot.run.profiles=h2'
 ```
 
-Visit `http://localhost:8080`; the local admin username is `admin`. H2 data is erased when the app stops, which is the reset procedure for disposable fixtures. The live app health check was not completed during this setup, so verify it before recording browser/API results.
+Visit `http://localhost:8080/login.html`; the local admin username is `admin`. The root path requires authentication and may return HTTP 401 to an anonymous request. Check `http://localhost:8080/actuator/health` for `UP`. H2 uses an in-memory database with `spring.jpa.hibernate.ddl-auto=create-drop`; stopping and restarting the app resets disposable fixtures. The admin account is recreated by `AdminSeeder` at startup. Record fixture creation separately when the team begins scenario testing.
 
 For MySQL-specific integration, start a local Docker engine and follow `docs/SETUP.md`. Use separate disposable credentials and data. The repository's Compose file selects the production profile, whose secure cookies require HTTPS for a working browser login; plan the browser suite around H2 or a reviewed local non-production configuration.

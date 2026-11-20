@@ -12,7 +12,7 @@
 
 ## Phase 1 — establish a reproducible baseline
 
-1. Register the repository, module, and two workflows in the section's shared sheet within the brief's deadline.
+1. Register the repository, module, and two workflows in the section's shared sheet within the brief's deadline. The owner confirmed the section B entry on 20 November 2026; retain [the registration record](evidence/registration-2026-11-20.md) and cite it in the final report.
 2. Record the commit, license, Java/Maven/Node/Python/Docker versions, and exact commands used. Save a clean Git baseline.
 3. Run `backend\mvnw.cmd clean verify` using Java 21. Record actual results and existing coverage; never count upstream tests as our own.
 4. Start the `h2` profile for fast local API and browser work. Use a private local admin password. Record fixture creation and reset steps; H2 resets on restart.
