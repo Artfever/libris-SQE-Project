@@ -45,6 +45,6 @@ The repository was transferred to `@Artfever`, whose connected GitHub CLI accoun
 | Block force pushes and deletions | On |
 | Bypass list | Empty for the three members, including admins when GitHub permits |
 
-The active ruleset is [SQE main branch review and CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 with no bypass actors. GitHub reports all five rules as effective on `main`. The five status-check contexts were selected from `.github/workflows/ci.yml`; verify their actual names and outcomes on the next PR before treating the CI part as proven. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
+The active ruleset is [SQE main branch review and CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 with no bypass actors. GitHub reports all five rules as effective on `main`. The five status-check contexts match the jobs in the live verification PR. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
 
 Live repository settings at setup: Issues enabled; `@TahaSohail-Goat` and `@Abdullah-SE-bit` have write access; squash is the only allowed merge method; merged branches are deleted automatically. Recheck these settings before the final report if they change.
