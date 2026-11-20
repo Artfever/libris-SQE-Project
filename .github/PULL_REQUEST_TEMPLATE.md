@@ -27,7 +27,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 ## SQE team checks (for `tests/team/` or circulation changes)
 
 - Linked issue, requirement/rule ID, and risk ID:
-- Owner and reviewer (reviewer must be another team member):
+- Owner and optional reviewer:
 - Test command, environment/profile, result, and evidence path:
 - [ ] New tests and fixtures are under `tests/team/` or are clearly identified as team work
 - [ ] Borrow/return changes verify item availability and borrow-record postconditions

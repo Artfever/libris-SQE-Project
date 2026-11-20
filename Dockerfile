@@ -1,16 +1,16 @@
 # Multi-stage build for Library Management System
 # Stage 1: Build
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM maven:3.9.11-eclipse-temurin-21 AS build
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first (better layer caching)
-COPY backend/mvnw backend/pom.xml ./
-COPY backend/.mvn .mvn
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
+# Use the same Maven version as the wrapper without downloading its binary
+# from Maven Central for every fresh multi-platform build.
+COPY backend/pom.xml ./
+RUN mvn dependency:go-offline -B
 
 # Copy source and build runnable JAR
 COPY backend/src src
-RUN ./mvnw clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B
 
 # Stage 2: Runtime
 FROM eclipse-temurin:21-jre-alpine

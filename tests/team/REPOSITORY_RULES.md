@@ -17,8 +17,8 @@ These are starting assignments for planning, not a claim that the team has agree
 1. Keep `main` as the reproducible integration branch. Create a short-lived branch from current `main` for each issue or focused task, named `sqe/<area>/<issue-number>-<short-name>` (for example, `sqe/api/12-borrow-boundaries`). The initial repository-rules branch may omit the issue number because Issues were disabled when these rules were drafted.
 2. Open an issue before implementation. Assign an owner and add requirement/rule/risk IDs. Use the SQE defect template for defects; link its reproduction and evidence.
 3. Push work to the task branch and open a PR to `main`. Use the PR template; include commands and actual results. Do not present upstream test counts as the team's tests.
-4. A different team member reviews and approves. Resolve review comments and rerun affected checks after changes. The PR author does not approve their own PR.
-5. Merge only after required CI checks pass and the reviewer approves. Use squash merge for a coherent task, preserving the human author in Git history. Do not force-push or delete `main`, bypass checks, or merge a known failing test just to make progress.
+4. Ask another team member to review when useful. Resolve review comments and rerun affected checks after changes. Approval is encouraged but not a merge requirement.
+5. Merge only after required CI checks pass. Use squash merge for a coherent task, preserving the human author in Git history. Do not force-push or delete `main`, bypass checks, or merge a known failing test just to make progress.
 6. Keep commits focused, imperative, and at most 72 characters on the first line. Preserve correct human author/committer metadata. Follow the upstream rule against automated co-author trailers and generated tool attribution in commit messages.
 
 ## Test and evidence rules
@@ -37,12 +37,14 @@ The repository was transferred to `@Artfever`, whose connected GitHub CLI accoun
 | --- | --- |
 | Target | Default branch `main`; enforcement **Active** |
 | Require a pull request before merging | On |
-| Required approvals | 1 from a team member other than the author |
-| Dismiss stale approvals when new commits are pushed | On |
-| Require review from Code Owners | On (uses `.github/CODEOWNERS`) |
-| Require status checks to pass | On; select the current CI job checks `build`, `javascript`, `phase5`, `backup-script`, and `docker-build` after they appear in a PR run; add the SQE quality jobs when implemented |
+| Required approvals | 0; teammate review is optional |
+| Dismiss stale approvals when new commits are pushed | Off |
+| Require review from Code Owners | Off (`.github/CODEOWNERS` lists area contacts only) |
+| Require status checks to pass | On; current CI job contexts are `build`, `javascript`, `phase5`, `backup-script`, and `docker-build`; add the SQE quality jobs when implemented |
 | Require branches to be up to date before merging | On |
 | Block force pushes and deletions | On |
 | Bypass list | Empty for the three members, including admins when GitHub permits |
 
-Check the status-check names in the GitHub UI before selecting them; do not invent a check name that has never run. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
+The active ruleset is [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 and updated to remove mandatory reviews, with no bypass actors. GitHub reports all five rules as effective on `main`. The five status-check contexts match the jobs in the live verification PR. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository document the process; the live GitHub ruleset enforces branch protection.
+
+Live repository settings at setup: Issues enabled; `@TahaSohail-Goat` and `@Abdullah-SE-bit` have write access; squash is the only allowed merge method; merged branches are deleted automatically. Recheck these settings before the final report if they change.
