@@ -40,9 +40,11 @@ The repository was transferred to `@Artfever`, whose connected GitHub CLI accoun
 | Required approvals | 1 from a team member other than the author |
 | Dismiss stale approvals when new commits are pushed | On |
 | Require review from Code Owners | On (uses `.github/CODEOWNERS`) |
-| Require status checks to pass | On; select the current CI job checks `build`, `javascript`, `phase5`, `backup-script`, and `docker-build` after they appear in a PR run; add the SQE quality jobs when implemented |
+| Require status checks to pass | On; current CI job contexts are `build`, `javascript`, `phase5`, `backup-script`, and `docker-build`; add the SQE quality jobs when implemented |
 | Require branches to be up to date before merging | On |
 | Block force pushes and deletions | On |
 | Bypass list | Empty for the three members, including admins when GitHub permits |
 
-Check the status-check names in the GitHub UI before selecting them; do not invent a check name that has never run. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
+The active ruleset is [SQE main branch review and CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 with no bypass actors. GitHub reports all five rules as effective on `main`. The five status-check contexts were selected from `.github/workflows/ci.yml`; verify their actual names and outcomes on the next PR before treating the CI part as proven. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
+
+Live repository settings at setup: Issues enabled; `@TahaSohail-Goat` and `@Abdullah-SE-bit` have write access; squash is the only allowed merge method; merged branches are deleted automatically. Recheck these settings before the final report if they change.
