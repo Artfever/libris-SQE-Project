@@ -15,7 +15,7 @@ These are starting assignments for planning, not a claim that the team has agree
 ## Branch and pull request workflow
 
 1. Keep `main` as the reproducible integration branch. Create a short-lived branch from current `main` for each issue or focused task, named `sqe/<area>/<issue-number>-<short-name>` (for example, `sqe/api/12-borrow-boundaries`). The initial repository-rules branch may omit the issue number because Issues were disabled when these rules were drafted.
-2. Once the admin enables Issues, open an issue before implementation. Assign an owner and add requirement/rule/risk IDs. Use the SQE defect template for defects; link its reproduction and evidence.
+2. Open an issue before implementation. Assign an owner and add requirement/rule/risk IDs. Use the SQE defect template for defects; link its reproduction and evidence.
 3. Push work to the task branch and open a PR to `main`. Use the PR template; include commands and actual results. Do not present upstream test counts as the team's tests.
 4. A different team member reviews and approves. Resolve review comments and rerun affected checks after changes. The PR author does not approve their own PR.
 5. Merge only after required CI checks pass and the reviewer approves. Use squash merge for a coherent task, preserving the human author in Git history. Do not force-push or delete `main`, bypass checks, or merge a known failing test just to make progress.
@@ -29,9 +29,9 @@ These are starting assignments for planning, not a claim that the team has agree
 - Update requirement and risk traceability whenever a test is added, changed, or removed. Record failed runs honestly and link a defect or documented environment issue.
 - Do not change the upstream baseline commit record. Keep the original repository URL and baseline SHA in the report.
 
-## GitHub `main` rule to apply in repository Settings
+## GitHub `main` rule
 
-The connected accounts currently have push access but no repository admin permission, so GitHub's server-side settings must be enabled by an admin (`@Abdullah-SE-bit` if that account has admin access). First open **Settings → General → Features** and enable **Issues**; they were disabled at setup, which prevented creation of the first tracking issue. Then open **Settings → Rules → Rulesets → New branch ruleset** for the SQE fork:
+The repository was transferred to `@Artfever`, whose connected GitHub CLI account has admin access. Issues were enabled on 20 November 2026. The `main` ruleset is configured in **Settings → Rules → Rulesets** for the SQE fork:
 
 | Setting | Value |
 | --- | --- |
@@ -45,4 +45,4 @@ The connected accounts currently have push access but no repository admin permis
 | Block force pushes and deletions | On |
 | Bypass list | Empty for the three members, including admins when GitHub permits |
 
-Check the status-check names in the GitHub UI before selecting them; do not invent a check name that has never run. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process, but they do not themselves enforce GitHub branch protection.
+Check the status-check names in the GitHub UI before selecting them; do not invent a check name that has never run. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository request reviews and document the process; the live GitHub ruleset enforces branch protection.
