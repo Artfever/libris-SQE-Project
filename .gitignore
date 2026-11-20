@@ -25,6 +25,7 @@ backend/src/main/resources/application-local.properties
 # Generated verification artefacts
 tmp/
 output/
+tests/team/evidence/*.local.json
 
 # Runtime logs
 *.log

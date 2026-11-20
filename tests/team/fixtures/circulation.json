@@ -1,0 +1,28 @@
+{
+  "student": {
+    "username_prefix": "sqe_student",
+    "name": "SQE Synthetic Student",
+    "email_domain": "example.invalid",
+    "phone": "0000000000"
+  },
+  "book": {
+    "title": "SQE Fixture Book",
+    "author": "SQE Team",
+    "category": "Test fixture",
+    "isbn": null,
+    "publishedDate": "2024-01-01"
+  },
+  "magazine": {
+    "title": "SQE Fixture Magazine",
+    "publisher": "SQE Team",
+    "issueDate": "2024-02-01",
+    "category": "Test fixture",
+    "featuredArticle": "Synthetic circulation scenario"
+  },
+  "newspaper": {
+    "title": "SQE Fixture Newspaper",
+    "publisher": "SQE Team",
+    "publicationDate": "2024-03-01",
+    "topHeadlines": "Synthetic circulation scenario"
+  }
+}

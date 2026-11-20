@@ -18,6 +18,8 @@
 4. Start the `h2` profile for fast local API and browser work. Use a private local admin password. Record fixture creation and reset steps; H2 resets on restart.
 5. When a Docker engine is running, use a disposable local MySQL stack to check behavior that H2 cannot prove. Preserve named volumes unless an explicitly disposable test volume is used.
 
+The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide](fixtures/README.md). The MySQL-specific check remains conditional on a local Docker engine.
+
 ## Phase 2 — write the test basis and management documents
 
 1. Derive at least eight functional requirements across both workflows, at least three per workflow. Include validation, dates, availability, history, repeat requests, and role access.

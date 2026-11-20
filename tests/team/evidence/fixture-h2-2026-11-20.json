@@ -1,0 +1,70 @@
+{
+  "profile": "h2",
+  "initial_counts": {
+    "students": 0,
+    "books": 0,
+    "magazines": 0,
+    "newspapers": 0,
+    "borrow-records": 0
+  },
+  "seeded": {
+    "profile": "h2",
+    "student": {
+      "id": 1,
+      "username": "sqe_student_5f0b60d5"
+    },
+    "items": {
+      "book": {
+        "id": 1,
+        "title": "SQE Fixture Book 5f0b60d5",
+        "available": true
+      },
+      "magazine": {
+        "id": 1,
+        "title": "SQE Fixture Magazine 5f0b60d5",
+        "available": true
+      },
+      "newspaper": {
+        "id": 1,
+        "title": "SQE Fixture Newspaper 5f0b60d5",
+        "available": true
+      }
+    },
+    "before_counts": {
+      "students": 0,
+      "books": 0,
+      "magazines": 0,
+      "newspapers": 0,
+      "borrow-records": 0
+    },
+    "after_counts": {
+      "students": 1,
+      "books": 1,
+      "magazines": 1,
+      "newspapers": 1,
+      "borrow-records": 0
+    }
+  },
+  "readback": {
+    "available": {
+      "book": true,
+      "magazine": true,
+      "newspaper": true
+    },
+    "counts": {
+      "students": 1,
+      "books": 1,
+      "magazines": 1,
+      "newspapers": 1,
+      "borrow-records": 0
+    }
+  },
+  "after_restart_counts": {
+    "students": 0,
+    "books": 0,
+    "magazines": 0,
+    "newspapers": 0,
+    "borrow-records": 0
+  },
+  "app_stopped": true
+}

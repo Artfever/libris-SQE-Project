@@ -12,6 +12,8 @@ These rules apply to work on the SQE fork. They supplement the upstream `CONTRIB
 
 These are starting assignments for planning, not a claim that the team has agreed to them. All three jointly maintain the risk register, test plan, traceability, weekly metrics, defect triage, final report, and AI-use record. Each member must author at least two use cases and commit identifiable work in the area they can explain during the viva. Ownership can change by a documented team decision; record the change in this table before work is reassigned.
 
+Task exception recorded 20 November 2026: the repository owner requested that Phase 1 fixture issue #7 be completed under `@Artfever`. Issue #7 was reassigned from `@TahaSohail-Goat` to `@Artfever`. This does not change Taha's primary Phase 3 API and generated-data area above.
+
 ## Branch and pull request workflow
 
 1. Keep `main` as the reproducible integration branch. Create a short-lived branch from current `main` for each issue or focused task, named `sqe/<area>/<issue-number>-<short-name>` (for example, `sqe/api/12-borrow-boundaries`). The initial repository-rules branch may omit the issue number because Issues were disabled when these rules were drafted.
