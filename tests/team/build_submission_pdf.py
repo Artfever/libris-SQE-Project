@@ -280,9 +280,9 @@ def main():
                               ("TOPPADDING", (0, 0), (-1, -1), 10),
                               ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
     story += [band, Spacer(1, 12 * mm),
-              Paragraph("Prepared 21 November 2026", styles["CoverSub"]),
+              Paragraph("Prepared 22 November 2026", styles["CoverSub"]),
               Paragraph("Public repository: https://github.com/Artfever/libris-SQE-Project", styles["BodyTextCustom"]),
-              Paragraph("This report includes Phase 4 results and Phase 5 follow-up. Release remains on HOLD pending MySQL concurrency and team-member verification and viva evidence.", styles["BodyTextCustom"]),
+              Paragraph("This report includes Phase 4 results and the 22 November central-owner takeover of issues #9, #23, and #25. Release remains on HOLD because concurrent MySQL borrow/return is untested. The report does not claim peer authorship or personal oral-viva performance.", styles["BodyTextCustom"]),
               PageBreak()]
 
     sections = [
@@ -295,6 +295,7 @@ def main():
         ("evidence/api-integration-2026-11-21.md", "API integration evidence"),
         ("evidence/defect-quality-metrics-2026-11-21.md", "Defect analyses and weekly metrics"),
         ("evidence/phase5-findings-remediation-2026-11-21.md", "Phase 5 finding triage and fixes"),
+        ("evidence/central-takeover-2026-11-22.md", "Central-owner takeover and current verification"),
         ("evidence/pitest/README.md", "Mutation analysis"),
         ("evidence/sonarqube/README.md", "SonarQube analysis"),
         ("AI_USE.md", "AI-use record"),

@@ -12,6 +12,18 @@ These rules apply to work on the SQE fork. They supplement the upstream `CONTRIB
 
 The repository owner assigned these phase owners on 21 November 2026. The issue assignee is the lead responsible for coordinating and finishing that issue; it does not replace required contributions from the rest of the team. In particular, each member must author two of the six Phase 2 use cases and commit identifiable work for #9. All three must review and contribute evidence for the shared Phase 5 completion report, submission package, AI-use record, and viva preparation. The phase lead integrates those contributions. Record later ownership changes here and in GitHub Issues.
 
+## Central-owner takeover for issues #9, #23, and #25
+
+On 22 November 2026, `@Abdullah-SE-bit` explicitly requested that the remaining
+work previously allocated to other members be completed by the central owner.
+For this completion run, the six use cases, consolidated defect triage, weekly
+metrics, package, and technical mock viva are authored and verified under
+Abdullah's identity with Codex assistance. The prior three-person distribution
+is superseded for these deliverables. Do not add co-author credit or claim that
+another member personally reviewed, tested, or rehearsed. The takeover record is
+[`evidence/central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
+No human oral viva performance is claimed.
+
 Task exception recorded 20 November 2026: the repository owner requested that Phase 1 fixture issue #7 be completed under `@Artfever`. Issue #7 was reassigned from `@TahaSohail-Goat` to `@Artfever` and closed after the fixture evidence merged.
 
 ## Branch and pull request workflow

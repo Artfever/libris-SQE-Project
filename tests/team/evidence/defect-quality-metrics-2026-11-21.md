@@ -105,8 +105,8 @@ It is not representative of the entire Libris backlog.
 | Reopen rate — monitor defect recurrence after closure | Defects reopened during the snapshot window ÷ defects closed during that window. Source: GitHub issue history for confirmed defects. | **0/6 = 0%** at the 2026-11-21 snapshot: #38, #39, and #44–#47 were closed; none was reopened. | Small denominator; not a long-term rate. Recompute each snapshot and inspect any reopened issue. |
 | Weekly plan progress — control Phase 5 deliverables | Assigned Phase 5 issues #22–#25 and their linked pull-request/check status. | #22: PR #37 merged and issue closed; the live ruleset still lacks the `team-tests` and `mutation` contexts. PR #42 is deliberately open and blocked as the malformed-input regression demonstration. #23: #38/#39 closed after PR #41; #44–#47 closed after PRs #48/#50; member triage/review remains outstanding. #24: completion report and HOLD recommendation completed in merged PRs #50/#51; issue #24 is closed. #25: the named 45-page PDF and repository ZIP were regenerated from `main` after PR #51 merged as `9fe7692e0b44d573bb0df401587f94c7885c08ba`; both files open, the PDF was rendered for visual review, and the ZIP passed integrity/content checks. Member verification and personal viva evidence remain pending. | Ask the repository admin to add both contexts. Preserve PR #42 as the blocked example. Keep team-owned use cases and member verification/viva status explicit; update after member review. |
 
-The control actions are to monitor required CI checks, preserve issue-level
-triage and post-fix retest evidence, and obtain the outstanding teammate
-contributions before closing the group-owned issues. No deployment pipeline
-exists in this repository; CI blocks merges through branch rules and there is
-no automated deploy job to block.
+This table is the historical 2026-11-21 snapshot. The 2026-11-22 central
+takeover, refreshed GQM values, current issue state, and single-owner triage are
+recorded in [`central-takeover-2026-11-22.md`](central-takeover-2026-11-22.md).
+No deployment pipeline exists in this repository; CI blocks merges through
+branch rules and there is no automated deploy job to block.

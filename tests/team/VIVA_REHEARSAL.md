@@ -1,30 +1,72 @@
-# Viva rehearsal and individual verification
+# Centralized mock viva and verification
 
-This worksheet prepares the Section B viva. It is not evidence that a member
-has personally rerun a test, reviewed another member's work, or completed a
-rehearsal. Each person should fill their own row after performing the command
-and explaining the change prediction without reading the code first.
+On 22 November 2026, Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020) directed a
+single-owner takeover of the outstanding work previously allocated to the
+other members. The following commands were run by Codex for Abdullah against
+repository source commit `b73456450a3bb53b8050237e8384d66d0f335ff4`. The test
+results and predicted effects are central technical evidence, not individual
+member records. AI assistance is disclosed in `AI_USE.md`.
 
-## Suggested individual exercises
+## Executed test selection
 
-| Member | Selected test | Change-prediction prompt |
-| --- | --- | --- |
-| Abdullah Adnan (24I-3020) | From `backend`, run `mvnw.cmd test -Dtest=SecurityHardeningTest` with Java 21. | If malformed JSON falls through to the generic exception handler again, which response assertions should fail, and how do the integration checks prove that rejected input did not change availability or history? |
-| Muhammad Shaheer (24I-3063) | From the repository root, run `python -u tests/team/usability/run_tasks.py after` after installing `tests/team/usability` dependencies. | If the circulation foreground token is changed to the old low-contrast value, which theme/element should the axe scan flag, and why does the task test also read persisted API state? |
-| Taha Sohail (24I-3165) | From the repository root, run `python -u tests/team/browser/run_circulation.py` after installing `tests/team/browser/requirements.txt`. | If the default due-date rule changes from 14 days to 7, which borrow flows and persisted-date assertions should change, and which explicit-due-date flow should remain unaffected? |
+Environment: Windows 11, JetBrains Runtime Java 21.0.11, Maven Wrapper 3.9.11,
+Python 3.14.6, Chromium 159.0.8154.6, disposable H2 fixtures.
 
-## Member completion records
+| Test area | Exact command | Result |
+|---|---|---|
+| API validation and security | From `backend`: `mvnw.cmd clean verify` | 210 tests passed; 0 failures/errors/skips; `BUILD SUCCESS`; JaCoCo gate met. `SecurityHardeningTest`: 26 tests passed. |
+| API and persisted state | From repository root: `python -u tests/team/api/run_circulation_integration.py` | 7 tests passed; rejected cases preserved availability and history. |
+| Six browser use cases | From repository root: `python -u tests/team/browser/run_circulation.py` | 30 tests passed across UC-01 through UC-06. |
+| Accessibility and task flow | From repository root: `python -u tests/team/usability/run_tasks.py after` | 2 tasks passed; five axe states reported zero violations; final book availability was true and loan history count was one. |
 
-Complete one row per member. Record the actual output and commit link; do not
-copy another person's result or use this worksheet as proof of a run that did
-not happen.
+## Mock viva prompts and model answers
 
-| Member | Date and commit | Exact test command and result | Predicted change and observed effect | Review / explanation |
-| --- | --- | --- | --- | --- |
-| Abdullah Adnan (24I-3020) | Pending member entry | Pending member rerun | Pending member explanation | Pending |
-| Muhammad Shaheer (24I-3063) | Pending member entry | Pending member rerun | Pending member explanation | Pending |
-| Taha Sohail (24I-3165) | Pending member entry | Pending member rerun | Pending member explanation | Pending |
+### Malformed API input
 
-The code-level regression suite passed in CI and a local Java 21 `clean verify`
-passed 210 tests with the JaCoCo gate. Those results establish automated test
-evidence; they do not substitute for these personal viva entries.
+**Prompt:** If malformed JSON again falls through to the generic exception
+handler, which checks should fail, and how do we know a rejected request did
+not alter circulation state?
+
+**Prediction:** The API and security regression checks should fail if malformed
+borrow bodies or nonnumeric return IDs produce 500 responses instead of
+structured `400 INVALID_REQUEST` / `400 INVALID_ARGUMENT`. They snapshot all
+fixture item availability and loan history before and after rejection and
+assert equality.
+
+**Observed:** The fresh seven-test H2 API integration run and full 210-test Java
+verification passed, including those structured responses and unchanged-state
+assertions.
+
+### Contrast and accessible task outcomes
+
+**Prompt:** If the earlier low-contrast foreground token is restored, what
+should the accessibility check flag, and why do task tests read API state?
+
+**Prediction:** Axe should report `color-contrast` for affected text or controls
+in the impacted theme. The task's API read-back independently proves that a
+visually successful action also persisted the expected availability and loan
+history transition.
+
+**Observed:** Axe reported zero violations in borrow, borrow-light, borrow
+modal, return, and return-light. The task run read back one returned record and
+an available book.
+
+### Due-date rule change
+
+**Prompt:** If the default due-date rule changes from 14 to 7 days, which
+assertions change, and which flow should remain unaffected?
+
+**Prediction:** Omitted-date cases should expect seven days and the existing
+default-date assertions should fail until updated. The explicit-due-date flow
+should continue to persist the supplied date unchanged.
+
+**Observed:** The fresh API integration and six-flow browser runs passed with
+the current 14-day default and explicit-date cases.
+
+## Attribution boundary
+
+This is a Codex-run, AI-assisted technical mock rehearsal prepared under
+Abdullah's direction. It does not claim that Abdullah or another student
+personally performed an oral rehearsal. No result or explanation is attributed
+to Muhammad Shaheer or Taha Sohail. A human viva examiner can use the prompts
+and answers for subsequent live practice.

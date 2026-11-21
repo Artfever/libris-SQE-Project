@@ -22,7 +22,7 @@ values were included.
 | Tool | Purpose and output | Checks or changes made |
 | --- | --- | --- |
 | Codex language model | Analyze the assigned issues, inspect repository evidence, draft code/tests/evidence/report, and assemble submission artifacts. | Compared implementation and test expectations against Java/Spring source, CI workflow, existing API contract, issue acceptance criteria, and observed GitHub results. Code and generated test assertions were changed after failures and rerun. |
-| PowerShell, Git, Maven Wrapper, Python | Read/modify repository files; branch, commit, push, rebase, build, test, generate evidence and package files. | After the Boot and dependency updates, Java 21 `clean verify` passed: 210 tests, zero failures/errors/skips, JaCoCo gate met. A final focused `SecurityHardeningTest` run passed 26 tests, including the CSP assertion on `/borrow.html`. API generator tests: 4 passed; H2 API integration: 7 passed; generated smoke: 1 passed; H2 fixture seed/read-back/reset passed. Axe: zero violations on circulation screen/dialog states in both themes; Lighthouse accessibility 90 for both flows in both themes. The updated OSV audit checked 137 packages; one package/two Spring MVC advisory IDs remain assessed as not applicable to current source paths. An initial post-fix ZAP image pull did not finish; the later ZAP 2.17.0 passive retest completed successfully after CSP hardening, proxied 52 messages, and reported three informational alerts only. |
+| PowerShell, Git, Maven Wrapper, Python | Read/modify repository files; branch, commit, push, rebase, build, test, generate evidence and package files. | After the Boot and dependency updates, Java 21 `clean verify` passed: 210 tests, zero failures/errors/skips, JaCoCo gate met. On 2026-11-22 a fresh Java 21.0.11/Maven 3.9.11 `clean verify` again passed 210 tests with zero failures/errors/skips. The fresh H2 API suite passed 7 tests, Playwright passed 30, and the usability workflow passed 2 tasks with five axe states at zero violations. A focused `SecurityHardeningTest` comprised 26 of the passing Maven tests. API generator tests: 4 passed; generated smoke: 1 passed; H2 fixture seed/read-back/reset passed. Lighthouse accessibility 90 for both flows in both themes. The updated OSV audit checked 137 packages; one package/two Spring MVC advisory IDs remain assessed as not applicable to current source paths. An initial post-fix ZAP image pull did not finish; the later ZAP 2.17.0 passive retest completed successfully after CSP hardening, proxied 52 messages, and reported three informational alerts only. |
 | GitHub CLI (`gh`) and GitHub REST API | Read assigned issues, PRs, checks, actions, branch protections, and post explicitly authorized coordination comments on #9, #23, and #25; create and merge PRs. | PR #37's eight checks passed and it merged by squash. PR #42 is intentionally retained open and blocked with failing required checks. Ruleset update was attempted without bypass; API reported this account has write permission but not admin permission, so the live context change was not made. |
 | Playwright / Chromium | Run browser acceptance workflows against local synthetic H2 state. | 30 browser tests passed in the recorded run; visible behavior was checked against persisted API state. |
 | PIT and SonarQube Community Build | Measure focused mutation behavior and static-analysis gate/metrics. | PIT killed 72/72 mutants in targeted classes; Sonar quality gate passed. Scope is recorded; neither result is presented as whole-project mutation coverage. |
@@ -30,15 +30,15 @@ values were included.
 
 ## Ownership and review
 
-Commits were authored using the configured repository Git identity for
-`Abdullah-SE-bit`; no automated-agent co-author trailer or generated-tool
-attribution was added. PR #40 contains Abdullah's newspaper use cases only.
-The other contributors must verify and explain their own work and commit their
-assigned use cases; the report does not claim that this happened. The group
-submission/rehearsal remains subject to all-member review. The final PDF and ZIP
-were regenerated and verified from main commit `764b4aeb2964f82c7e37c74dc9604c7d4945bade`.
-The remaining individual review and viva evidence was requested in issue #25;
-no member's test run or explanation is attributed to someone else.
+Commits use the configured repository Git identity for `Abdullah-SE-bit`; no
+automated-agent co-author trailer or generated-tool attribution was added.
+PR #40 originally contained Abdullah's newspaper use cases. On 2026-11-22,
+Abdullah explicitly directed a central-owner takeover of the remaining work.
+All six use cases and the additional defect-triage and package records are
+therefore authored under Abdullah with Codex assistance. This records the
+ownership change and does not claim peer authorship, peer review, or personal
+oral-viva performance. The fresh commands, results, predictions, and limits are
+in `evidence/central-takeover-2026-11-22.md`.
 
 ## Latest continuation prompt
 
@@ -48,3 +48,4 @@ no member's test run or explanation is attributed to someone else.
 | “after merging ur prs u can stop working because they will not be giving there work anytime soon when there work is done ill inform u” | Define the stopping point for teammate-dependent work. | Proceeded with Abdullah-owned fixes and deliverables; did not attribute team member contributions or wait for them before preparing a reviewable PR. |
 | “complete it end to end” (with the open-issues snapshot) | Finish the individually verifiable work for Phase 2 and Phase 5, refresh the deliverables, and assess remaining assigned issue criteria. | Reran Java 21 `clean verify` (210 tests passed; JaCoCo gate met), all 30 browser acceptance cases, and axe scans (zero violations on five dark/light borrow/modal/return states). Ran ZAP 2.17.0 passive-only twice: the first retest exposed `unsafe-inline` CSP alerts; after externalizing first-paint code/styles, the final scan proxied 52 messages and returned three informational alerts only. Preserved Phase 4 baseline evidence, updated metrics after #44–#47 closed via PRs #48/#50, and prepared the viva worksheet. Teammate-owned commits/reviews and each member's own viva record remain unclaimed until contributed by that member. |
 | “complete all issues” | Continue the full issue-completion goal and audit every live open assigned issue. | Refreshed `main`, verified the final package and merged PR #52, and rechecked issues #9, #23, and #25. No new peer-authored use-case commits, triage contributions, or member viva records had arrived. Posted the remaining #25 personal evidence request under prior user authorization. These issues remain open until their contributor-specific acceptance evidence is supplied. |
+| “overtake this plan of other peoples contribution and do it all your self” | Replace the waiting plan with a central-owner completion path. | Reassigned all remaining artifacts to Abdullah without inventing peer contributions; completed all six use cases, consolidated triage and GQM, ran fresh Java/API/browser/accessibility checks, and prepared an AI-assisted technical mock viva. No student oral performance is claimed. |
