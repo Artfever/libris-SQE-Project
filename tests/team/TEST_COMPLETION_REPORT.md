@@ -23,11 +23,12 @@ assignee directed a central-owner takeover of the remaining #9, #23, and #25
 deliverables. The six use cases, consolidated triage, package, fresh test runs,
 and technical mock viva are now authored under Abdullah Adnan with Codex
 assistance; no peer authorship or personal oral performance is claimed. See
-`evidence/central-takeover-2026-11-22.md`. Release remains on HOLD because the
-planned concurrent MySQL borrow/return criterion is untested. The two remaining
-Spring MVC advisories are assessed as not applicable to current source paths.
-H2 and passive ZAP evidence do not establish MySQL concurrency or production
-behavior.
+`evidence/central-takeover-2026-11-22.md`. Issues #9, #23, and #25 were closed
+after PR #54 merged with that ownership boundary stated in their close comments.
+Release remains on HOLD because the planned concurrent MySQL borrow/return
+criterion is untested. The two remaining Spring MVC advisories are assessed as
+not applicable to current source paths. H2 and passive ZAP evidence do not
+establish MySQL concurrency or production behavior.
 
 ## Scope and results
 
