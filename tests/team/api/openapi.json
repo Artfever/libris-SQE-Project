@@ -15,7 +15,7 @@
       "post": {
         "operationId": "borrowItem",
         "summary": "Borrow exactly one item for a student",
-        "description": "ADMIN or LIBRARIAN. Exactly one of bookId, magazineId and newspaperId must be non-null; referenced records must exist and item must be available. Due date defaults to borrow date plus 14 days.",
+        "description": "ADMIN or LIBRARIAN. Exactly one of bookId, magazineId and newspaperId must be non-null; referenced records must exist and item must be available. Due date defaults to borrow date plus 14 days. Malformed JSON and invalid body values return a structured 400 INVALID_REQUEST.",
         "security": [
           {
             "sessionCookie": [],
@@ -51,7 +51,7 @@
             }
           },
           "400": {
-            "description": "Application or security error; response body depends on handler.",
+            "description": "Invalid request body, validation, or business rule; structured ApiError response.",
             "content": {
               "application/json": {
                 "schema": {
@@ -117,7 +117,7 @@
       "post": {
         "operationId": "returnItem",
         "summary": "Return an active borrow record",
-        "description": "ADMIN or LIBRARIAN. Repeated return is rejected.",
+        "description": "ADMIN or LIBRARIAN. Repeated return is rejected. A non-numeric ID returns a structured 400 INVALID_ARGUMENT.",
         "security": [
           {
             "sessionCookie": [],
@@ -140,7 +140,7 @@
             "description": "Returned"
           },
           "400": {
-            "description": "Application or security error; response body depends on handler.",
+            "description": "Invalid path argument or business rule; structured ApiError response.",
             "content": {
               "application/json": {
                 "schema": {

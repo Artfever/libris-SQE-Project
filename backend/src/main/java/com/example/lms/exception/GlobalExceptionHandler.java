@@ -7,8 +7,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -69,6 +71,26 @@ public class GlobalExceptionHandler {
             .toList();
     log.warn("Validation error: uri={}, fields={}", r.getRequestURI(), fields.size());
     return error(400, "VALIDATION_ERROR", "Request validation failed.", r, fields);
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ApiErrorResponse unreadableRequest(HttpMessageNotReadableException e, HttpServletRequest r) {
+    log.warn("Unreadable request body: uri={}", r.getRequestURI());
+    return error(
+        400,
+        "INVALID_REQUEST",
+        "Request body is malformed or contains invalid values.",
+        r,
+        List.of());
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ApiErrorResponse invalidArgument(MethodArgumentTypeMismatchException e, HttpServletRequest r) {
+    log.warn("Invalid request argument: uri={}, parameter={}", r.getRequestURI(), e.getName());
+    return error(
+        400, "INVALID_ARGUMENT", "A request parameter has an invalid value.", r, List.of());
   }
 
   @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
