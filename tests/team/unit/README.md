@@ -1,6 +1,10 @@
 ﻿# Team circulation unit verification (#13)
 
-Run from the backend folder with Java 21:
+The team-owned Java sources are under
+`tests/team/unit/src/test/java/com/example/lms/team/`. Maven includes this
+directory as an additional test source while leaving the upstream test source
+tree in `backend/src/test/java/` intact. Run from the backend folder with
+Java 21:
 
 ```sh
 ./mvnw clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest
