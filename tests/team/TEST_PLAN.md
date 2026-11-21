@@ -105,6 +105,9 @@ defect authors.
 | PR-06 | Student or anonymous caller can mutate circulation or read another student's history. | 2 | 5 | 10 | Role matrix, own-history vs other-history checks, no-mutation assertions, CSRF cases. | `@Artfever` |
 | PR-07 | Due-date default or explicit date is persisted incorrectly or interpreted in the wrong timezone. | 3 | 3 | 9 | Default +14 days, explicit date, boundary/day comparisons using local-date semantics. | `@TahaSohail-Goat` |
 | PR-08 | Borrower snapshot or returned history is lost when the student profile changes/deletes. | 2 | 4 | 8 | Verify snapshot fields after borrow and retained history after return; inspect deletion guard. | `@Artfever` |
+| PR-09 | Borrow or return becomes too slow or unexpectedly fails under concurrent staff use. | 3 | 3 | 9 | Four comparable 60-second steady-state k6 runs at 1 and 5 users; compare p95 latency and failure rate with preset targets. | `@Artfever` |
+| PR-10 | Circulation screens hide errors or have barriers for keyboard and assistive-technology users. | 3 | 3 | 9 | Playwright invalid/corrected tasks, keyboard focus and submit, axe-core and Lighthouse before/after. | `@Artfever` |
+| PR-11 | Vulnerable dependencies or missing browser response controls increase attack exposure. | 3 | 4 | 12 | Resolved Maven/OSV audit, passive ZAP, configuration/source review and remediation triage. | `@Artfever` |
 | PJ-01 | Docker/MySQL or browser tooling unavailable delays evidence or causes unsupported claims. | 3 | 3 | 9 | H2 fallback; mark MySQL/browser evidence conditional and do not claim unrun checks. | `@Abdullah-SE-bit` |
 | PJ-02 | Team ownership/review or fixture conflicts delay completion or invalidate results. | 3 | 3 | 9 | Assign owners; shared fixture reset rules; review evidence and commit ownership; record schedule variance. | `@Abdullah-SE-bit` |
 

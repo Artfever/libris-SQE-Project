@@ -1,0 +1,20 @@
+[
+  {
+    "screen": "borrow",
+    "scores": {
+      "accessibility": 90,
+      "best-practices": 100,
+      "seo": 90
+    },
+    "report": "lighthouse-borrow-after.json"
+  },
+  {
+    "screen": "return",
+    "scores": {
+      "accessibility": 90,
+      "best-practices": 100,
+      "seo": 90
+    },
+    "report": "lighthouse-return-after.json"
+  }
+]

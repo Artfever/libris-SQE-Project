@@ -1,0 +1,161 @@
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {}
+    },
+    "metrics": {
+        "http_req_duration": {
+            "avg": 6.618056795650761,
+            "min": 0.5042,
+            "med": 5.2967,
+            "max": 115.4479,
+            "p(90)": 10.8097,
+            "p(95)": 15.2693
+        },
+        "operations": {
+            "count": 9366,
+            "rate": 144.029760220713
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 6.618056795650761,
+            "min": 0.5042,
+            "med": 5.2967,
+            "max": 115.4479,
+            "p(90)": 10.8097,
+            "p(95)": 15.2693
+        },
+        "borrow_latency_ms": {
+            "p(95)": 16.670139999999982,
+            "avg": 7.484427439675371,
+            "min": 1.6969,
+            "med": 6.0632,
+            "max": 115.4479,
+            "p(90)": 11.9216,
+            "thresholds": {
+                "p(95)<1000": false
+            }
+        },
+        "vus_max": {
+            "value": 5,
+            "min": 5,
+            "max": 5
+        },
+        "return_completed": {
+            "count": 4683,
+            "rate": 72.0148801103565,
+            "thresholds": {
+                "count>0": false
+            }
+        },
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
+        },
+        "iteration_duration": {
+            "max": 228.5802,
+            "p(90)": 80.43255000000003,
+            "p(95)": 100.3102,
+            "avg": 65.96848703327919,
+            "min": 54.7821,
+            "med": 61.5053
+        },
+        "http_req_sending": {
+            "avg": 0.02593317343566786,
+            "min": 0,
+            "med": 0,
+            "max": 5.6436,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "http_req_waiting": {
+            "p(95)": 14.8685,
+            "avg": 6.208890651316478,
+            "min": 0.5042,
+            "med": 4.9277,
+            "max": 113.0352,
+            "p(90)": 10.347
+        },
+        "borrow_completed": {
+            "rate": 72.0148801103565,
+            "count": 4683,
+            "thresholds": {
+                "count>0": false
+            }
+        },
+        "http_req_connecting": {
+            "med": 0,
+            "max": 2.8845,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.009615456774331097,
+            "min": 0
+        },
+        "data_received": {
+            "count": 4032286,
+            "rate": 62008.241055022205
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 9381,
+            "value": 0
+        },
+        "iterations": {
+            "count": 4928,
+            "rate": 75.78247473496408
+        },
+        "http_req_blocked": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.018370887965035724,
+            "min": 0,
+            "med": 0,
+            "max": 12.7753
+        },
+        "data_sent": {
+            "rate": 47198.5493487402,
+            "count": 3069238
+        },
+        "return_latency_ms": {
+            "p(90)": 9.402260000000005,
+            "p(95)": 14.101,
+            "avg": 5.6470906470211455,
+            "min": 0.5042,
+            "med": 4.4586,
+            "max": 46.0896,
+            "thresholds": {
+                "p(95)<1000": false
+            }
+        },
+        "http_reqs": {
+            "count": 9381,
+            "rate": 144.26042927936246
+        },
+        "http_req_receiving": {
+            "max": 6.3511,
+            "p(90)": 1.0064,
+            "p(95)": 1.4447,
+            "avg": 0.3832329708986265,
+            "min": 0,
+            "med": 0
+        },
+        "vus": {
+            "value": 5,
+            "min": 5,
+            "max": 5
+        },
+        "unexpected_failures": {
+            "count": 0,
+            "rate": 0,
+            "thresholds": {
+                "count==0": false
+            }
+        }
+    }
+}

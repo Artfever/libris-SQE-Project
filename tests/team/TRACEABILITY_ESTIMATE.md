@@ -26,6 +26,23 @@ until the corresponding tests run. Never report a planned case as passed.
 | BR-C04 | T-RETURN-STATE; T-RETURN-REPEAT; T-RETURN-CONCURRENT | PR-04 | `@TahaSohail-Goat` | Pending automation |
 | BR-C05 | T-DUE-DEFAULT; T-DUE-EXPLICIT; T-DATE-ORDER-POLICY | PR-07 | `@TahaSohail-Goat` | Pending; date-order policy is unspecified |
 
+## Executed Phase 4 links (#17–#21)
+
+The Phase 4 owner added these executed links without replacing the Phase 2
+planned-case inventory above. See [the Phase 4 report](PHASE4_REPORT.md) and
+the raw paths it references. A pending label in the original table above does
+not override the executed evidence below.
+
+| Requirement/rule or risk | Executed Phase 4 check | Evidence / result |
+| --- | --- | --- |
+| FR-B01, FR-R01, FR-R04, PR-06 | Seven staff/student allow/deny decisions and persisted-state checks | `evidence/security-roles-2026-11-21.json`; passed |
+| FR-B03, BR-C01, PR-03 | Custom exact-one-item PIT operator and MCC test | `evidence/pitest/phase4-mutations.xml`; killed |
+| FR-B05, BR-C05, PR-07 | Custom 14-to-13-day PIT operator and due-date assertion | `evidence/pitest/phase4-mutations.xml`; killed |
+| FR-B04, FR-R01, FR-R05, BR-C03, BR-C04, PR-01, PR-04 | 1/5-user borrow/return cycles with persisted read-back | `evidence/performance/runs.json`; four passing runs |
+| FR-B04, FR-R05, BR-C03, PR-01 | Audit-failure rollback, retry and no-duplicate state | `evidence/recovery/TEST-com.example.lms.team.TeamRecoveryTest.xml`; passed |
+| PR-10 | Invalid/corrected browser tasks, keyboard and axe/Lighthouse comparison | `evidence/usability/`; heading fixed; contrast/name findings open |
+| PR-11 | Passive ZAP and resolved Maven/OSV inventory | `evidence/security/`; CSP/SRI/advisory triage open |
+
 ## Generated API and integration cases (#14 and #15)
 
 The draft contract, generator and smoke runner are in [api/](api/README.md).

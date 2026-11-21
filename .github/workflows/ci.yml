@@ -47,7 +47,7 @@ jobs:
           python-version: '3.12'
 
       - name: Run team circulation unit tests
-        run: ./mvnw -B clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest
+        run: ./mvnw -B clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest,TeamRecoveryTest
         working-directory: backend
 
       - name: Enforce scoped JaCoCo coverage floors
@@ -97,9 +97,15 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Run focused PIT mutation gate
+      - name: Install custom PIT operators
+        run: ./backend/mvnw -B -f tests/team/mutation/pom.xml install
+
+      - name: Run focused PIT mutation gate with custom operators
         run: ./mvnw -B test-compile org.pitest:pitest-maven:1.19.4:mutationCoverage
         working-directory: backend
+
+      - name: Validate PIT execution and custom operators
+        run: python tests/team/mutation/check_pit.py backend/target/pit-reports/mutations.xml
 
       - name: Upload PIT report
         if: always()

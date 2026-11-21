@@ -1,0 +1,70 @@
+[
+  {
+    "vus": 1,
+    "repeat": 1,
+    "k6_exit": 0,
+    "initial_loan_count": 0,
+    "final_loan_count": 750,
+    "active_loans": 0,
+    "books_available": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "summary": "k6-1vu-1.json",
+    "raw_output": "k6-1vu-1.txt"
+  },
+  {
+    "vus": 1,
+    "repeat": 2,
+    "k6_exit": 0,
+    "initial_loan_count": 0,
+    "final_loan_count": 833,
+    "active_loans": 0,
+    "books_available": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "summary": "k6-1vu-2.json",
+    "raw_output": "k6-1vu-2.txt"
+  },
+  {
+    "vus": 5,
+    "repeat": 1,
+    "k6_exit": 0,
+    "initial_loan_count": 0,
+    "final_loan_count": 4683,
+    "active_loans": 0,
+    "books_available": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "summary": "k6-5vu-1.json",
+    "raw_output": "k6-5vu-1.txt"
+  },
+  {
+    "vus": 5,
+    "repeat": 2,
+    "k6_exit": 0,
+    "initial_loan_count": 0,
+    "final_loan_count": 4666,
+    "active_loans": 0,
+    "books_available": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "summary": "k6-5vu-2.json",
+    "raw_output": "k6-5vu-2.txt"
+  }
+]
