@@ -86,6 +86,28 @@ jobs:
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
 
+      - name: Export SonarQube metrics
+        env:
+          SONAR_HOST_URL: http://127.0.0.1:9000
+        run: |
+          mkdir -p sonar-evidence
+          metrics=complexity,cognitive_complexity,duplicated_lines_density,code_smells,bugs,vulnerabilities,coverage,sqale_index,sqale_rating,reliability_rating,security_rating,ncloc
+          sonar() {
+            curl --fail --silent --show-error --user "${SONAR_TOKEN}:"               --get "${SONAR_HOST_URL}/api/$1" "${@:2}"
+          }
+          sonar measures/component --data-urlencode component=libris-sqe             --data-urlencode "metricKeys=$metrics" > sonar-evidence/project.json
+          sonar measures/component_tree --data-urlencode component=libris-sqe             --data-urlencode "metricKeys=$metrics" --data-urlencode q=BorrowRecordService.java             > sonar-evidence/circulation.json
+          sonar qualityprofiles/search --data-urlencode project=libris-sqe > sonar-evidence/profiles.json
+          sonar qualitygates/project_status --data-urlencode projectKey=libris-sqe > sonar-evidence/gate.json
+          git rev-parse HEAD > sonar-evidence/analyzed-commit.txt
+
+      - name: Upload SonarQube evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonar-evidence
+          path: sonar-evidence/
+          if-no-files-found: error
+
       - name: Stop ephemeral SonarQube
         if: always()
         run: docker rm -f sqe-sonarqube || true
