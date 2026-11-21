@@ -416,7 +416,7 @@ class SecurityHardeningTest {
     Assertions.assertNotNull(record.getUserAgent(), "userAgent must be populated");
   }
 
-  // ==================== Catch-all 500 handler ====================
+  // ==================== Standard API error handling ====================
 
   @Test
   void unhandledExceptionReturnsStandardApiErrorResponse() throws Exception {
@@ -426,10 +426,10 @@ class SecurityHardeningTest {
                 .cookie(csrfCookie)
                 .header("X-XSRF-TOKEN", csrfCookie.getValue())
                 .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isInternalServerError())
-        .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
-        .andExpect(jsonPath("$.message").value("An unexpected error occurred."))
-        .andExpect(jsonPath("$.status").value(500))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.code").value("INVALID_ARGUMENT"))
+        .andExpect(jsonPath("$.message").value("A request parameter has an invalid value."))
+        .andExpect(jsonPath("$.status").value(400))
         .andExpect(jsonPath("$.path").value("/api/books/abc"))
         .andExpect(jsonPath("$.fieldErrors").isArray())
         .andExpect(jsonPath("$.fieldErrors").isEmpty());

@@ -57,7 +57,12 @@ def start_app(port, password):
         try:
             with urllib.request.urlopen(health_url, timeout=1) as response:
                 if json.load(response).get("status") == "UP":
-                    return process
+                    # Actuator can report UP before ApplicationRunner/CommandLineRunner
+                    # initialization finishes. Wait for AdminSeeder before attempting login.
+                    if "AdminSeeder: Completed" in log_path.read_text(
+                        encoding="utf-8", errors="replace"
+                    ):
+                        return process
         except (OSError, ValueError, urllib.error.HTTPError):
             pass
         time.sleep(1)

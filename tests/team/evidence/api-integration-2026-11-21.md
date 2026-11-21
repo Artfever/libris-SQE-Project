@@ -53,3 +53,23 @@ Ran 6 tests in 43.452s
 
 OK
 ```
+
+## Remediation verification
+
+After the baseline run, the exception advice now maps unreadable JSON bodies and
+invalid path argument conversion to explicit structured `400` responses. JSON
+body binding failures use `INVALID_REQUEST`; nonnumeric route IDs use
+`INVALID_ARGUMENT`. Messages are generic and do not expose parser or framework
+details. The API contract was updated to document both outcomes. The existing
+typed-ID boundary cases now expect client errors instead of the former 500s.
+
+On 2026-11-21, rebuilt with Java 21 and ran
+`python tests/team/api/run_circulation_integration.py` against a fresh H2
+application: 7 tests passed, including the new malformed-body and nonnumeric
+return-ID regression method. The suite compares complete catalogue
+availability and loan-history snapshots before and after each rejection; both
+new cases preserved state. `SecurityHardeningTest` also passed after updating
+the existing malformed numeric route expectation to `400 INVALID_ARGUMENT`.
+This is local H2 evidence, not MySQL concurrency or deployment evidence. The
+fix is linked to defects #38 and #39; merge status is recorded in their GitHub
+issue timelines.
