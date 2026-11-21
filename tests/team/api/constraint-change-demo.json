@@ -1,0 +1,265 @@
+{
+  "description": "Hypothetical constraints for generator demonstration only; not application rules.",
+  "changes": [
+    "studentId minimum: absent -> 2",
+    "borrowerName maxLength: absent -> 3"
+  ],
+  "before": [
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "omitted",
+      "value": {
+        "$omit": true
+      },
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "null",
+      "value": null,
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "integer",
+      "value": 1,
+      "schema_expected": "valid",
+      "note": "Database existence is a separate business rule"
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "wrong-type",
+      "value": "not-an-integer",
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "omitted",
+      "value": {
+        "$omit": true
+      },
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "null",
+      "value": null,
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "string",
+      "value": "",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "wrong-type",
+      "value": {
+        "not": "a string"
+      },
+      "schema_expected": "invalid",
+      "note": ""
+    }
+  ],
+  "after": [
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "omitted",
+      "value": {
+        "$omit": true
+      },
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "null",
+      "value": null,
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "integer",
+      "value": 2,
+      "schema_expected": "valid",
+      "note": "Database existence is a separate business rule"
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "minimum-below",
+      "value": 1,
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "minimum-at",
+      "value": 2,
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "minimum-above",
+      "value": 3,
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "studentId",
+      "partition": "wrong-type",
+      "value": "not-an-integer",
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "omitted",
+      "value": {
+        "$omit": true
+      },
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "null",
+      "value": null,
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "string",
+      "value": "",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "maxLength-below",
+      "value": "xx",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "maxLength-at",
+      "value": "xxx",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "maxLength-above",
+      "value": "xxxx",
+      "schema_expected": "invalid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "wrong-type",
+      "value": {
+        "not": "a string"
+      },
+      "schema_expected": "invalid",
+      "note": ""
+    }
+  ]
+}
