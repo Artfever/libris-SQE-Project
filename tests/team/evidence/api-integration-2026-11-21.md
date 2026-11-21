@@ -72,4 +72,5 @@ new cases preserved state. `SecurityHardeningTest` also passed after updating
 the existing malformed numeric route expectation to `400 INVALID_ARGUMENT`.
 This is local H2 evidence, not MySQL concurrency or deployment evidence. The
 fix is linked to defects #38 and #39; merge status is recorded in their GitHub
-issue timelines.
+issue timelines. The latest raw seven-test output is retained in
+[`api-integration-remediation-2026-11-21.txt`](api-integration-remediation-2026-11-21.txt).

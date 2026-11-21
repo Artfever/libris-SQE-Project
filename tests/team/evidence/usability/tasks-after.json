@@ -1,6 +1,6 @@
 {
   "profile": "h2",
-  "browser": "153.0.8010.12",
+  "browser": "159.0.8154.6",
   "tasks": [
     "invalid borrow then keyboard correction and submit",
     "stale return ID then corrected return"
@@ -21,19 +21,28 @@
   "scans": [
     {
       "screen": "borrow",
-      "violation_count": 2,
-      "violations": [
-        "color-contrast",
-        "label-content-name-mismatch"
-      ]
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "screen": "borrow-light",
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "screen": "borrow-modal",
+      "violation_count": 0,
+      "violations": []
     },
     {
       "screen": "return",
-      "violation_count": 2,
-      "violations": [
-        "color-contrast",
-        "label-content-name-mismatch"
-      ]
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "screen": "return-light",
+      "violation_count": 0,
+      "violations": []
     }
   ],
   "final_book_available": true,

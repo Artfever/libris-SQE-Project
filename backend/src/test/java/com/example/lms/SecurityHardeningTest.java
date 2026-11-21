@@ -77,6 +77,28 @@ class SecurityHardeningTest {
   // ==================== H1: Login abuse protection ====================
 
   @Test
+  void responsesIncludeRestrictiveContentSecurityPolicy() throws Exception {
+    mvc.perform(get("/api/auth/csrf"))
+        .andExpect(status().isOk())
+        .andExpect(
+            header()
+                .string(
+                    "Content-Security-Policy",
+                    allOf(
+                        containsString("default-src 'self'"),
+                        containsString("object-src 'none'"),
+                        containsString("frame-ancestors 'self'"))));
+  }
+
+  @Test
+  void circulationPageUsesPolicyAndNoThirdPartyFontStylesheet() throws Exception {
+    mvc.perform(get("/borrow.html").session(adminSession))
+        .andExpect(status().isOk())
+        .andExpect(header().exists("Content-Security-Policy"))
+        .andExpect(content().string(not(containsString("fonts.googleapis.com"))));
+  }
+
+  @Test
   void loginLocksAfterFiveFailures() throws Exception {
     for (int i = 0; i < 5; i++) {
       mvc.perform(

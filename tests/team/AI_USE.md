@@ -1,0 +1,45 @@
+# AI-use record
+
+Prepared for the Section B Libris SQE submission, 21 November 2026. This record
+retains the relevant user prompts, tools, purposes, outputs, and checks/changes.
+No passwords, session cookies, CSRF values, tokens, or secret environment
+values were included.
+
+## Retained prompts
+
+| Prompt | Purpose | Output and human checks / changes |
+| --- | --- | --- |
+| “read agents.md and ingest whole rep end 2 end then inform me” | Establish repository instructions, structure, and project context. | Read the repository instructions and source/docs; later work followed `AGENTS.md`, `CONTRIBUTING.md`, and team rules. |
+| “now complete phase 2 of implentation plan make pr merge it while solving related issues of phase2 donot do anything else” | Complete Phase 2 implementation and reviewable PR. | Produced Phase 2 artifacts and PR work; subsequent user feedback clarified coding and scope expectations. |
+| “why havent u written single line of code and just md files for this ohase” | Correct course toward implementation rather than documentation-only changes. | Steered later work to executable tests, API error-handler code, CI gates, and regression fixes in addition to evidence documents. |
+| “pull latest changes from main and then report me that if i have any paending issue/phase that i need to complete and is assigned to me” | Refresh assignment state from main and GitHub. | Fetched current `main`; confirmed open assigned issues #9 and #22–#25, and that #17–#21 are assigned to @Artfever. |
+| “end to end fully complete the issues that were assigned to me” | Finish assigned issue work and required PR/evidence steps. | Led to CI PR #37, newspaper use-case PR #40, malformed-input fix PR #41, blocked demonstration PR #42, defect metrics, report, and package preparation. |
+| “Yes, contact them” (answer to the question asking whether @Artfever and @TahaSohail-Goat may be contacted on GitHub for their assigned use-case contributions/reviews) | Authorize a specific Phase 2 coordination request. | Posted one issue #9 request assigning the contributors their two use cases and review; no authorship was attributed without their commits. |
+| “Abdullah-SE-bit = Name: Abdullah Adnan Roll No: 24I-3020; Artfever = Name: Muhammad Shaheer Roll No: 24I-3063; TahaSohail-Goat = Name: Taha Sohail Roll No: 24I-3165” and “B” | Provide real team identities and section for output names. | Used the provided identities and section in package metadata and filenames. |
+
+## Tools, purpose, outputs, and verification
+
+| Tool | Purpose and output | Checks or changes made |
+| --- | --- | --- |
+| Codex language model | Analyze the assigned issues, inspect repository evidence, draft code/tests/evidence/report, and assemble submission artifacts. | Compared implementation and test expectations against Java/Spring source, CI workflow, existing API contract, issue acceptance criteria, and observed GitHub results. Code and generated test assertions were changed after failures and rerun. |
+| PowerShell, Git, Maven Wrapper, Python | Read/modify repository files; branch, commit, push, rebase, build, test, generate evidence and package files. | After the Boot and dependency updates, Java 21 `clean verify` passed: 210 tests, zero failures/errors/skips, JaCoCo gate met. A final focused `SecurityHardeningTest` run passed 26 tests, including the CSP assertion on `/borrow.html`. API generator tests: 4 passed; H2 API integration: 7 passed; generated smoke: 1 passed; H2 fixture seed/read-back/reset passed. Axe: zero violations on circulation screen/dialog states in both themes; Lighthouse accessibility 90 for both flows in both themes. The updated OSV audit checked 137 packages; one package/two Spring MVC advisory IDs remain assessed as not applicable to current source paths. A post-fix ZAP run could not be completed because the local Docker image pull did not finish. |
+| GitHub CLI (`gh`) and GitHub REST API | Read assigned issues, PRs, checks, actions, branch protections, and post the explicitly authorized #9 coordination comment; create and merge PRs. | PR #37's eight checks passed and it merged by squash. PR #42 is intentionally retained open and blocked with failing required checks. Ruleset update was attempted without bypass; API reported this account has write permission but not admin permission, so the live context change was not made. |
+| Playwright / Chromium | Run browser acceptance workflows against local synthetic H2 state. | 30 browser tests passed in the recorded run; visible behavior was checked against persisted API state. |
+| PIT and SonarQube Community Build | Measure focused mutation behavior and static-analysis gate/metrics. | PIT killed 72/72 mutants in targeted classes; Sonar quality gate passed. Scope is recorded; neither result is presented as whole-project mutation coverage. |
+| ReportLab and Poppler / PDF inspection tools | Create and visually inspect the final PDF output. | The final PDF was rendered page-by-page to PNG and visually checked for clipping, overlap, page numbering, and readable tables; extracted text and page metadata were checked. |
+
+## Ownership and review
+
+Commits were authored using the configured repository Git identity for
+`Abdullah-SE-bit`; no automated-agent co-author trailer or generated-tool
+attribution was added. PR #40 contains Abdullah's newspaper use cases only.
+The other contributors must verify and explain their own work and commit their
+assigned use cases; the report does not claim that this happened. The group
+submission/rehearsal remains subject to all-member review.
+
+## Latest continuation prompt
+
+| Prompt | Purpose | Output and human checks / changes |
+| --- | --- | --- |
+| “pull latest changes and procedd with my tasks and end this completely” | Resume after the team confirmed their contributions would arrive later; sync and finish the work that does not depend on teammate authorship. | Fetched latest `origin/main` at `41de64b`, fixed assigned Phase 4 findings #44–#47 in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48), refreshed Phase 5 reports and evidence, and retained truthful limits for ZAP, MySQL concurrency, team-owned use cases, and viva rehearsal. |
+| “after merging ur prs u can stop working because they will not be giving there work anytime soon when there work is done ill inform u” | Define the stopping point for teammate-dependent work. | Proceeded with Abdullah-owned fixes and deliverables; did not attribute team member contributions or wait for them before preparing a reviewable PR. |

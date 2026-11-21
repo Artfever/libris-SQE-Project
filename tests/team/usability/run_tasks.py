@@ -17,13 +17,21 @@ AXE = Path(__file__).with_name("node_modules") / "axe-core" / "axe.min.js"
 EVIDENCE = ROOT / "tests/team/evidence/usability"
 
 
-def axe_scan(page, label, run_name):
+def axe_scan(page, label, run_name, selector=None):
     page.add_script_tag(path=str(AXE))
-    result = page.evaluate("async () => await axe.run(document)")
+    result = page.evaluate(
+        "async selector => await axe.run(selector ? document.querySelector(selector) : document)",
+        selector,
+    )
     report = {"url": page.url, "label": label, "violations": result["violations"],
               "incomplete": result["incomplete"], "passes": len(result["passes"]),
               "inapplicable": len(result["inapplicable"])}
     (EVIDENCE / f"axe-{label}-{run_name}.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    remaining = {v["id"] for v in result["violations"]} & {
+        "color-contrast", "label-content-name-mismatch"
+    }
+    if run_name.endswith("after"):
+        assert not remaining, f"Accessibility regressions remain on {label}: {sorted(remaining)}"
     return {"screen": label, "violation_count": len(report["violations"]),
             "violations": [v["id"] for v in report["violations"]]}
 
@@ -48,10 +56,16 @@ def run(run_name):
                 page.goto("/borrow.html")
                 expect(page.get_by_role("heading", name="Borrow records", exact=True)).to_be_visible()
                 expect(page.locator("#circulationTable .loading-state")).to_have_count(0)
+                scans = [axe_scan(page, "borrow", run_name)]
+                page.locator("#topbar-theme button").evaluate("button => button.click()")
+                page.wait_for_timeout(500)
+                scans.append(axe_scan(page, "borrow-light", run_name))
+                page.locator("#topbar-theme button").evaluate("button => button.click()")
+                page.wait_for_timeout(500)
                 page.locator("#issueItemBtn").click()
                 form = page.locator("#borrow-form")
                 expect(form).to_be_visible()
-                scans = [axe_scan(page, "borrow", run_name)]
+                scans.append(axe_scan(page, "borrow-modal", run_name, "#modal-root"))
 
                 # Invalid item is rejected with a correction instruction, then repaired.
                 form.get_by_role("button", name="Issue item").click()
@@ -83,6 +97,9 @@ def run(run_name):
                 assert history["totalElements"] == 1 and history["content"][0]["status"] == "BORROWED"
                 loan_id = history["content"][0]["id"]
                 scans.append(axe_scan(page, "return", run_name))
+                page.locator("#topbar-theme button").evaluate("button => button.click()")
+                page.wait_for_timeout(500)
+                scans.append(axe_scan(page, "return-light", run_name))
 
                 # A stale row ID gives a visible failure; the real ID succeeds on retry.
                 button = page.locator(".return-book").first

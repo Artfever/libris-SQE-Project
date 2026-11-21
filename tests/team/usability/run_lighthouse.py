@@ -62,11 +62,19 @@ def run(run_name):
                     page.goto(BASE + "/borrow.html")
                     page.locator("#issueItemBtn").wait_for()
                     results = [lighthouse("borrow", run_name)]
+                    page.evaluate("localStorage.setItem('theme', 'verdigris')")
+                    page.reload()
+                    page.locator("#issueItemBtn").wait_for()
+                    results.append(lighthouse("borrow-light", run_name))
                     book_id = fixture["items"]["book"]["id"]
                     api.call("POST", "/api/borrow-records", {
                         "bookId": book_id, "studentId": fixture["student"]["id"],
                         "borrowDate": date.today().isoformat(),
                     }, expected=201)
+                    page.reload()
+                    page.locator(".return-book").wait_for()
+                    results.append(lighthouse("return-light", run_name))
+                    page.evaluate("localStorage.setItem('theme', 'ember')")
                     page.reload()
                     page.locator(".return-book").wait_for()
                     results.append(lighthouse("return", run_name))

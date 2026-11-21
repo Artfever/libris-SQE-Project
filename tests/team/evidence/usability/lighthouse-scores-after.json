@@ -9,6 +9,24 @@
     "report": "lighthouse-borrow-after.json"
   },
   {
+    "screen": "borrow-light",
+    "scores": {
+      "accessibility": 90,
+      "best-practices": 100,
+      "seo": 90
+    },
+    "report": "lighthouse-borrow-light-after.json"
+  },
+  {
+    "screen": "return-light",
+    "scores": {
+      "accessibility": 90,
+      "best-practices": 100,
+      "seo": 90
+    },
+    "report": "lighthouse-return-light-after.json"
+  },
+  {
     "screen": "return",
     "scores": {
       "accessibility": 90,

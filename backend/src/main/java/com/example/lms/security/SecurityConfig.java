@@ -78,6 +78,17 @@ public class SecurityConfig {
             csrf ->
                 csrf.csrfTokenRepository(csrfTokenRepository)
                     .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
+        .headers(
+            headers ->
+                headers.contentSecurityPolicy(
+                    policy ->
+                        policy.policyDirectives(
+                            "default-src 'self'; base-uri 'self'; form-action 'self'; "
+                                + "frame-ancestors 'self'; object-src 'none'; "
+                                + "script-src 'self' 'unsafe-inline'; "
+                                + "style-src 'self' 'unsafe-inline'; "
+                                + "img-src 'self' data:; font-src 'self' data:; "
+                                + "connect-src 'self'")))
         .sessionManagement(
             session ->
                 session

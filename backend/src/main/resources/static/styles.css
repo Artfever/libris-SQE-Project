@@ -25,8 +25,9 @@
   /* Text hierarchy - soft white on dark */
   --ink: #f0f6fc;
   --ink-soft: #8b949e;
-  --ink-faint: #6e7681;
-  --ink-muted: #484f58;
+  --ink-faint: #8b949e;
+  --ink-muted: #8b949e;
+  --accent-foreground: #0d1117;
 
   /* Brand accent - Emerald/Jade */
   --accent: #3fb950;
@@ -136,15 +137,16 @@ html[data-theme="verdigris"] {
 
   /* Text hierarchy - charcoal on light */
   --ink: #24292f;
-  --ink-soft: #57606a;
-  --ink-faint: #6e7681;
-  --ink-muted: #8b949e;
+  --ink-soft: #24292f;
+  --ink-faint: #424a53;
+  --ink-muted: #424a53;
+  --accent: #1a7f37;
+  --accent-strong: #116329;
+  --accent-foreground: #ffffff;
 
-  /* Brand accent - Emerald/Jade (same as dark) */
-  --accent: #3fb950;
-  --accent-strong: #2ea043;
+  /* Darker accent keeps text and controls legible on light surfaces. */
   --accent-wash: #dafbe1;
-  --accent-subtle: rgba(63, 185, 80, 0.1);
+  --accent-subtle: rgba(26, 127, 55, 0.1);
 
   /* Semantic colors - light theme variants */
   --blue: #0969da;
@@ -359,7 +361,7 @@ svg {
 
 .rail-list a.active {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--accent-foreground);
   font-weight: 700;
   border-left: none;
 }
@@ -1095,7 +1097,7 @@ kbd {
 .btn-primary {
   border-color: var(--accent);
   background: var(--accent);
-  color: #ffffff;
+  color: var(--accent-foreground);
   font-weight: 600;
 }
 
