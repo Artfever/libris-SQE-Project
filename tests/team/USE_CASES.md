@@ -35,14 +35,14 @@ persisted database state, not only the HTTP response.
 
 ## UC-03 — Borrow an available newspaper
 
-- **Assigned contributor:** `@Artfever` (author review/commit pending)
+- **Assigned contributor:** `@Abdullah-SE-bit` (24I-3020)
 - **Links:** FR-B01–FR-B06; BR-C01–BR-C03; risks PR-01, PR-02, PR-03
 - **Actor:** Librarian
-- **Preconditions:** Student and available newspaper exist; actor has staff role; valid session and CSRF token.
-- **Main flow:** 1) Select student and newspaper. 2) Submit exactly one `newspaperId` with required student and borrow date. 3) System creates the loan and marks the newspaper unavailable. 4) API responds `201`.
-- **Alternate flows:** A1) Omit due date and verify the 14-day default. A2) Supply a due date and verify exact persistence.
-- **Exception flows:** E1) Newspaper is unavailable: request fails with no new record. E2) Newspaper ID does not exist: not-found response and no state change.
-- **Postconditions:** One active record references the newspaper; it is unavailable; snapshot and dates are persisted.
+- **Preconditions:** The student and newspaper exist; the newspaper is available; the caller is authenticated as `LIBRARIAN`; a current CSRF token is present.
+- **Main flow:** 1) The librarian selects a student and available newspaper. 2) The client sends `POST /api/borrow-records` with `studentId`, `newspaperId`, and `borrowDate` (and optional borrower fields). 3) The service validates the single-item selection, locks and checks the newspaper, snapshots the student's contact values, creates one active record, and marks the newspaper unavailable in the same transaction. 4) The API responds `201` with the created record.
+- **Alternate flows:** A1) `dueDate` is omitted; the record stores `borrowDate + 14 days`. A2) An explicit `dueDate` is supplied; that date is persisted unchanged.
+- **Exception flows:** E1) The newspaper exists but is unavailable; the request is rejected and neither a new active record nor another availability change is persisted. E2) The newspaper ID does not exist; the request is rejected as not found and the student history and catalogue state remain unchanged.
+- **Postconditions:** Exactly one active record references the selected student and newspaper; the newspaper is unavailable; borrower snapshot, borrow date, and effective due date are persisted. A rejected request leaves those state values unchanged.
 
 ## UC-04 — Return a borrowed book
 
@@ -68,12 +68,12 @@ persisted database state, not only the HTTP response.
 
 ## UC-06 — Return a borrowed newspaper
 
-- **Assigned contributor:** `@TahaSohail-Goat` (author review/commit pending)
+- **Assigned contributor:** `@Abdullah-SE-bit` (24I-3020)
 - **Links:** FR-R01–FR-R06; BR-C04; risks PR-04, PR-05, PR-06
 - **Actor:** Librarian
-- **Preconditions:** Active record references an unavailable newspaper; actor has staff role and valid CSRF token.
-- **Main flow:** 1) Submit return for the active record. 2) System writes today's return date and sets newspaper available. 3) API responds `204`.
-- **Alternate flows:** A1) Administrator performs the same transition. A2) Student reads their own history and sees the returned record, but cannot mutate it.
-- **Exception flows:** E1) Record is already returned: `ALREADY_RETURNED`, original return date and state unchanged. E2) Invalid/missing record ID: not-found, no state change.
-- **Postconditions:** Newspaper is available; one returned record is retained; repeat return does not create another transition or row.
+- **Preconditions:** An active borrow record references a newspaper currently marked unavailable; the caller is authenticated as `LIBRARIAN`; a current CSRF token is present.
+- **Main flow:** 1) The librarian submits `POST /api/borrow-records/{id}/return` for the active record. 2) The service locks the record, sets `returnDate` to the current local date, marks the referenced newspaper available, and commits the transition atomically. 3) The API responds `204`.
+- **Alternate flows:** A1) An authenticated `ADMIN` submits the same request and receives the same persisted transition. A2) The student reads `/api/borrow-records/my` after the return and sees the returned record and its original borrow details, while remaining unable to perform the mutation.
+- **Exception flows:** E1) The record is already returned; the request is rejected with `ALREADY_RETURNED`, preserving its original return date and catalogue state. E2) The record ID is absent from the database; the request is rejected as not found and no catalogue or history state changes.
+- **Postconditions:** The record remains in history with a non-null return date and the newspaper is available. A repeated return creates no row and does not change the original return date.
 
