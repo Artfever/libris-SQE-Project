@@ -1,0 +1,50 @@
+{
+  "profile": "h2",
+  "decisions": [
+    {
+      "role": "STUDENT",
+      "action": "borrow book",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "STUDENT",
+      "action": "list all loans",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "STUDENT",
+      "action": "read own loans",
+      "expected_http": 200,
+      "observed_http": 200
+    },
+    {
+      "role": "ADMIN",
+      "action": "borrow book",
+      "expected_http": 201,
+      "observed_http": 201
+    },
+    {
+      "role": "STUDENT",
+      "action": "return book",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "STUDENT",
+      "action": "read own active loan",
+      "expected_http": 200,
+      "observed_http": 200
+    },
+    {
+      "role": "ADMIN",
+      "action": "return book",
+      "expected_http": 204,
+      "observed_http": 204
+    }
+  ],
+  "final_book_available": true,
+  "loan_history_count": 1,
+  "final_loan_status": "RETURNED"
+}

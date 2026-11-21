@@ -1,0 +1,76 @@
+{
+  "tool": "OWASP ZAP",
+  "version": "2.17.0",
+  "mode": "passive proxy only",
+  "profile": "h2",
+  "proxied_messages": 65,
+  "borrow_and_return_completed": true,
+  "loan_history_count": 1,
+  "alerts": [
+    {
+      "plugin_id": "10038",
+      "name": "Content Security Policy (CSP) Header Not Set",
+      "risk": "Medium",
+      "confidence": "High",
+      "method": "GET",
+      "path": "/borrow.html"
+    },
+    {
+      "plugin_id": "90003",
+      "name": "Sub Resource Integrity Attribute Missing",
+      "risk": "Medium",
+      "confidence": "High",
+      "method": "GET",
+      "path": "/borrow.html"
+    },
+    {
+      "plugin_id": "10027",
+      "name": "Information Disclosure - Suspicious Comments",
+      "risk": "Informational",
+      "confidence": "Medium",
+      "method": "GET",
+      "path": "/js/app-init.js"
+    },
+    {
+      "plugin_id": "10112",
+      "name": "Session Management Response Identified",
+      "risk": "Informational",
+      "confidence": "Medium",
+      "method": "GET",
+      "path": "/api/auth/csrf"
+    },
+    {
+      "plugin_id": "10038",
+      "name": "Content Security Policy (CSP) Header Not Set",
+      "risk": "Medium",
+      "confidence": "High",
+      "method": "GET",
+      "path": "/components/palette.html"
+    },
+    {
+      "plugin_id": "10038",
+      "name": "Content Security Policy (CSP) Header Not Set",
+      "risk": "Medium",
+      "confidence": "High",
+      "method": "GET",
+      "path": "/components/sidebar.html"
+    },
+    {
+      "plugin_id": "10038",
+      "name": "Content Security Policy (CSP) Header Not Set",
+      "risk": "Medium",
+      "confidence": "High",
+      "method": "GET",
+      "path": "/components/topbar.html"
+    },
+    {
+      "plugin_id": "10109",
+      "name": "Modern Web Application",
+      "risk": "Informational",
+      "confidence": "Medium",
+      "method": "GET",
+      "path": "/components/sidebar.html"
+    }
+  ],
+  "alert_count": 8
+}

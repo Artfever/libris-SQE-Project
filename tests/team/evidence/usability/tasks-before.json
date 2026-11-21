@@ -1,0 +1,42 @@
+{
+  "profile": "h2",
+  "browser": "153.0.8010.12",
+  "tasks": [
+    "invalid borrow then keyboard correction and submit",
+    "stale return ID then corrected return"
+  ],
+  "focus_order": [
+    "item",
+    "studentId",
+    "borrowDate",
+    "borrowDate",
+    "borrowDate",
+    "borrowDate",
+    "dueDate",
+    "dueDate",
+    "dueDate",
+    "dueDate",
+    "Cancel"
+  ],
+  "scans": [
+    {
+      "screen": "borrow",
+      "violation_count": 3,
+      "violations": [
+        "color-contrast",
+        "heading-order",
+        "label-content-name-mismatch"
+      ]
+    },
+    {
+      "screen": "return",
+      "violation_count": 2,
+      "violations": [
+        "color-contrast",
+        "label-content-name-mismatch"
+      ]
+    }
+  ],
+  "final_book_available": true,
+  "loan_history_count": 1
+}

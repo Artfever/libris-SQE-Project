@@ -26,6 +26,9 @@ backend/src/main/resources/application-local.properties
 tmp/
 output/
 tests/team/evidence/*.local.json
+tests/team/performance/*.local.json
+tests/team/usability/node_modules/
+tests/team/mutation/target/
 
 # Runtime logs
 *.log
