@@ -103,7 +103,7 @@ The required-check demonstration consists of:
   7-case H2 integration suite, 4 generator tests, generated smoke, and fixture
   reset passed. All 8 hosted checks passed; it merged as
   `140c791bf372046797398a78ee9e06ad3893bb13`.
-- Phase 5 follow-up fixes for #44–#47 are in this PR. Local Java 21 `clean
+- Phase 5 follow-up fixes for #44–#47 are in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). Local Java 21 `clean
   verify` passed 210 tests and the JaCoCo gate; axe reported zero violations in
   both themes and Lighthouse accessibility scored 90 in both themes. The
   passive ZAP retest remains unverified.

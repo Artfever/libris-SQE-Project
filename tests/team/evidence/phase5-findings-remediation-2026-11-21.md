@@ -65,8 +65,7 @@ These results do not establish production behavior or MySQL concurrency.
 
 ## Change and evidence links
 
-The implementation and its hosted checks are tracked in the linked Phase 5
-pull request. Raw browser results are in `usability/tasks-after.json`,
+The implementation and hosted checks are tracked in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). Raw browser results are in `usability/tasks-after.json`,
 `usability/axe-*-after.json`, and the Lighthouse JSON files. The refreshed OSV
 inventory is `security/osv-2026-11-21-postfix.json`; the resolved dependency
 tree is `security/dependency-tree-2026-11-21.json`. The pre-fix inventory and
