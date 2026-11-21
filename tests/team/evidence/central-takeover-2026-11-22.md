@@ -13,7 +13,8 @@ attributed to Abdullah with Codex assistance, as disclosed in `AI_USE.md`.
 Nothing here claims that Muhammad Shaheer or Taha Sohail authored, reviewed,
 tested, or rehearsed any part of the work. This supersedes the earlier planned
 two-use-cases-per-member and all-member-triage allocation for this completion
-run.
+run. After PR #54 merged, issues #9, #23, and #25 were closed with comments
+linking this evidence and stating the single-owner attribution boundary.
 
 ## Issue #9: six circulation use cases
 
@@ -53,7 +54,7 @@ defects are closed. Their issue timelines contain no reopen events in the
 | Defect density | 6 confirmed tracked defects / 4,060 nonblank Java lines x 1,000 = **1.48 defects/KLOC**; 95 Java files. Recounted from `backend/src/main/java`. | Scoped screening measure; accessibility and configuration findings are included in a Java-source denominator. Recount with the same scope next week. |
 | Requirements coverage | **12/12 selected circulation FRs linked to passing API/browser evidence**. Fresh Java verification, seven-case H2 API integration, and 30-case browser suite passed. | This is selected circulation requirements coverage, not full product or code coverage. Keep traceability updated when requirements or flows change. |
 | Reopen rate | **0/6 = 0%** over 2026-11-15 through 2026-11-22; the six tracked defects closed during the window and the GitHub timelines show no reopen event. | Small scoped denominator. Continue checking issue timelines; report N/A rather than zero if a future window has no closures. |
-| Weekly control | #22 and #24 are closed; #23's triage/metrics are consolidated here; #25's package and centralized mock rehearsal are prepared. PR #42 remains the intentionally open blocked demonstration. | Keep release on HOLD until planned MySQL concurrency evidence is run. The live branch ruleset still needs an administrator to add `team-tests` and `mutation` as required contexts. |
+| Weekly control | Issues #9, #22, #23, #24, and #25 are closed; #9, #23, and #25 were closed under this documented central takeover. PR #42 remains the intentionally open blocked demonstration. | Keep release on HOLD until planned MySQL concurrency evidence is run. The live branch ruleset still needs an administrator to add `team-tests` and `mutation` as required contexts. |
 
 ## Issue #25: package, selected tests, and mock viva
 
