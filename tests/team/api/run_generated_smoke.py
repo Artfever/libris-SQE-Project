@@ -14,7 +14,7 @@ from verify_h2 import JAR, start_app, stop_app  # noqa: E402
 from generate_cases import generate  # noqa: E402
 
 
-class GeneratedApiSmoke(unittest.TestCase):
+class GeneratedApiFixture(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         if not JAR.is_file():
@@ -24,7 +24,8 @@ class GeneratedApiSmoke(unittest.TestCase):
         try:
             cls.api = Api('http://127.0.0.1:18082')
             cls.api.login(cls.password)
-            cls.manifest = seed(cls.api, secrets.token_urlsafe(24) + 'Aa1!')
+            cls.student_password = secrets.token_urlsafe(24) + 'Aa1!'
+            cls.manifest = seed(cls.api, cls.student_password)
             cls.cases = generate(json.loads((HERE / 'openapi.json').read_text(encoding='utf-8')))
         except BaseException:
             stop_app(cls.process)
@@ -34,6 +35,8 @@ class GeneratedApiSmoke(unittest.TestCase):
     def tearDownClass(cls):
         stop_app(cls.process)
 
+
+class GeneratedApiSmoke(GeneratedApiFixture):
     def test_generated_required_fields_then_borrow_and_return(self):
         api, manifest = self.api, self.manifest
         book_id = manifest['items']['book']['id']

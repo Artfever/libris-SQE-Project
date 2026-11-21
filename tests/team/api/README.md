@@ -33,7 +33,7 @@ The script launches a fresh disposable H2 application on loopback port 18082 wit
 - Item count boundary: FR-B03, BR-C01, PR-03.
 - Success and read-back smoke path: FR-B01, FR-B04, FR-R01, FR-R05, BR-C03, BR-C04; PR-01 and PR-08.
 - The generator unit tests validate generator behavior only; they are not application test results.
-- See the [execution evidence](../evidence/api-smoke-2026-11-21.md) for the generator and H2 results. The full API suite and remaining workflow cases are tracked in #14.
+- See the [execution evidence](../evidence/api-smoke-2026-11-21.md) for the generator and H2 results. The broader integration suite for #14 is described below.
 
 On Windows, the bundled `mvnw.cmd` failed in a workspace path containing an apostrophe because it embeds the path in a PowerShell single-quoted string. For a temporary workaround, map the repository root to an unused drive letter and run the wrapper there; remove the mapping afterward. Do not use a drive letter that is already in use. Example, from the repository root:
 
@@ -44,3 +44,7 @@ finally { subst Q: /D }
 ```
 
 Confirm that `Q:` is free before running this example. Java 21 must be on `PATH` for both Maven and the smoke runner.
+
+## Full circulation integration run (#14)
+
+After building the Java 21 JAR as above, run `python tests/team/api/run_circulation_integration.py` from the repository root. It starts a fresh H2 server on loopback and stops it when finished. The runner loads the contract directly, substitutes real fixture IDs for positive cases, and uses the generated signed 64-bit boundary values for integer binding. The exactly-one-item rule gets all eight selection combinations across book, magazine and newspaper. The complete availability and loan history snapshots are compared around each rejection and expected transition. See [the coverage matrix and findings](../evidence/api-integration-2026-11-21.md).
