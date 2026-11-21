@@ -17,6 +17,8 @@ python tests/team/fixtures/verify_h2.py --output tests/team/evidence/fixture-h2-
 
 The verifier generates private credentials in memory, starts a fresh H2 app on loopback port 18081, checks all counts are zero, seeds the fixture, reads each record back, stops the app, restarts it, checks all counts are zero again, and stops it. It writes a non-secret evidence JSON file and an ignored local manifest. It aborts if the port is already in use. Use `--port` for another free local port. The runner overrides `server.servlet.session.cookie.secure=false` only for this loopback HTTP H2 process so its authenticated session works; the production configuration is untouched.
 
+The launcher waits for `AdminSeeder` to finish before returning; the actuator health endpoint can report ready before the seeded admin account is available for login.
+
 ## Start and seed in PowerShell
 
 From the repository root, set private process environment values using a prompt or secret manager:
