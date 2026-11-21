@@ -42,11 +42,11 @@ The repository was transferred to `@Artfever`, whose connected GitHub CLI accoun
 | Required approvals | 0; teammate review is optional |
 | Dismiss stale approvals when new commits are pushed | Off |
 | Require review from Code Owners | Off (`.github/CODEOWNERS` lists area contacts only) |
-| Require status checks to pass | On; CI job contexts are `build`, `sonarqube`, `javascript`, `phase5`, `backup-script`, `team-tests`, `mutation`, and `docker-build` |
+| Require status checks to pass | On; live required contexts observed 21 November 2026 are `build`, `sonarqube`, `javascript`, `phase5`, `backup-script`, and `docker-build`. `team-tests` and `mutation` now run on PRs but are not yet required by the live ruleset. |
 | Require branches to be up to date before merging | On |
 | Block force pushes and deletions | On |
 | Bypass list | Empty for the three members, including admins when GitHub permits |
 
-The active ruleset is [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 and updated to remove mandatory reviews, with no bypass actors. Verify the live job contexts after the CI gate update. The SonarQube job starts an ephemeral Community Build server, analyzes the Java module with JaCoCo coverage, and waits for its quality gate; it needs no repository secret. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository document the process; the live GitHub ruleset enforces branch protection.
+The active ruleset is [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105), created on 20 November 2026 and updated to remove mandatory reviews, with no bypass actors. The 21 November API read confirmed the six contexts above. The attempted ruleset update was rejected for the connected account, whose repository permission is `write` and `admin` is false. A repository owner/admin must add `team-tests` and `mutation`; until then, do not claim those two contexts are enforced. See [the CI gate demonstration record](evidence/ci-gate-demonstration-2026-11-21.md). The SonarQube job starts an ephemeral Community Build server, analyzes the Java module with JaCoCo coverage, and waits for its quality gate; it needs no repository secret. Keep the ruleset active through the required blocked and passing PR demonstration. The files in this repository document the process; the live GitHub ruleset enforces branch protection.
 
 Live repository settings at setup: Issues enabled; `@TahaSohail-Goat` and `@Abdullah-SE-bit` have write access; squash is the only allowed merge method; merged branches are deleted automatically. Recheck these settings before the final report if they change.

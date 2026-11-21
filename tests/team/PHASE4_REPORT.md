@@ -57,3 +57,14 @@ Run `backend\mvnw.cmd test -Dtest=TeamRecoveryTest` from `backend`. `TeamRecover
 ## Outstanding risk for Phase 5
 
 Phase 4 is complete for the selected local scope, with open UX-02, UX-03, CSP/SRI and dependency-advisory findings. Phase 5 must triage those findings, link defect issues, and decide release/hold against the test plan. H2 and five-user results do not establish MySQL, a public deployment or higher concurrency. The final report must preserve this limit.
+
+## Phase 5 follow-up
+
+The findings above were assigned as #44–#47. The remediation, retest results,
+dependency applicability decisions, and remaining scanner limitation are
+recorded in [`evidence/phase5-findings-remediation-2026-11-21.md`](evidence/phase5-findings-remediation-2026-11-21.md).
+The current source fixes the accessibility findings and adds CSP while
+removing the external font stylesheet. Maven/OSV triage upgraded four affected
+dependency families; two Spring MVC advisories remain recorded as not
+applicable to the current source paths. Passive ZAP was not rerun because the
+local scanner image could not be pulled, so that retest is still outstanding.

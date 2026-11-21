@@ -197,7 +197,10 @@ jobs:
 
       - name: Stop ephemeral SonarQube
         if: always()
-        run: docker rm -f sqe-sonarqube || true
+        run: |
+          if docker container inspect sqe-sonarqube >/dev/null 2>&1; then
+            docker rm -f sqe-sonarqube
+          fi
 
   javascript:
     runs-on: ubuntu-latest

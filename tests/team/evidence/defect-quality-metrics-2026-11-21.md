@@ -1,16 +1,18 @@
 # Defect analyses and weekly quality measures
 
-Snapshot date: 2026-11-21. Scope is the selected circulation write API and its
-test contract. The numbers below are from the two confirmed input-error findings
-captured by the H2 API integration run; they are a small, scoped sample, not a
-claim that all product defects have been found. Both defects are linked to risk
-PR-05 (invalid or missing input must not cause a partial write).
+Snapshot date: 2026-11-21. Scope is the selected circulation write API,
+circulation UI, response policy, and resolved Maven dependency set. The original
+two input-error defects (#38 and #39) are joined by the four assigned Phase 4
+findings (#44–#47). This remains a small, scoped sample, not a claim that all
+product defects have been found. Each item links to its GitHub issue and risk;
+the Phase 5 triage/fix evidence is in
+`phase5-findings-remediation-2026-11-21.md`.
 
 ## Defects and root-cause analysis
 
 ### #38 — Malformed borrow JSON returns 500
 
-- **Severity/priority/status:** Medium / P2 / confirmed; fix submitted for review.
+- **Severity/priority/status:** Medium / P2 / confirmed; corrected and closed by PR #41 on 2026-11-21.
 - **Reproduction/evidence:** On the baseline, send malformed JSON or a body value
   that Jackson cannot convert to the borrow DTO at `POST /api/borrow-records`.
   The generic advice returned `500 INTERNAL_ERROR`; the full catalogue and
@@ -40,7 +42,7 @@ PR-05 (invalid or missing input must not cause a partial write).
 
 ### #39 — Malformed return ID returns 500
 
-- **Severity/priority/status:** Medium / P2 / confirmed; fix submitted for review.
+- **Severity/priority/status:** Medium / P2 / confirmed; corrected and closed by PR #41 on 2026-11-21.
 - **Reproduction/evidence:** On the baseline, POST to
   `/api/borrow-records/not-a-number/return`. Spring path conversion reached the
   generic handler and returned `500 INTERNAL_ERROR`; record history and
@@ -73,8 +75,9 @@ PR-05 (invalid or missing input must not cause a partial write).
 The shared corrective change adds narrow handlers for the two framework
 exceptions; it does not alter CSRF, authorization, service transactions, or
 business-rule responses. The 2026-11-21 local rerun passed 7 HTTP integration
-tests and the focused `SecurityHardeningTest`. CI and merge evidence remains in
-the associated pull request and issue timelines.
+tests and the focused `SecurityHardeningTest`; all 8 PR #41 CI checks passed,
+and merge commit `140c791bf372046797398a78ee9e06ad3893bb13` closed issues #38
+and #39.
 
 ## Pareto view
 
@@ -83,21 +86,24 @@ counts defects, not individual test cases).
 
 | Category | Confirmed defects | Share | Cumulative share |
 | --- | ---: | ---: | ---: |
-| Input/error classification | 2 | 100% | 100% |
-| **Total in this scoped sample** | **2** | **100%** | **100%** |
+| Input/error classification | 2 | 33.3% | 33.3% |
+| Accessibility (contrast and accessible names) | 2 | 33.3% | 66.7% |
+| Browser security policy | 1 | 16.7% | 83.3% |
+| Dependency currency | 1 | 16.7% | 100% |
+| **Total in this scoped sample** | **6** | **100%** | **100%** |
 
-This Pareto is intentionally small and supports prioritizing request-error
-classification in the circulation API. It is not representative of the entire
-Libris backlog.
+This Pareto is intentionally small and points to request-error classification
+and accessibility as the two most frequent categories in the scoped sample.
+It is not representative of the entire Libris backlog.
 
 ## GQM and weekly progress
 
 | Goal / measure | Definition and source | 2026-11-21 result | Interpretation and control action |
 | --- | --- | --- | --- |
-| Defect density — understand confirmed defects in source scope | Confirmed tracked circulation defects ÷ nonblank Java source lines in `backend/src/main/java` × 1,000. Count with the repository's Python standard library; blank lines are excluded and comment lines may be included. | 2 ÷ 4,049 × 1,000 = **0.49 tracked defects/KLOC** (95 Java files). | Scoped tracker numerator and broad application denominator make this an approximate screening measure, not a release-quality benchmark. Recompute with the same scope each weekly snapshot; do not infer that unreported defects equal zero. |
+| Defect density — understand confirmed defects in source scope | Confirmed tracked defects ÷ nonblank Java source lines in `backend/src/main/java` × 1,000. Count with the repository's Python standard library; blank lines are excluded and comment lines may be included. | 6 ÷ 4,060 × 1,000 = **1.48 tracked defects/KLOC** (95 Java files). | The numerator includes #38/#39 and #44–#47; the denominator is broad Java source and several findings concern CSS/configuration. This approximate screening measure is not a release-quality benchmark. Recompute with the same scope each weekly snapshot; unreported defects do not equal zero. |
 | Requirements coverage — measure exercised selected FRs | Selected FRs with at least one passing linked test ÷ 12 selected FRs (FR-B01–B06 and FR-R01–R06). Sources: `TRACEABILITY_ESTIMATE.md`, the seven-case circulation integration rerun, and the Phase 5 evidence summary. | **12/12 = 100% linked/exercised** for the selected circulation API scope. | This is requirements coverage, not code coverage or full product coverage. Keep mappings current when a test or FR changes; separately report untested non-circulation and UI accessibility scope. |
-| Reopen rate — monitor defect recurrence after closure | Defects reopened during the snapshot window ÷ defects closed during that window. Source: GitHub issue event history for #38 and #39. | **N/A (0 closed, 0 reopened)**; both confirmed findings remain open pending reviewed fix merge. | Do not report 0% with a zero denominator. After fixes merge and issues close, compare weekly reopen counts and add recurrence analysis if either reopens. |
-| Weekly plan progress — control Phase 5 deliverables | Assigned Phase 5 issues #22–#25 and their linked pull-request/check status. | #22: CI additions are in PR #37; ordinary checks pass, Docker architecture build is still running. #23: #38/#39 reproduced; fix and regression evidence prepared. #24: completion/release report still to be finalized. #25: package and viva rehearsal still pending. | Keep #22 open until required checks/ruleset demonstration are verified. Keep defects open until fix merge. Finish the completion report and package only after CI and issue evidence settle. |
+| Reopen rate — monitor defect recurrence after closure | Defects reopened during the snapshot window ÷ defects closed during that window. Source: GitHub issue event history for confirmed defects. | **0/2 = 0%** for defects #38 and #39 closed in this snapshot. Findings #44–#47 remain open until their fixes and required retests are merged; they are not counted in the closure denominator. | Small denominator; not a long-term rate. Recompute after #44–#47 close and inspect any reopened issue. |
+| Weekly plan progress — control Phase 5 deliverables | Assigned Phase 5 issues #22–#25 and their linked pull-request/check status. | #22: PR #37 merged and issue closed; the live ruleset still lacks the `team-tests` and `mutation` contexts. PR #42 remains blocked. #23: #38/#39 closed after PR #41; #44–#47 are under remediation in the current PR and member input is pending. #24: HOLD completion report prepared. #25: named PDF/ZIP are being finalized; member verification and viva evidence remain pending. | Ask the repository admin to add both contexts. Merge the remediation PR only after required checks pass. Keep the team-owned use cases and viva status explicit; update after member review. |
 
 The control actions are to monitor the pending Docker check, merge only after
 the required quality checks pass, close the two defect issues only after their
