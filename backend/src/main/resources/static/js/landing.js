@@ -143,24 +143,24 @@ document.addEventListener('DOMContentLoaded', () => {
   function openLoginModal() {
     loginBackdrop.hidden = false;
     closeLoginBtn.focus();
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
   }
 
   function closeLoginModal() {
     loginBackdrop.hidden = true;
-    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
     if (openLoginBtn) openLoginBtn.focus();
   }
 
   function openRegisterModal() {
     registerBackdrop.hidden = false;
     closeRegisterBtn.focus();
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
   }
 
   function closeRegisterModal() {
     registerBackdrop.hidden = true;
-    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
     if (openRegisterBtn) openRegisterBtn.focus();
   }
 

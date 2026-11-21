@@ -107,7 +107,7 @@ defect authors.
 | PR-08 | Borrower snapshot or returned history is lost when the student profile changes/deletes. | 2 | 4 | 8 | Verify snapshot fields after borrow and retained history after return; inspect deletion guard. | `@Artfever` |
 | PR-09 | Borrow or return becomes too slow or unexpectedly fails under concurrent staff use. | 3 | 3 | 9 | Four comparable 60-second steady-state k6 runs at 1 and 5 users; compare p95 latency and failure rate with preset targets. | `@Artfever` |
 | PR-10 | Circulation screens hide errors or have barriers for keyboard and assistive-technology users. | 3 | 3 | 9 | Playwright invalid/corrected tasks, keyboard focus and submit, axe-core and Lighthouse before/after in both themes; Phase 5 axe has zero violations and Lighthouse accessibility 90. | `@Artfever` |
-| PR-11 | Vulnerable dependencies or missing browser response controls increase attack exposure. | 3 | 4 | 12 | Resolved Maven/OSV audit, passive ZAP, configuration/source review and remediation triage. Four dependency families upgraded; two Spring MVC IDs assessed not applicable; CSP regression passes; post-fix passive ZAP remains unverified. | `@Artfever` |
+| PR-11 | Vulnerable dependencies or missing browser response controls increase attack exposure. | 3 | 4 | 12 | Resolved Maven/OSV audit, passive ZAP, configuration/source review and remediation triage. Four dependency families upgraded; two Spring MVC IDs assessed not applicable; same-origin CSP regression passes; final passive ZAP reports three informational alerts and no medium CSP/SRI alerts. | `@Artfever` |
 | PJ-01 | Docker/MySQL or browser tooling unavailable delays evidence or causes unsupported claims. | 3 | 3 | 9 | H2 fallback; mark MySQL/browser evidence conditional and do not claim unrun checks. | `@Abdullah-SE-bit` |
 | PJ-02 | Team ownership/review or fixture conflicts delay completion or invalidate results. | 3 | 3 | 9 | Assign owners; shared fixture reset rules; review evidence and commit ownership; record schedule variance. | `@Abdullah-SE-bit` |
 
@@ -117,12 +117,13 @@ defect authors.
 | --- | --- | --- | --- |
 | State integrity | Met for the executed H2 scope | `evidence/api-integration-2026-11-21.md`; 7-case rerun checked complete availability/history snapshots after every rejection and success. Six browser flows also assert persisted outcomes; PR #35 records 30 browser tests. | Accept for tested scope; MySQL transaction/concurrency behavior remains unverified. |
 | Repeat/concurrency safety | Not met | API suite verifies sequential repeated borrow/return; no concurrent borrow/return race or MySQL lock-contention evidence is recorded. | Hold release; execute the planned race tests against a disposable MySQL database. |
-| Authorization | Met for planned circulation API/browser decisions | API integration covers anonymous, student, librarian, administrator, CSRF, own-history read, denied writes, and no state mutation. CSP is asserted on API and circulation-page responses. | Accept within tested scope; post-fix passive ZAP and explicit cross-student-history isolation remain unverified. |
+| Authorization | Met for planned circulation API/browser decisions | API integration covers anonymous, student, librarian, administrator, CSRF, own-history read, denied writes, and no state mutation. Strict CSP is asserted on API and circulation-page responses. Post-fix passive ZAP proxied a successful H2 borrow/return and reported informational alerts only. | Accept for these local scenarios; explicit cross-student-history isolation and production behavior remain unverified. |
 | Requirement traceability | 12/12 selected FR-B01–B06 and FR-R01–R06 have passing evidence links; BR-C01–C05 are exercised, with concurrency deviation for BR-C03/04. | `TRACEABILITY_ESTIMATE.md`, `evidence/api-integration-2026-11-21.md`, `browser/playwright-results.txt`. | Traceability is sufficient for selected scope; do not infer untested MySQL concurrency. |
 
 The release recommendation is **HOLD** until PR-02/PR-04 concurrency controls
-are executed, post-fix passive ZAP is run, member-owned Phase 2 use cases and
-review/viva evidence are submitted, and all production release gates are
-verified. See `TEST_COMPLETION_REPORT.md` for risk-by-risk residuals and the
-actual-versus-target summary.
+are executed, member-owned Phase 2 use cases and review/viva evidence are
+submitted, and production release gates are verified. The local post-fix
+passive ZAP scan is complete; it does not prove production behavior. See
+`TEST_COMPLETION_REPORT.md` for risk-by-risk residuals and the actual-versus-
+target summary.
 

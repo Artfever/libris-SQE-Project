@@ -87,7 +87,8 @@ class SecurityHardeningTest {
                     allOf(
                         containsString("default-src 'self'"),
                         containsString("object-src 'none'"),
-                        containsString("frame-ancestors 'self'"))));
+                        containsString("frame-ancestors 'self'"),
+                        not(containsString("'unsafe-inline'")))));
   }
 
   @Test
@@ -95,6 +96,12 @@ class SecurityHardeningTest {
     mvc.perform(get("/borrow.html").session(adminSession))
         .andExpect(status().isOk())
         .andExpect(header().exists("Content-Security-Policy"))
+        .andExpect(
+            header().string("Content-Security-Policy", not(containsString("'unsafe-inline'"))))
+        .andExpect(content().string(not(containsString("<script>"))))
+        .andExpect(content().string(not(containsString("<style>"))))
+        .andExpect(content().string(containsString("/js/first-paint-theme.js")))
+        .andExpect(content().string(containsString("/css/first-paint.css")))
         .andExpect(content().string(not(containsString("fonts.googleapis.com"))));
   }
 

@@ -61,10 +61,12 @@ Phase 4 is complete for the selected local scope, with open UX-02, UX-03, CSP/SR
 ## Phase 5 follow-up
 
 The findings above were assigned as #44–#47. The remediation, retest results,
-dependency applicability decisions, and remaining scanner limitation are
+dependency applicability decisions, and final scanner result are
 recorded in [`evidence/phase5-findings-remediation-2026-11-21.md`](evidence/phase5-findings-remediation-2026-11-21.md).
 The current source fixes the accessibility findings and adds CSP while
 removing the external font stylesheet. Maven/OSV triage upgraded four affected
 dependency families; two Spring MVC advisories remain recorded as not
-applicable to the current source paths. Passive ZAP was not rerun because the
-local scanner image could not be pulled, so that retest is still outstanding.
+applicable to the current source paths. ZAP 2.17.0 was rerun in passive-only
+mode against a local H2 borrow/return flow. The final scan reported three
+informational alerts and no CSP or SRI medium alerts; see the sanitized raw
+results in `evidence/security/zap-passive-2026-11-21-csp-hardening.json`.
