@@ -104,7 +104,7 @@ The required-check demonstration consists of:
   reset passed. All 8 hosted checks passed; it merged as
   `140c791bf372046797398a78ee9e06ad3893bb13`.
 - Phase 5 follow-up fixes for #44–#47 are in this PR. Local Java 21 `clean
-  verify` passed 209 tests and the JaCoCo gate; axe reported zero violations in
+  verify` passed 210 tests and the JaCoCo gate; axe reported zero violations in
   both themes and Lighthouse accessibility scored 90 in both themes. The
   passive ZAP retest remains unverified.
 

@@ -53,7 +53,7 @@ These results do not establish production behavior or MySQL concurrency.
   Log4j 2.25.5, Tomcat 10.1.61, and Commons Lang 3.18.0. Spring Boot 3.5.16
   is the latest 3.5.x release documented by Spring at this snapshot.
 - **Verification:** Full `clean verify` passed on Java 21 after the upgrades:
-  209 tests, no failures/errors/skips, with the JaCoCo gate met. The refreshed
+  210 tests, no failures/errors/skips, with the JaCoCo gate met. The refreshed
   OSV audit checked 137 packages; only two IDs remain, both on Spring MVC
   6.2.19. They concern SSE fragment-stream corruption and XSLT view path
   limitation. Source review found no WebFlux/SSE, fragment rendering, or
