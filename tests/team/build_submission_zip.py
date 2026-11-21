@@ -16,6 +16,7 @@ EXCLUDED_DIRS = {
     ".pytest_cache",
     ".mypy_cache",
     ".venv",
+    "tmp",
 }
 
 
@@ -32,15 +33,23 @@ def main() -> None:
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
     ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
+    tracked = subprocess.check_output(
+        ["git", "ls-files", "-z"], cwd=ROOT
+    ).decode("utf-8").split("\0")
     with zipfile.ZipFile(ARCHIVE, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as out:
-        for path in ROOT.rglob("*"):
-            rel = path.relative_to(ROOT)
+        for rel_text in tracked:
+            if not rel_text:
+                continue
+            rel = Path(rel_text)
             if any(part in EXCLUDED_DIRS for part in rel.parts):
                 continue
-            if rel.parts[0] == "output":
-                if rel != Path("output/pdf/Project_24I-3020_24I-3063_24I-3165_B.pdf"):
-                    continue
-            if path.is_file() and (rel.parts[0] == ".git" or rel.parts[0] != "output"):
+            path = ROOT / rel
+            if path.is_file():
+                out.write(path, Path("libris-SQE-Project") / rel)
+        out.write(PDF, Path("libris-SQE-Project") / PDF.relative_to(ROOT))
+        for path in (ROOT / ".git").rglob("*"):
+            if path.is_file():
+                rel = path.relative_to(ROOT)
                 out.write(path, Path("libris-SQE-Project") / rel)
         out.writestr(
             "libris-SQE-Project/SUBMISSION_MANIFEST.txt",

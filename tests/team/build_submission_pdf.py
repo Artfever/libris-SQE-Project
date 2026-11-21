@@ -269,7 +269,7 @@ def main():
     story = [Spacer(1, 35 * mm),
              Paragraph("Libris Circulation<br/>Test Completion &amp; Quality Evidence", styles["CoverTitle"]),
              Spacer(1, 5 * mm),
-             Paragraph("Section B | Final group submission draft", styles["CoverSub"]),
+             Paragraph("Section B | Group submission package", styles["CoverSub"]),
              Spacer(1, 4 * mm),
              Paragraph("Abdullah Adnan - 24I-3020<br/>Muhammad Shaheer - 24I-3063<br/>Taha Sohail - 24I-3165", styles["CoverSub"]),
              Spacer(1, 10 * mm)]
