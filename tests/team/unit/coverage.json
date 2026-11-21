@@ -1,0 +1,90 @@
+{
+  "applicationSource": "770474a395d575da9792812fb0c50e7bf3972626",
+  "classes": {
+    "BorrowRecordService": {
+      "counters": [
+        {
+          "type": "INSTRUCTION",
+          "missed": "6",
+          "covered": "561"
+        },
+        {
+          "type": "BRANCH",
+          "missed": "1",
+          "covered": "45"
+        },
+        {
+          "type": "LINE",
+          "missed": "1",
+          "covered": "145"
+        },
+        {
+          "type": "COMPLEXITY",
+          "missed": "1",
+          "covered": "38"
+        },
+        {
+          "type": "METHOD",
+          "missed": "0",
+          "covered": "16"
+        },
+        {
+          "type": "CLASS",
+          "missed": "0",
+          "covered": "1"
+        }
+      ],
+      "uncovered": [
+        {
+          "nr": "125",
+          "mi": "0",
+          "ci": "4",
+          "mb": "1",
+          "cb": "1"
+        },
+        {
+          "nr": "136",
+          "mi": "6",
+          "ci": "0",
+          "mb": "0",
+          "cb": "0"
+        }
+      ]
+    },
+    "OverdueCalculator": {
+      "counters": [
+        {
+          "type": "INSTRUCTION",
+          "missed": "0",
+          "covered": "73"
+        },
+        {
+          "type": "BRANCH",
+          "missed": "0",
+          "covered": "20"
+        },
+        {
+          "type": "LINE",
+          "missed": "0",
+          "covered": "21"
+        },
+        {
+          "type": "COMPLEXITY",
+          "missed": "0",
+          "covered": "13"
+        },
+        {
+          "type": "METHOD",
+          "missed": "0",
+          "covered": "3"
+        },
+        {
+          "type": "CLASS",
+          "missed": "0",
+          "covered": "1"
+        }
+      ],
+      "uncovered": []
+    }
+  }
+}
