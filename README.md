@@ -197,7 +197,7 @@ node --test scripts/catalog-seed/*.test.mjs
 python3 -m unittest discover -s scripts/dev-seed -p 'test_phase5*.py'
 ```
 
-GitHub Actions runs Maven formatting and verification, registration and catalog-importer JavaScript tests, Phase 5 Python tests, and build-only Docker checks for `linux/amd64` and `linux/arm64`. The Docker job is a portability check: **CI does not publish images or deploy the application**. Production updates follow the operator runbook as a manual image-build/transfer and app-only rollout. See [Testing](docs/TESTING.md) and [Deployment](docs/DEPLOYMENT.md).
+GitHub Actions runs Maven formatting and verification, SonarQube analysis, JavaScript and Phase 5 Python tests, backup-script tests, the team circulation unit/API/browser suites with scoped coverage checks, PIT mutation analysis, and build-only Docker checks for `linux/amd64` and `linux/arm64`. The Docker job is a portability check: **CI does not publish images or deploy the application**. Production updates follow the operator runbook as a manual image-build/transfer and app-only rollout. See [Testing](docs/TESTING.md) and [Deployment](docs/DEPLOYMENT.md).
 
 ## Security and operational design
 

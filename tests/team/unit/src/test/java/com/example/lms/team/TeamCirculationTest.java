@@ -167,7 +167,9 @@ class TeamCirculationTest {
     var error = assertThrows(BusinessRuleException.class, () -> service.returnBook(LOAN));
     assertEquals("ALREADY_RETURNED", error.getCode());
     assertEquals(returned, record.getReturnDate());
-    verify(events).publishEvent(any(EntityAuditEvent.class));
+    var audit = org.mockito.ArgumentCaptor.forClass(EntityAuditEvent.class);
+    verify(events).publishEvent(audit.capture());
+    assertEquals("Returned: " + title(kind), audit.getValue().getDescription());
   }
 
   @ParameterizedTest
@@ -216,12 +218,24 @@ class TeamCirculationTest {
   @Test
   void resolvesStudentBeforeReadingScopedHistory() {
     when(students.findByAccountUsername("synthetic")).thenReturn(Optional.of(student));
-    when(records.findByStudentIdAndReturnDateIsNull(STUDENT, PAGE)).thenReturn(Page.empty());
-    when(records.findByStudentIdAndReturnDateIsNotNull(STUDENT, PAGE)).thenReturn(Page.empty());
-    when(records.findByStudentId(STUDENT, PAGE)).thenReturn(Page.empty());
-    service.listByCurrentStudent("synthetic", "BORROWED", PAGE);
-    service.listByCurrentStudent("synthetic", "RETURNED", PAGE);
-    service.listByCurrentStudent("synthetic", null, PAGE);
+    var active = loan(Kind.BOOK);
+    var returned = loan(Kind.MAGAZINE);
+    returned.setReturnDate(BORROWED.plusDays(1));
+    when(records.findByStudentIdAndReturnDateIsNull(STUDENT, PAGE))
+        .thenReturn(new PageImpl<>(List.of(active)));
+    when(records.findByStudentIdAndReturnDateIsNotNull(STUDENT, PAGE))
+        .thenReturn(new PageImpl<>(List.of(returned)));
+    when(records.findByStudentId(STUDENT, PAGE))
+        .thenReturn(new PageImpl<>(List.of(active, returned)));
+    var activePage = service.listByCurrentStudent("synthetic", "BORROWED", PAGE);
+    var returnedPage = service.listByCurrentStudent("synthetic", "RETURNED", PAGE);
+    var allPage = service.listByCurrentStudent("synthetic", null, PAGE);
+    assertEquals("BORROWED", activePage.getContent().getFirst().status());
+    assertEquals("RETURNED", returnedPage.getContent().getFirst().status());
+    assertEquals(2, allPage.getContent().size());
+    verify(records).findByStudentIdAndReturnDateIsNull(STUDENT, PAGE);
+    verify(records).findByStudentIdAndReturnDateIsNotNull(STUDENT, PAGE);
+    verify(records).findByStudentId(STUDENT, PAGE);
     assertThrows(
         ResourceNotFoundException.class, () -> service.listByCurrentStudent("unknown", null, PAGE));
   }
@@ -281,5 +295,13 @@ class TeamCirculationTest {
   private void actor() {
     when(currentUser.get())
         .thenReturn(new CurrentUser.Actor(1L, "staff", "LIBRARIAN", "127.0.0.1", "unit-test"));
+  }
+
+  private String title(Kind kind) {
+    return switch (kind) {
+      case BOOK -> book.getTitle();
+      case MAGAZINE -> magazine.getTitle();
+      case NEWSPAPER -> newspaper.getTitle();
+    };
   }
 }

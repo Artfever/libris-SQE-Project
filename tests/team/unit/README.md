@@ -10,6 +10,27 @@ Java 21:
 ./mvnw clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest
 ```
 
+The `team-tests` CI job repeats this focused suite and enforces scoped JaCoCo
+floors from the generated XML with:
+
+```sh
+python tests/team/unit/check_coverage.py backend/target/site/jacoco/jacoco.xml
+```
+
+The floor is 98% line / 97% branch coverage for `BorrowRecordService` and
+100% line and branch coverage for `OverdueCalculator`. The service's remaining
+uncovered lines and branch are defensive paths unreachable after the
+exactly-one-item guard; see the reachable-code explanation below. The regular
+Maven build separately enforces its 70% bundle line gate.
+
+The `mutation` CI job targets these same two classes and team tests. It
+requires at least 90% mutation score and 90% mutation coverage. The initial
+scan killed all 72 generated mutants (100%); the 90% floor allows limited
+variation as PIT or the targeted code evolves while remaining materially
+above the team's scoped line/branch floors. Threshold changes require report
+review and a recorded rationale; CI must not bypass the gate. The raw report
+and environment summary are in `tests/team/evidence/pitest/`.
+
 The 30 team cases are in the `com.example.lms.team` test package. This
 focused command keeps upstream cases out of the JaCoCo run. Use the
 API and browser suites for HTTP binding, authorization, transactions,
