@@ -41,6 +41,7 @@ def start_app(port, password):
                 str(JAR),
                 "--spring.profiles.active=h2",
                 f"--server.port={port}",
+                "--server.address=127.0.0.1",
                 "--server.servlet.session.cookie.secure=false",
             ],
             cwd=BACKEND,

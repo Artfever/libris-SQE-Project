@@ -29,6 +29,14 @@ def candidates(schema, required):
                     v = bound + offset
                     valid = (lo is None or v >= lo) and (hi is None or v <= hi)
                     add(f'{name}-{suffix}', v, 'valid' if valid else 'invalid')
+        if schema.get('format') == 'int64':
+            lower, upper = -(2 ** 63), 2 ** 63 - 1
+            for boundary, bound in [('int64-minimum', lower), ('int64-maximum', upper)]:
+                for offset, suffix in [(-1, 'below'), (0, 'at'), (1, 'above')]:
+                    value = bound + offset
+                    valid = lower <= value <= upper
+                    valid = valid and (lo is None or lo <= value) and (hi is None or value <= hi)
+                    add(f'{boundary}-{suffix}', value, 'valid' if valid else 'invalid')
         add('wrong-type', 'not-an-integer', 'invalid')
     elif typ == 'string':
         if schema.get('format') == 'date':
