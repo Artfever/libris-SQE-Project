@@ -26,6 +26,15 @@ until the corresponding tests run. Never report a planned case as passed.
 | BR-C04 | T-RETURN-STATE; T-RETURN-REPEAT; T-RETURN-CONCURRENT | PR-04 | `@TahaSohail-Goat` | Pending automation |
 | BR-C05 | T-DUE-DEFAULT; T-DUE-EXPLICIT; T-DATE-ORDER-POLICY | PR-07 | `@TahaSohail-Goat` | Pending; date-order policy is unspecified |
 
+## Initial generated API cases (#14 and #15)
+
+The draft contract, generator and smoke runner are in [api/](api/README.md).
+Generated required-field cases map to FR-B02 and PR-05. The generated item count
+boundary maps to FR-B03, BR-C01 and PR-03. The smoke flow also
+maps to FR-B01, FR-B04, FR-R01, FR-R05, BR-C03 and BR-C04. These cases do
+not establish full requirement coverage. See the API guide for current execution
+status and limitations; do not count generator unit tests as application tests.
+
 ## Three-point estimate
 
 Estimates are person-hours, not calendar duration. PERT expected effort is
