@@ -1,6 +1,6 @@
 # Phase 4 quality evidence (#17–#21)
 
-Source baseline: `e2b89dbe63bfffecefbacbc784cc7dcf057c6d0d` plus the Phase 4 changes in this branch. All execution used synthetic accounts and a disposable local H2 database. Java 21, Maven Wrapper 3.9.11, Python 3.12.10, k6 2.2.0, Playwright Chromium 153.0.8010.12, ZAP 2.17.0 and PIT 1.19.4 were used. Local H2 results do not establish MySQL or production behavior. The branch/merge SHA should be recorded in the final completion report after merge.
+Source baseline: `e2b89dbe63bfffecefbacbc784cc7dcf057c6d0d`; Phase 4 tested source: `55a0ce2f8598da6d61613116414c40001ea1856d` (the evidence/documentation commit). All execution used synthetic accounts and a disposable local H2 database. Java 21, Maven Wrapper 3.9.11, Python 3.12.10, k6 2.2.0, Playwright Chromium 153.0.8010.12, ZAP 2.17.0 and PIT 1.19.4 were used. Local H2 results do not establish MySQL or production behavior. The final squash-merge SHA should be recorded in the Phase 5 completion report after merge.
 
 ## Mutation and business rules (#17)
 
