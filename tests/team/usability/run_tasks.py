@@ -18,7 +18,7 @@ EVIDENCE = ROOT / "tests/team/evidence/usability"
 
 
 def axe_scan(page, label, run_name, selector=None):
-    page.add_script_tag(path=str(AXE))
+    page.add_script_tag(url=BASE + "/__test__/axe.min.js")
     result = page.evaluate(
         "async selector => await axe.run(selector ? document.querySelector(selector) : document)",
         selector,
@@ -53,6 +53,15 @@ def run(run_name):
                 context = browser.new_context(base_url=BASE)
                 context.add_cookies([{"name": c.name, "value": c.value, "url": BASE} for c in api.cookies])
                 page = context.new_page()
+                # Serve axe from the app's same origin so the real restrictive
+                # CSP stays enabled during accessibility scans.
+                page.route(
+                    BASE + "/__test__/axe.min.js",
+                    lambda route: route.fulfill(
+                        content_type="text/javascript",
+                        body=AXE.read_text(encoding="utf-8"),
+                    ),
+                )
                 page.goto("/borrow.html")
                 expect(page.get_by_role("heading", name="Borrow records", exact=True)).to_be_visible()
                 expect(page.locator("#circulationTable .loading-state")).to_have_count(0)

@@ -85,8 +85,8 @@ public class SecurityConfig {
                         policy.policyDirectives(
                             "default-src 'self'; base-uri 'self'; form-action 'self'; "
                                 + "frame-ancestors 'self'; object-src 'none'; "
-                                + "script-src 'self' 'unsafe-inline'; "
-                                + "style-src 'self' 'unsafe-inline'; "
+                                + "script-src 'self'; "
+                                + "style-src 'self'; "
                                 + "img-src 'self' data:; font-src 'self' data:; "
                                 + "connect-src 'self'")))
         .sessionManagement(

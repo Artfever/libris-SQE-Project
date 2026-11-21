@@ -21,9 +21,8 @@ triage and locally verified fixes for #44–#47 are in
 `evidence/phase5-findings-remediation-2026-11-21.md`. Release remains on HOLD:
 the planned concurrent MySQL borrow/return criterion is untested, two Spring
 MVC advisories are recorded as not applicable to current source paths, and the
-passive ZAP retest could not run because the local scanner image did not finish
-pulling. H2 evidence does not establish MySQL concurrency or production
-behavior.
+remaining group-owned review and viva evidence has not been supplied. H2 and
+passive ZAP evidence do not establish MySQL concurrency or production behavior.
 
 ## Scope and results
 
@@ -34,7 +33,7 @@ behavior.
 | Mutation | PIT killed 72/72 mutants (100%); mutated classes had 99% line coverage. The CI floor is 90% for mutation score and coverage. | Focused targets only; this is not application-wide mutation coverage. See `evidence/pitest/README.md` and raw `mutations.xml`. |
 | API contract/generator | 4 generator tests passed; generated-data smoke: 1 test passed. Following the error-handler change, the H2 HTTP integration suite passed 7 tests, including malformed body and return-ID errors with unchanged state. | H2, synthetic records, sequential execution. The API integration suite reports 39.604 seconds for its 7-test local run. See `api/README.md`, `evidence/api-smoke-2026-11-21.md`, and `evidence/api-integration-2026-11-21.md`. |
 | Browser | 30 Playwright tests passed across the six circulation flows; the browser flow suite checks visible outcomes and persisted API state. | Chromium and local H2; no manual user study. Run and raw result are linked from PR #35. |
-| Security roles/CSRF | API checks cover anonymous 401, student write denial, CSRF denial, librarian writes, administrator writes, and student own-history read. Rejections compare availability/history snapshots. CSP response assertion passed; Google Fonts CSS was removed. | Passive ZAP post-fix retest remains unverified. Two Spring MVC OSV IDs are assessed not applicable to current source paths. See Phase 4 and Phase 5 remediation evidence. |
+| Security roles/CSRF | API checks cover anonymous 401, student write denial, CSRF denial, librarian writes, administrator writes, and student own-history read. Rejections compare availability/history snapshots. Strict same-origin CSP response assertions pass; static pages use no inline script/style; the external Google Fonts stylesheet was removed. Final passive ZAP retest proxied 52 messages through a successful borrow and return, retained one returned loan, and reported three informational alerts only. | Disposable H2 and local ZAP 2.17.0 only; no production claim. Two Spring MVC OSV IDs are assessed not applicable to current source paths. See Phase 5 remediation evidence and the sanitized post-fix JSON. |
 | Accessibility | Axe-core reported zero violations on borrow, modal, and return in dark and light themes; Playwright verified keyboard borrow/return, visible outcomes, and stored state. | Local H2/Chromium only; no user study. Lighthouse accessibility 90 for both flows in both themes. See `evidence/usability/`. |
 | Dependency triage | OSV checked 137 resolved packages; flagged package count fell from 20 to one after upgrades, leaving two Spring MVC IDs with source-backed not-applicable decisions. | OSV is an advisory inventory, not exploit proof. See `evidence/security/osv-2026-11-21-postfix.json` and Phase 5 remediation addendum. |
 | SonarQube | Ephemeral Community Build scan and configured quality gate passed in CI. Baseline metrics: 513 project cyclomatic complexity, 1.7% duplication, 4 smells, 0 bugs, 1 vulnerability, 87.7% combined coverage; `BorrowRecordService` complexity 39. | These are baseline Sonar metrics and include the whole Java project; they are not team-only coverage. See `evidence/sonarqube/README.md` and raw JSON. |
@@ -46,7 +45,7 @@ behavior.
 | --- | --- | --- | --- |
 | State integrity (PR-01) | 100% of planned successful and rejected borrow/return cases read back catalogue availability and record state; no unintended rows or state changes. | Team API integration covers all three item types, the single-item decision table, success, unavailable/missing records, repeat return, role/CSRF denial, generated input partitions, and malformed input. The suite asserts complete fixture availability and history snapshots after each rejection and success. Browser flows also check persisted outcomes. | **Met for the executed local H2 suite.** Does not prove MySQL locking or production behavior. |
 | Repeat/concurrency safety (PR-02/PR-04) | Duplicate and concurrent borrow/return attempts permit at most one active record and one successful transition, with state reconciled to history. | Sequential duplicate borrow/return behavior is exercised. No forced concurrent borrow/return race or MySQL lock-contention run is evidenced. | **Not met. HOLD.** Run the planned concurrent cases against disposable MySQL and retain raw results. |
-| Authorization (PR-06) | Observe each planned role decision; unauthenticated and student writes and missing session/CSRF must produce no mutation. | Anonymous, student, librarian, and administrator decisions are exercised; own-history reads and denied mutation are checked. Rejected writes retain the complete state snapshot. | **Met for the role decisions in the selected API/browser cases.** Passive ZAP retest remains unverified. |
+| Authorization (PR-06) | Observe each planned role decision; unauthenticated and student writes and missing session/CSRF must produce no mutation. | Anonymous, student, librarian, and administrator decisions are exercised; own-history reads and denied mutation are checked. Rejected writes retain the complete state snapshot. | **Met for the role decisions in the selected API/browser cases.** Final passive ZAP scan found informational alerts only; production and cross-student-history isolation remain unverified. |
 
 Requirement/rule traceability is maintained in `TRACEABILITY_ESTIMATE.md` and
 `evidence/api-integration-2026-11-21.md`. The selected 12 functional
@@ -75,21 +74,21 @@ are documented in `evidence/phase5-findings-remediation-2026-11-21.md`.
 | PR-03: item-type-specific selection/availability | 12 (high) | Book, magazine, newspaper, and all eight ID-presence combinations are exercised in API/service coverage. Residual: H2-only. |
 | PR-04: repeat/concurrent return corrupts state | 12 (high) | Sequential repeat return preserves date/state; concurrent return not run. **Open, high residual.** |
 | PR-05: invalid/missing input causes partial writes | 8 (moderate) | Missing IDs and malformed body/path cases retain state; PR #41 merged the 400 mappings and regression tests. Residual is limited to H2 versus MySQL/deployment differences. |
-| PR-06: unauthorized history access or mutation | 10 (high) | Role/CSRF denies and own-history behavior passed. Passive ZAP post-fix scan and explicit cross-student-history isolation remain unverified. |
+| PR-06: unauthorized history access or mutation | 10 (high) | Role/CSRF denies and own-history behavior passed. Final passive ZAP scan found only informational alerts; explicit cross-student-history isolation remains unverified. |
 | PR-07: due-date default/explicit date | 9 (moderate) | +14-day default, explicit dates, and neighboring date order checked. Policy for past/future dates is unspecified; local-date timezone remains an operational boundary. |
 | PR-08: snapshot/history retention | 8 (moderate) | Borrower snapshot and returned history read-back tested. Profile deletion/referential behavior is not exercised in this evidence set; residual medium. |
 | PR-09: slow or failing circulation under staff load | 9 (moderate) | Four local H2 k6 runs at one/five users met p95 and zero-failure targets; state reconciled after each run. No MySQL or production SLO evidence. See `PHASE4_REPORT.md`. |
 | PR-10: accessible circulation screens | 9 (moderate) | Keyboard task passed; axe reports zero violations in both themes and Lighthouse accessibility is 90 for borrow/return in both themes. No user study. See Phase 4 and Phase 5 evidence. |
-| PR-11: vulnerable dependencies or missing browser policy | 12 (high) | Four dependency families upgraded; one package/two IDs remain with a source-backed not-applicable assessment. CSP response assertion passed; passive ZAP retest is unverified. Residual review risk remains. |
+| PR-11: vulnerable dependencies or missing browser policy | 12 (high) | Four dependency families upgraded; one package/two IDs remain with a source-backed not-applicable assessment. Final passive ZAP scan found no medium CSP or SRI alert after removing inline scripts/styles and the external font stylesheet. Residual dependency applicability risk remains. |
 
-**Untested or incomplete:** concurrent MySQL borrow/return; post-fix passive
-ZAP scan; production deployment; teammate review/ownership for four Phase 2
-cases; final group rehearsal. Phase 4 baseline mutation, accessibility,
-security, performance, and recovery evidence is in `PHASE4_REPORT.md`; it is
-local H2 evidence and does not prove production behavior. Issue #9 remains open
-pending the other contributors' own commits and reviews. The PDF/ZIP submission
-identifies pending member verification and viva work; no member contribution or
-rehearsal is represented as complete without evidence.
+**Untested or incomplete:** concurrent MySQL borrow/return; production
+deployment; teammate review/ownership for four Phase 2 cases; triage review from
+all three members; each member's personal viva rerun and change-prediction
+evidence. Phase 4 baseline mutation, accessibility, security, performance, and
+recovery evidence is in `PHASE4_REPORT.md`; local H2 and passive ZAP evidence do
+not prove production behavior. Issues #9, #23, and #25 remain open for those
+member-owned contributions. No teammate contribution or rehearsal is
+represented as complete without evidence.
 
 ## CI merge control and recommendation
 
@@ -103,10 +102,9 @@ The required-check demonstration consists of:
   7-case H2 integration suite, 4 generator tests, generated smoke, and fixture
   reset passed. All 8 hosted checks passed; it merged as
   `140c791bf372046797398a78ee9e06ad3893bb13`.
-- Phase 5 follow-up fixes for #44–#47 are in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). Local Java 21 `clean
-  verify` passed 210 tests and the JaCoCo gate; axe reported zero violations in
-  both themes and Lighthouse accessibility scored 90 in both themes. The
-  passive ZAP retest remains unverified.
+- Phase 5 follow-up changes for #44–#47 merged in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48) (`33062c86281164130f2ffd7d973e26d3129d5d31`). Java 21 `clean verify` passed 210 tests and the JaCoCo gate; all 30 circulation browser tests passed; axe reported zero violations in borrow, dialog, and return across both themes; Lighthouse accessibility scored 90 in all four states. The initial post-fix ZAP scan exposed CSP `unsafe-inline` directives; the follow-up removed inline scripts/styles and its final passive scan reported three informational alerts only. Evidence is in `security/zap-passive-2026-11-21-csp-hardening.json`.
+- Submission ZIP contents were corrected in [PR #49](https://github.com/Artfever/libris-SQE-Project/pull/49), merged as `2a7d783d9d9da21eafd5dd09a1444a766bf6f7c8`. The current generated PDF and ZIP are locally verified, but the group package still awaits member verification and viva evidence.
+- Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence are in pending [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50). Issue #46 stays open until that change is merged.
 
 The active main ruleset is
 [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105).

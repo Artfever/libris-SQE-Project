@@ -64,7 +64,7 @@ async function loadStudentDashboard() {
       const el = document.getElementById(id);
       if (el) {
         const card = el.closest(".stat-card") || el.closest(".card");
-        if (card) card.style.display = "none";
+        if (card) card.classList.add("is-hidden");
       }
     });
   } catch (err) {

@@ -12,5 +12,5 @@ export function toast(message, type = "info") {
   el.id = "toast-" + id;
   el.setAttribute("role", "status");
   region.appendChild(el);
-  setTimeout(() => { el.style.opacity = "0"; setTimeout(() => el.remove(), 300); }, 3500);
+  setTimeout(() => { el.classList.add('toast--closing'); setTimeout(() => el.remove(), 300); }, 3500);
 }

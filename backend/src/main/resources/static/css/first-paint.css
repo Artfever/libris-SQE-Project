@@ -1,0 +1,9 @@
+html:not(.theme-ready) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+html.theme-ready {
+  visibility: visible;
+  opacity: 1;
+}

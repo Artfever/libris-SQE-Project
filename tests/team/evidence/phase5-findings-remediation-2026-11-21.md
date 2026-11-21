@@ -36,12 +36,23 @@ These results do not establish production behavior or MySQL concurrency.
   integrity metadata.
 - **Fix:** Added a CSP to Spring Security responses (`default-src 'self'`,
   same-origin form/base/connect/font/image sources, `object-src 'none'`, and
-  `frame-ancestors 'self'`). Removed the third-party Google Fonts stylesheet
-  and its preconnects from static pages and Swagger theme CSS; system font
-  fallbacks are used.
+  `frame-ancestors 'self'`, `script-src 'self'`, and `style-src 'self'`).
+  Removed the third-party Google Fonts stylesheet and its preconnects from
+  static pages and Swagger theme CSS; system font fallbacks are used. Moved
+  repeated first-paint scripts/styles, inline styles, and dynamic style
+  mutations to same-origin assets and CSS classes, so the policy does not need
+  `unsafe-inline`.
 - **Verification:** `SecurityHardeningTest.responsesIncludeRestrictiveContentSecurityPolicy`
-  passed as part of the full Maven suite. The passive ZAP post-fix scan is
-  pending local scanner availability; the scan is not described as passed.
+  passed in the full Java 21 suite (210 tests total; JaCoCo gate met). The
+  six-flow Playwright suite passed all 30 cases. Axe reported zero violations
+  on borrow, borrow modal, and return in dark and light themes. ZAP 2.17.0
+  first proxied 52 messages through a successful borrow/return and reported
+  eight medium `unsafe-inline` CSP alerts plus three informational alerts.
+  After the policy and static assets were hardened, a second 52-message passive
+  scan reported three informational alerts only, with no missing-CSP, SRI, or
+  unsafe-inline alerts. Sanitized evidence is in
+  `security/zap-passive-2026-11-21-postfix.json` and
+  `security/zap-passive-2026-11-21-csp-hardening.json`; no active scan ran.
 
 ## #47 — Maven advisory triage
 
@@ -65,8 +76,11 @@ These results do not establish production behavior or MySQL concurrency.
 
 ## Change and evidence links
 
-The implementation and hosted checks are tracked in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). Raw browser results are in `usability/tasks-after.json`,
-`usability/axe-*-after.json`, and the Lighthouse JSON files. The refreshed OSV
-inventory is `security/osv-2026-11-21-postfix.json`; the resolved dependency
-tree is `security/dependency-tree-2026-11-21.json`. The pre-fix inventory and
-original report remain available for comparison.
+Contrast, accessible-name, CSP baseline, and dependency upgrades are in merged
+[PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). The CSP
+hardening and post-fix scan evidence are submitted for review in PR #50. Raw
+browser results are in `usability/tasks-after.json`, `usability/axe-*-after.json`,
+and the Lighthouse JSON files. The refreshed OSV inventory is
+`security/osv-2026-11-21-postfix.json`; the resolved dependency tree is
+`security/dependency-tree-2026-11-21.json`. The pre-fix inventory and original
+report remain available for comparison.

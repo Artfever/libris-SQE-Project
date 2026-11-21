@@ -2342,6 +2342,11 @@ tbody tr:hover {
   transform-origin: left;
 }
 
+.chart-bar--75 { --target-width: 75%; }
+.chart-bar--60 { --target-width: 60%; }
+.chart-bar--85 { --target-width: 85%; }
+.chart-bar--45 { --target-width: 45%; }
+
 .chart-bar:nth-child(2) {
   animation-delay: 0.4s;
 }
@@ -3196,6 +3201,16 @@ tbody tr:hover {
   transition: height var(--transition-slow);
   min-height: 4px;
 }
+
+.ill-bar--60 { height: 60%; }
+.ill-bar--80 { height: 80%; }
+.ill-bar--40 { height: 40%; }
+.ill-bar--70 { height: 70%; }
+
+.is-hidden { display: none !important; }
+body.modal-open { overflow: hidden; }
+.toast--closing { opacity: 0; }
+.swagger-links { margin-top: 1rem; display: flex; gap: 0.75rem; }
 
 .ill-csv {
   display: flex;

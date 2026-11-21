@@ -1,5 +1,6 @@
 """Proxy borrow and return through local ZAP and export sanitized passive alerts."""
 
+import argparse
 import json
 import os
 import secrets
@@ -23,6 +24,7 @@ PORT = 18088
 APP = f"http://host.docker.internal:{PORT}"
 DIRECT = f"http://127.0.0.1:{PORT}"
 ZAP = "http://127.0.0.1:18090"
+ZAP_STARTUP_TIMEOUT_SECONDS = 180
 
 
 def zap(path, **params):
@@ -63,9 +65,17 @@ def start_app(password):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("tests/team/evidence/security/zap-passive-2026-11-21-postfix.json"),
+        help="Sanitized alert report path, relative to the repository root by default",
+    )
+    args = parser.parse_args()
     if not JAR.is_file():
         raise RuntimeError("Build the backend JAR first")
-    for _ in range(45):
+    for _ in range(ZAP_STARTUP_TIMEOUT_SECONDS):
         try:
             version = zap("core/view/version")["version"]
             break
@@ -123,7 +133,7 @@ def main():
                   "profile": "h2", "proxied_messages": message_count,
                   "borrow_and_return_completed": True, "loan_history_count": 1,
                   "alerts": alerts, "alert_count": len(alerts)}
-        path = ROOT / "tests/team/evidence/security/zap-passive-2026-11-21.json"
+        path = args.output if args.output.is_absolute() else ROOT / args.output
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
         print(json.dumps({key: value for key, value in report.items() if key != "alerts"}, indent=2))

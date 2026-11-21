@@ -7,11 +7,11 @@
  *
  * This is the only module allowed to read/write
  * document.documentElement.dataset.theme
- * or localStorage.theme, except for a minimal first-paint
- * inline <script> in <head> that reads localStorage before CSS load.
+ * or localStorage.theme, except for the minimal same-origin
+ * first-paint script in <head> that reads localStorage before app modules load.
  *
  * Flow:
- * 1. Inline first-paint <script> in <head> reads localStorage and sets data-theme.
+ * 1. Same-origin first-paint script in <head> reads localStorage and sets data-theme.
  * 2. initTheme() confirms/applies the persisted theme at runtime.
  * 3. This module handles runtime toggling, persistence, and UI rendering.
  * 4. No other module should touch document.documentElement.dataset.theme or localStorage.theme.

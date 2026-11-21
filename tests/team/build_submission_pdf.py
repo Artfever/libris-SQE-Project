@@ -282,7 +282,7 @@ def main():
     story += [band, Spacer(1, 12 * mm),
               Paragraph("Prepared 21 November 2026", styles["CoverSub"]),
               Paragraph("Public repository: https://github.com/Artfever/libris-SQE-Project", styles["BodyTextCustom"]),
-              Paragraph("This report includes Phase 4 results and Phase 5 follow-up. Release remains on HOLD pending MySQL concurrency, a post-fix passive ZAP scan, and team-member verification and viva evidence.", styles["BodyTextCustom"]),
+              Paragraph("This report includes Phase 4 results and Phase 5 follow-up. Release remains on HOLD pending MySQL concurrency and team-member verification and viva evidence.", styles["BodyTextCustom"]),
               PageBreak()]
 
     sections = [
@@ -298,6 +298,7 @@ def main():
         ("evidence/pitest/README.md", "Mutation analysis"),
         ("evidence/sonarqube/README.md", "SonarQube analysis"),
         ("AI_USE.md", "AI-use record"),
+        ("VIVA_REHEARSAL.md", "Individual test and viva rehearsal"),
     ]
     for idx, (rel, title) in enumerate(sections):
         path = root / "tests" / "team" / rel
