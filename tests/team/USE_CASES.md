@@ -24,7 +24,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-02 — Borrow an available magazine
 
-- **Assigned contributor:** `@Artfever` (author review/commit pending)
+- **Assigned contributor:** `@TahaSohail-Goat` (author review/commit pending)
 - **Links:** FR-B01–FR-B06; BR-C01–BR-C03; risks PR-01, PR-02, PR-03
 - **Actor:** Administrator
 - **Preconditions:** Student and available magazine exist; actor has staff role; valid session and CSRF token.
@@ -46,7 +46,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-04 — Return a borrowed book
 
-- **Assigned contributor:** `@TahaSohail-Goat` (author review/commit pending)
+- **Assigned contributor:** `@Artfever` (author review/commit pending)
 - **Links:** FR-R01–FR-R06; BR-C04; risks PR-04, PR-05, PR-06
 - **Actor:** Librarian
 - **Preconditions:** An active record references a book currently marked unavailable; actor has staff role; valid session and CSRF token.
