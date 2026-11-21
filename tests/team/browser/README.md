@@ -21,10 +21,12 @@ python -u tests/team/browser/run_circulation.py
 
 The suite creates a private fixture using the local H2 launcher at port
 18083. Browser contexts use the fixture sessions, and each test closes its
-context. All records and credentials are disposable. The application
-source at verification was `770474a395d575da9792812fb0c50e7bf3972626`,
-which packaged the same web application as this test branch. See the raw
-[Playwright run](playwright-results.txt) for browser version and results.
+context. All records and credentials are disposable. An earlier browser run
+used application source `770474a395d575da9792812fb0c50e7bf3972626`; the fresh
+central-takeover run used source commit
+`b73456450a3bb53b8050237e8384d66d0f335ff4`. See
+[`central-takeover-2026-11-22.md`](../evidence/central-takeover-2026-11-22.md)
+for the current result and `playwright-results.txt` for raw test output.
 
 | Use case | Main flow | Alternate flows | Exception flows | Traceability |
 | --- | --- | --- | --- | --- |
@@ -48,5 +50,8 @@ to verify the returned row through the student history endpoint.
 
 Codex drafted and ran the browser flows for the request to complete the
 assigned issues. It inspected the UI and persisted records, fixed the
-empty-screen heading match and stale row selector, and reran the suite.
-The use-case authorship and team review tracked in #9 remain separate.
+empty-screen heading match and stale row selector, and reran the suite. Under
+Abdullah's 2026-11-22 central-owner takeover, all six use-case specifications
+are also authored under Abdullah; no peer authorship or review is claimed. The
+fresh 30-test result and attribution boundary are recorded in
+[`../evidence/central-takeover-2026-11-22.md`](../evidence/central-takeover-2026-11-22.md).

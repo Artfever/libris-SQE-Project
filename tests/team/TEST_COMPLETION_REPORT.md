@@ -18,11 +18,16 @@ The team verified service behavior, API partitions, authorization/CSRF,
 persisted state, six browser workflows, static analysis, and focused mutation
 gates. Phase 4 evidence is available in `PHASE4_REPORT.md`; Phase 5 follow-up
 triage and locally verified fixes for #44–#47 are in
-`evidence/phase5-findings-remediation-2026-11-21.md`. Release remains on HOLD:
-the planned concurrent MySQL borrow/return criterion is untested, two Spring
-MVC advisories are recorded as not applicable to current source paths, and the
-remaining group-owned review and viva evidence has not been supplied. H2 and
-passive ZAP evidence do not establish MySQL concurrency or production behavior.
+`evidence/phase5-findings-remediation-2026-11-21.md`. On 22 November, the issue
+assignee directed a central-owner takeover of the remaining #9, #23, and #25
+deliverables. The six use cases, consolidated triage, package, fresh test runs,
+and technical mock viva are now authored under Abdullah Adnan with Codex
+assistance; no peer authorship or personal oral performance is claimed. See
+`evidence/central-takeover-2026-11-22.md`. Release remains on HOLD because the
+planned concurrent MySQL borrow/return criterion is untested. The two remaining
+Spring MVC advisories are assessed as not applicable to current source paths.
+H2 and passive ZAP evidence do not establish MySQL concurrency or production
+behavior.
 
 ## Scope and results
 
@@ -81,14 +86,13 @@ are documented in `evidence/phase5-findings-remediation-2026-11-21.md`.
 | PR-10: accessible circulation screens | 9 (moderate) | Keyboard task passed; axe reports zero violations in both themes and Lighthouse accessibility is 90 for borrow/return in both themes. No user study. See Phase 4 and Phase 5 evidence. |
 | PR-11: vulnerable dependencies or missing browser policy | 12 (high) | Four dependency families upgraded; one package/two IDs remain with a source-backed not-applicable assessment. Final passive ZAP scan found no medium CSP or SRI alert after removing inline scripts/styles and the external font stylesheet. Residual dependency applicability risk remains. |
 
-**Untested or incomplete:** concurrent MySQL borrow/return; production
-deployment; teammate review/ownership for four Phase 2 cases; triage review from
-all three members; each member's personal viva rerun and change-prediction
-evidence. Phase 4 baseline mutation, accessibility, security, performance, and
-recovery evidence is in `PHASE4_REPORT.md`; local H2 and passive ZAP evidence do
-not prove production behavior. Issues #9, #23, and #25 remain open for those
-member-owned contributions. No teammate contribution or rehearsal is
-represented as complete without evidence.
+**Untested or incomplete:** concurrent MySQL borrow/return and production
+deployment. The central takeover completed the artifacts and fresh H2/browser
+verification for #9, #23, and #25 under one named owner; it does not claim peer
+authorship, peer review, or any student's personal oral viva performance.
+Phase 4 baseline mutation, accessibility, security, performance, and recovery
+evidence is in `PHASE4_REPORT.md`; local H2 and passive ZAP evidence do not prove
+production behavior.
 
 ## CI merge control and recommendation
 
@@ -103,8 +107,8 @@ The required-check demonstration consists of:
   reset passed. All 8 hosted checks passed; it merged as
   `140c791bf372046797398a78ee9e06ad3893bb13`.
 - Phase 5 follow-up changes for #44–#47 merged in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48) (`33062c86281164130f2ffd7d973e26d3129d5d31`). Java 21 `clean verify` passed 210 tests and the JaCoCo gate; all 30 circulation browser tests passed; axe reported zero violations in borrow, dialog, and return across both themes; Lighthouse accessibility scored 90 in all four states. The initial post-fix ZAP scan exposed CSP `unsafe-inline` directives; the follow-up removed inline scripts/styles and its final passive scan reported three informational alerts only. Evidence is in `security/zap-passive-2026-11-21-csp-hardening.json`.
-- Submission ZIP contents were corrected in [PR #49](https://github.com/Artfever/libris-SQE-Project/pull/49), merged as `2a7d783d9d9da21eafd5dd09a1444a766bf6f7c8`. After [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) merged as `9fe7692e0b44d573bb0df401587f94c7885c08ba`, the named 45-page PDF and repository ZIP were regenerated from `main`; the PDF was rendered for visual review, and the ZIP passed integrity and content checks. The group package still awaits member verification and personal viva evidence.
-- Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence merged in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50) as `7bbf69bdd9c8c9dc289d242d761d41d6c29d6ce3`, closing issue #46. [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) updated the post-merge Phase 5 metrics and completion report; issue #24 is closed. The report keeps the release on HOLD for MySQL concurrency and member-owned evidence.
+- Submission ZIP contents were corrected in [PR #49](https://github.com/Artfever/libris-SQE-Project/pull/49), merged as `2a7d783d9d9da21eafd5dd09a1444a766bf6f7c8`. After [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) merged as `9fe7692e0b44d573bb0df401587f94c7885c08ba`, the named 45-page PDF and repository ZIP were regenerated from `main`; the PDF was rendered for visual review, and the ZIP passed integrity and content checks. Under the 22 November central takeover, the files, test runs, and technical mock viva are maintained under Abdullah's ownership; no separate member review or oral performance is claimed.
+- Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence merged in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50) as `7bbf69bdd9c8c9dc289d242d761d41d6c29d6ce3`, closing issue #46. [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) updated the post-merge Phase 5 metrics and completion report; issue #24 is closed. The report keeps the release on HOLD for MySQL concurrency; the 22 November central-owner takeover and its authorship boundary are recorded in the linked takeover evidence.
 
 The active main ruleset is
 [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105).

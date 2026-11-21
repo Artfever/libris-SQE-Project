@@ -22,21 +22,26 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 
 ## Phase 2 — write the test basis and management documents
 
-Lead: `@Abdullah-SE-bit` (#8–#11). All three members author two use cases each for #9.
+Lead: `@Abdullah-SE-bit` (#8–#11). On 22 November 2026, Abdullah directed a
+central-owner takeover of the remaining contributions for #9, #23, and #25.
+All six use cases and the follow-up issue evidence are authored under Abdullah;
+no teammate authorship or review is claimed. Details and verification are in
+[`central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
 
 1. Derive at least eight functional requirements across both workflows, at least three per workflow. Include validation, dates, availability, history, repeat requests, and role access.
 2. State at least four business rules. Include a boundary/limit, a decision with at least two Boolean conditions, and a state transition. Cite the code/docs or label assumptions.
-3. Define two use cases per team member (six total), each with main, at least two alternate, and two exception flows; record preconditions and postconditions.
+3. Define six circulation use cases (two for each item type across borrow and return), each with main, at least two alternate, and two exception flows; record preconditions and postconditions. The central-owner assignment is documented above.
 4. Create the risk-based test plan: scope, levels, roles/owners, environment, fixtures, schedule, entry/exit/suspension/resumption criteria, and at least three measurable release criteria (including one tied to each highest risk).
 5. Create a risk register with at least eight product and two project risks, likelihood and impact scored 1–5 on a 5×5 matrix, and test controls mapped to each.
 6. Build the requirement-to-test traceability matrix and a three-point effort estimate. Update estimates with actual effort at completion.
 
 Draft artifacts are maintained in [the test basis](TEST_BASIS.md),
 [the use cases](USE_CASES.md), [the risk-based test plan](TEST_PLAN.md), and
-[the traceability/estimate](TRACEABILITY_ESTIMATE.md). The phase remains open
-until each teammate has revised and committed their own two use cases and the
-contributors record actual effort; the integrated drafts do not substitute for
-those human contributions.
+[the traceability/estimate](TRACEABILITY_ESTIMATE.md). Under the takeover, all
+six use cases are maintained by the central owner. The prior three-way
+authorship allocation is superseded for this run; this is not represented as
+individual member contribution. Person-hour actuals remain unrecorded because
+no time log was kept, and estimates are not substituted for actuals.
 
 ## Phase 3 — design and automate functional tests
 
@@ -60,12 +65,16 @@ Lead: `@Artfever` (#17–#21).
 
 ## Phase 5 — gate, defects, and final submission
 
-Lead: `@Abdullah-SE-bit` (#22–#25). All three contribute and review the final report, package, AI-use record, and viva preparation.
+Lead: `@Abdullah-SE-bit` (#22–#25). At Abdullah's direction, the report,
+package, AI-use record, consolidated triage, and technical mock viva are
+completed by one central owner with Codex assistance. Individual peer review
+and oral performance are not claimed; the takeover and test evidence are in
+[`central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
 
 1. Add GitHub Actions gates for SonarQube, all team tests, coverage, and mutation score. Demonstrate both a blocked and passing pull request without bypasses.
 2. Track defects as GitHub issues with severity, priority, status, triage decision, and risk links. Perform 5 Whys plus fishbone for two major defects with corrective and preventive actions; report a defect-category Pareto and weekly progress/GQM metrics (defect density, requirements coverage, reopen rate) against the plan with control actions.
 3. Produce the completion report with tested/not tested scope, deviations, open defects, residual risks, and release/hold recommendation. Compare actuals with all three release criteria.
-4. Package the PDF report and repository ZIP including `.git`, scripts, fixtures, CI, raw evidence, AI-use record (tool, purpose, output, and what was checked/changed), and each member's identifiable commits. Use the exact `Project_RollNumber1_RollNumber2_RollNumber3_Section` base name for both files; pair members omit the third roll number. Rehearse rerunning a selected test and predicting the result of a live business-rule/specification change for the viva.
+4. Package the PDF report and repository ZIP including `.git`, scripts, fixtures, CI, raw evidence, AI-use record (tool, purpose, output, and what was checked/changed), and the central owner's identifiable commits under the takeover. Use the exact `Project_RollNumber1_RollNumber2_RollNumber3_Section` base name for both files; pair members omit the third roll number. Run the selected tests and prepare a documented technical mock viva with predictions, without claiming individual oral performances.
 
 ## Submission gate — all must be true before submitting
 
@@ -73,13 +82,13 @@ Lead: `@Abdullah-SE-bit` (#22–#25). All three contribute and review the final 
 - Every phase above has its requested runnable scripts, raw reports/screenshots, recorded results, and requirement/risk links. Results are from this team's own tests; upstream tests are clearly labeled baseline evidence.
 - The final PDF includes the full test-management documents, SonarQube and hand complexity comparison, unit/API/use-case results, mutation analysis, accessibility/usability before-and-after results, defensive security evidence, k6 and recovery evidence, defect/root-cause analysis, CI blocked/passing evidence, weekly metrics, and completion report.
 - The completion report compares actual results with the three measurable release criteria, states untested scope and deviations, lists open defects and residual risk, and gives an evidence-backed release or hold decision.
-- The ZIP contains the repository including `.git`, baseline history, team code and test data, setup/reset instructions, CI configuration, raw evidence, and an AI-use record. Every member has identifiable work and can explain and rerun their area in the viva.
+- The ZIP contains the repository including `.git`, baseline history, team code and test data, setup/reset instructions, CI configuration, raw evidence, and an AI-use record. Under the documented takeover, the central owner's commits and technical mock viva are identifiable; peer work and human oral performance are not claimed.
 - File names match the required format, and the final PDF/ZIP open correctly. Do not treat a checked box in this plan as evidence; verify the corresponding artifact and result.
 
-## Immediate next action
+## Current completion state
 
-Have each teammate revise and commit their two assigned use cases in
-`tests/team/USE_CASES.md`, then record actual effort in
-`tests/team/TRACEABILITY_ESTIMATE.md`. The test basis and initial H2 fixture
-evidence are available for the next phase; continue to distinguish planned
-tests from executed results.
+The central takeover work for issues #9, #23, and #25 is complete and has fresh
+Java, API, browser, and accessibility verification. Preserve the documented
+release HOLD until MySQL concurrency evidence is produced. The repository
+owner/admin must still add `team-tests` and `mutation` to the live required
+checks; no branch-protection bypass is allowed.
