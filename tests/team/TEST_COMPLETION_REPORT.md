@@ -104,7 +104,7 @@ The required-check demonstration consists of:
   `140c791bf372046797398a78ee9e06ad3893bb13`.
 - Phase 5 follow-up changes for #44–#47 merged in [PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48) (`33062c86281164130f2ffd7d973e26d3129d5d31`). Java 21 `clean verify` passed 210 tests and the JaCoCo gate; all 30 circulation browser tests passed; axe reported zero violations in borrow, dialog, and return across both themes; Lighthouse accessibility scored 90 in all four states. The initial post-fix ZAP scan exposed CSP `unsafe-inline` directives; the follow-up removed inline scripts/styles and its final passive scan reported three informational alerts only. Evidence is in `security/zap-passive-2026-11-21-csp-hardening.json`.
 - Submission ZIP contents were corrected in [PR #49](https://github.com/Artfever/libris-SQE-Project/pull/49), merged as `2a7d783d9d9da21eafd5dd09a1444a766bf6f7c8`. The current generated PDF and ZIP are locally verified, but the group package still awaits member verification and viva evidence.
-- Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence are in pending [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50). Issue #46 stays open until that change is merged.
+- Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence merged in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50) as `7bbf69bdd9c8c9dc289d242d761d41d6c29d6ce3`, closing issue #46. Issue #24's completion-report deliverable is also satisfied; the linked report keeps the release on HOLD for MySQL concurrency and member-owned evidence.
 
 The active main ruleset is
 [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105).

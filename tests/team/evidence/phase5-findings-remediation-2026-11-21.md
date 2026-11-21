@@ -77,8 +77,8 @@ These results do not establish production behavior or MySQL concurrency.
 ## Change and evidence links
 
 Contrast, accessible-name, CSP baseline, and dependency upgrades are in merged
-[PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). The CSP
-hardening and post-fix scan evidence are submitted for review in PR #50. Raw
+[PR #48](https://github.com/Artfever/libris-SQE-Project/pull/48). Follow-up
+CSP hardening and final scan evidence merged in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50), commit `7bbf69bdd9c8c9dc289d242d761d41d6c29d6ce3`. Raw
 browser results are in `usability/tasks-after.json`, `usability/axe-*-after.json`,
 and the Lighthouse JSON files. The refreshed OSV inventory is
 `security/osv-2026-11-21-postfix.json`; the resolved dependency tree is
