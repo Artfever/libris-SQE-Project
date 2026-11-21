@@ -31,7 +31,8 @@ class CirculationIntegration(GeneratedApiFixture):
             headers['Content-Type'] = 'application/json'
         if csrf and client.csrf_token:
             headers['X-XSRF-TOKEN'] = client.csrf_token
-        body = None if payload is None else json.dumps(payload).encode('utf-8')
+        body = None if payload is None else (payload if isinstance(payload, bytes)
+                                             else json.dumps(payload).encode('utf-8'))
         request = urllib.request.Request(client.base_url + path, body, headers, method=method)
         try:
             response = client.opener.open(request, timeout=15)
@@ -109,7 +110,7 @@ class CirculationIntegration(GeneratedApiFixture):
                     if case['schema_expected'] == 'valid':
                         self.reject(404, 'NOT_FOUND', payload=payload)
                     else:
-                        self.reject(500, 'INTERNAL_ERROR', payload=payload)
+                        self.reject(400, 'INVALID_REQUEST', payload=payload)
                     continue
                 selected = 'bookId'
                 if field in ITEMS and partition == 'integer':
@@ -127,8 +128,7 @@ class CirculationIntegration(GeneratedApiFixture):
                         result = self.reject(400, 'VALIDATION_ERROR', payload=payload)
                         self.assertIn(field, {error['field'] for error in result['fieldErrors']})
                     else:
-                        # Baseline catch-all maps JSON binding errors to INTERNAL_ERROR.
-                        self.reject(500, 'INTERNAL_ERROR', payload=payload)
+                        self.reject(400, 'INVALID_REQUEST', payload=payload)
                 elif not any(payload.get(item) is not None for item in ITEMS):
                     self.reject(400, 'INVALID_REQUEST', payload=payload)
                 else:
@@ -180,8 +180,12 @@ class CirculationIntegration(GeneratedApiFixture):
                     if partition.startswith('int64-') and case['schema_expected'] == 'valid':
                         self.reject(404, 'NOT_FOUND', path=path)
                     else:
-                        self.reject(500, 'INTERNAL_ERROR', path=path)
+                        self.reject(400, 'INVALID_ARGUMENT', path=path)
         self.reject(405, 'METHOD_NOT_ALLOWED', path=f'{LOANS}/1/return', method='GET')
+
+    def test_malformed_json_and_return_id_have_client_error_responses(self):
+        self.reject(400, 'INVALID_REQUEST', payload=b'{"studentId":')
+        self.reject(400, 'INVALID_ARGUMENT', path=f'{LOANS}/not-a-number/return')
 
     def login(self, username, password):
         client = Api(self.api.base_url)
