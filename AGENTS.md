@@ -15,7 +15,7 @@ Run Maven commands from the repository root using the included wrapper:
 
 `clean verify` runs formatting/build/test checks and the configured JaCoCo gate. Run the Python Phase 5 tests separately with `python3 -m unittest discover -s scripts/dev-seed -p 'test_phase5*.py'`. The catalog importer has independent Node tests: `node --test scripts/catalog-seed/*.test.mjs`. Do not describe a focused suite as a full-suite result.
 
-CI has three jobs: Maven Spotless/verify, the stdlib-only Phase 5 Python tests, and build-only Docker checks for `linux/amd64` and `linux/arm64`. The Docker job does not publish or deploy an image. CI's dual-architecture check is a portability requirement; prior operator evidence identifies the OCI production VM as x86_64, not Ampere ARM64. Verify current deployment details before relying on historical reports.
+CI runs Maven Spotless/verify, SonarQube analysis, registration/catalog JavaScript tests, the stdlib Phase 5 Python tests, backup-script tests, team circulation unit/API/browser tests with scoped coverage checks, PIT mutation analysis, and build-only Docker checks for `linux/amd64` and `linux/arm64`. The Docker job does not publish or deploy an image, and this repository has no deployment workflow. CI's dual-architecture check is a portability requirement; prior operator evidence identifies the OCI production VM as x86_64, not Ampere ARM64. Verify current deployment details before relying on historical reports.
 
 ## Configuration and profiles
 

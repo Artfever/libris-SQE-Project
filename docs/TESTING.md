@@ -37,3 +37,13 @@ establish public deployment health.
 
 Historical reports contain test counts from the date they were written. Those
 counts are not current run results.
+
+## Team circulation CI
+
+Pull requests also run the team unit, generated-data H2 smoke, API integration,
+and Playwright suites in `team-tests`, with scoped JaCoCo coverage floors.
+The `mutation` job applies PIT to `BorrowRecordService` and `OverdueCalculator`
+with 90% mutation-score and 90% mutation-coverage floors. These jobs are
+separate from the overall Maven build and do not replace its existing 70% line
+coverage gate. They build and test only; this repository has no deployment
+workflow.
