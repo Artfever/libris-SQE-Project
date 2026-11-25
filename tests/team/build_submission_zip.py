@@ -5,6 +5,7 @@ from __future__ import annotations
 import subprocess
 import tempfile
 import zipfile
+from copy import copy
 from shutil import copyfileobj
 from pathlib import Path
 
@@ -47,7 +48,8 @@ def package_source(out, commit):
     with tempfile.TemporaryDirectory(prefix="libris-sqe-source-") as scratch:
         source = Path(scratch) / "source.zip"
         subprocess.run(
-            ["git", "archive", "--format=zip", "--prefix=libris-SQE-Project/",
+            ["git", "-c", "core.autocrlf=false", "-c", "core.eol=lf",
+             "archive", "--format=zip", "--prefix=libris-SQE-Project/",
              f"--output={source}", commit],
             cwd=ROOT, check=True,
         )
@@ -55,8 +57,9 @@ def package_source(out, commit):
             for entry in snapshot.infolist():
                 if entry.is_dir() or any(part in EXCLUDED_DIRS for part in Path(entry.filename).parts):
                     continue
-                entry.compress_type = out.compression
-                with snapshot.open(entry) as original, out.open(entry, "w") as destination:
+                archived = copy(entry)
+                archived.compress_type = out.compression
+                with snapshot.open(entry) as original, out.open(archived, "w") as destination:
                     copyfileobj(original, destination)
 
 
@@ -73,18 +76,21 @@ def main() -> None:
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
     ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(ARCHIVE, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as out:
-        package_source(out, commit)
-        out.write(PDF, Path("libris-SQE-Project") / PDF.relative_to(ROOT))
-        package_history(out, commit)
-        out.writestr(
-            "libris-SQE-Project/SUBMISSION_MANIFEST.txt",
-            "Section B final submission\n"
-            "Repository: https://github.com/Artfever/libris-SQE-Project\n"
-            "Upstream: https://github.com/prathamkashyap/libris\n"
-            "Exact upstream baseline: faf2bc0d28b68d4c8ff8c0ffb0fcf5bb87d42804\n"
-            f"Included repository commit: {commit}\n",
-        )
+    with tempfile.TemporaryDirectory(prefix="assemble-", dir=ARCHIVE.parent) as scratch:
+        candidate = Path(scratch) / ARCHIVE.name
+        with zipfile.ZipFile(candidate, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as out:
+            package_source(out, commit)
+            out.write(PDF, Path("libris-SQE-Project") / PDF.relative_to(ROOT))
+            package_history(out, commit)
+            out.writestr(
+                "libris-SQE-Project/SUBMISSION_MANIFEST.txt",
+                "Section B final submission\n"
+                "Repository: https://github.com/Artfever/libris-SQE-Project\n"
+                "Upstream: https://github.com/prathamkashyap/libris\n"
+                "Exact upstream baseline: faf2bc0d28b68d4c8ff8c0ffb0fcf5bb87d42804\n"
+                f"Included repository commit: {commit}\n",
+            )
+        candidate.replace(ARCHIVE)
     print(ARCHIVE)
 
 
