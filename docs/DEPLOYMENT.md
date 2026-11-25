@@ -25,7 +25,10 @@ The Compose project expects `LMS_DB_ROOT_PASSWORD`, `LMS_DB_PASSWORD`, and `LMS_
 Build on a trusted workstation from the reviewed source tree, not on the low-memory production instance. Example for the operator-reported x86_64 host:
 
 ```sh
-docker buildx build --platform linux/amd64 --load -t libris:local .
+test -z "$(git status --porcelain)" || exit 1
+release_sha="$(git rev-parse HEAD)" || exit 1
+python3 scripts/check-release-ci.py "$release_sha" || exit 1
+docker buildx build --platform linux/amd64 --label "org.opencontainers.image.revision=$release_sha" --load -t libris:local . || exit 1
 docker image inspect libris:local --format '{{.Os}}/{{.Architecture}} {{.Id}}'
 docker image save libris:local | gzip > libris-image.tar.gz
 shasum -a 256 libris-image.tar.gz
@@ -33,15 +36,17 @@ shasum -a 256 libris-image.tar.gz
 
 Transfer the archive through the approved secure channel. On the server, compare its checksum with the workstation's recorded checksum before loading it. Record the running app image ID and tag that exact image for rollback before replacing `libris:local`. Verify the rollback tag resolves to the recorded image ID. Keep the archive and rollback tag until production verification is complete.
 
-Do not infer source provenance from a healthy image. The current Dockerfile does not embed a Git revision; record the reviewed source SHA alongside each future build or add build metadata in a separately reviewed source change.
+Keep the release SHA and the successful main run URL with the archive checksum. The preflight requires the exact revision's successful aggregate check and all eight constituent jobs.
 
 ## Application-only update
 
-Use the actual deployment working directory and Compose environment source after verifying them. Earlier operator reports describe a project directory under the deployment account's home; confirm the current path rather than assuming it. With the project directory and `.env` verified:
+Use the actual deployment working directory and Compose environment source after verifying them. Earlier operator reports describe a project directory under the deployment account's home; confirm the current path rather than assuming it. Set `release_sha` to the reviewed source SHA recorded with the archive. With the project directory and `.env` verified:
 
 ```sh
-docker load -i libris-image.tar.gz
-docker compose --env-file .env up -d --no-deps --force-recreate --no-build app
+python3 scripts/check-release-ci.py "$release_sha" || exit 1
+docker load -i libris-image.tar.gz || exit 1
+test "$(docker image inspect libris:local --format '{{index .Config.Labels "org.opencontainers.image.revision"}}')" = "$release_sha" || exit 1
+docker compose --env-file .env up -d --no-deps --force-recreate --no-build app || exit 1
 docker compose ps
 curl -fsS http://127.0.0.1:8080/actuator/health
 ```

@@ -26,12 +26,15 @@ def port_is_open(port):
         return connection.connect_ex(("127.0.0.1", port)) == 0
 
 
-def start_app(port, password):
+def start_app(port, password, *, profile="h2", database_environment=None, extra_args=()):
     if port_is_open(port):
         raise RuntimeError(f"Port {port} is already in use")
-    log_path = Path(tempfile.gettempdir()) / f"libris-fixture-h2-{port}.log"
+    log_path = Path(tempfile.gettempdir()) / f"libris-fixture-{profile}-{port}.log"
     environment = dict(os.environ)
     environment["LMS_ADMIN_PASSWORD"] = password
+    environment["LMS_ADMIN_USERNAME"] = "admin"
+    if database_environment:
+        environment.update(database_environment)
     flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
     with log_path.open("wb") as log:
         process = subprocess.Popen(
@@ -39,10 +42,11 @@ def start_app(port, password):
                 "java",
                 "-jar",
                 str(JAR),
-                "--spring.profiles.active=h2",
+                f"--spring.profiles.active={profile}",
                 f"--server.port={port}",
                 "--server.address=127.0.0.1",
                 "--server.servlet.session.cookie.secure=false",
+                *extra_args,
             ],
             cwd=BACKEND,
             env=environment,

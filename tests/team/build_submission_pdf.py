@@ -1,9 +1,11 @@
 ﻿from __future__ import annotations
 
 import re
+import subprocess
 import sys
 import unicodedata
 from pathlib import Path
+from urllib.parse import quote
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
@@ -28,6 +30,7 @@ from reportlab.platypus import (
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "output" / "pdf" / "Project_24I-3020_24I-3063_24I-3165_B.pdf"
+REPO = "https://github.com/Artfever/libris-SQE-Project"
 PAGE_W, PAGE_H = A4
 LEFT = RIGHT = 19 * mm
 TOP = 20 * mm
@@ -42,7 +45,7 @@ def plain(text: str) -> str:
     return text
 
 
-def inline_markup(text: str) -> str:
+def inline_markup(text: str, source: Path | None = None, revision: str = "main") -> str:
     text = plain(text)
     token_re = re.compile(r"(`[^`]+`|\*\*.+?\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))")
     out: list[str] = []
@@ -60,6 +63,11 @@ def inline_markup(text: str) -> str:
             m = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", token)
             label, href = m.group(1), m.group(2)
             label = escape(label)
+            if source is not None and not href.startswith(("https://", "http://", "mailto:", "#")):
+                destination = (source.parent / href).resolve()
+                if destination.is_relative_to(ROOT) and destination.exists():
+                    route = "tree" if destination.is_dir() else "blob"
+                    href = f"{REPO}/{route}/{revision}/{quote(destination.relative_to(ROOT).as_posix())}"
             href = escape(href, {"\"": "&quot;"})
             if href.startswith(("https://", "http://", "mailto:")):
                 out.append(f'<link href="{href}" color="#176B87">{label}</link>')
@@ -70,11 +78,13 @@ def inline_markup(text: str) -> str:
     return "".join(out)
 
 
-def cell_text(raw: str, style: ParagraphStyle) -> Paragraph:
-    return Paragraph(inline_markup(raw.strip()), style)
+def parse_table(lines: list[str], styles, source: Path, revision: str):
+    def markup(text: str) -> str:
+        return inline_markup(text.strip(), source, revision)
 
+    def cell_text(raw: str, style: ParagraphStyle) -> Paragraph:
+        return Paragraph(markup(raw), style)
 
-def parse_table(lines: list[str], styles):
     rows = []
     for line in lines:
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
@@ -90,7 +100,7 @@ def parse_table(lines: list[str], styles):
     if cols > 3:
         flow = []
         for n, row in enumerate(body, 1):
-            card = [[Paragraph(f"<b>{inline_markup(header[i])}</b>", styles["TableKey"]),
+            card = [[Paragraph(f"<b>{markup(header[i])}</b>", styles["TableKey"]),
                      cell_text(row[i], styles["TableCell"])] for i in range(cols)]
             title = Paragraph(f"<b>Record {n}</b>", styles["SmallHeading"])
             table = Table(card, colWidths=[34 * mm, CONTENT_W - 34 * mm], hAlign="LEFT")
@@ -127,7 +137,7 @@ def parse_table(lines: list[str], styles):
     return [table, Spacer(1, 7)]
 
 
-def markdown_flows(path: Path, styles):
+def markdown_flows(path: Path, styles, revision: str):
     lines = path.read_text(encoding="utf-8-sig").splitlines()
     flows = []
     paragraph: list[str] = []
@@ -135,10 +145,13 @@ def markdown_flows(path: Path, styles):
     in_code = False
     i = 0
 
+    def markup(text: str) -> str:
+        return inline_markup(text, path, revision)
+
     def flush_paragraph():
         if paragraph:
             text = " ".join(line.strip() for line in paragraph)
-            flows.append(Paragraph(inline_markup(text), styles["BodyTextCustom"]))
+            flows.append(Paragraph(markup(text), styles["BodyTextCustom"]))
             flows.append(Spacer(1, 4))
             paragraph.clear()
 
@@ -168,14 +181,14 @@ def markdown_flows(path: Path, styles):
             while i < len(lines) and lines[i].startswith("|"):
                 table_lines.append(lines[i])
                 i += 1
-            flows.extend(parse_table(table_lines, styles))
+            flows.extend(parse_table(table_lines, styles, path, revision))
             continue
         heading = re.match(r"^(#{1,6})\s+(.*)$", line)
         if heading:
             flush_paragraph()
             level = len(heading.group(1))
             style = styles.get(f"Heading{min(level, 3)}", styles["Heading3Custom"])
-            flows.append(Paragraph(inline_markup(heading.group(2)), style))
+            flows.append(Paragraph(markup(heading.group(2)), style))
             i += 1
             continue
         if line.startswith("---") and len(line.strip()) >= 3:
@@ -186,12 +199,12 @@ def markdown_flows(path: Path, styles):
         if re.match(r"^\s*[-*]\s+", line) or re.match(r"^\s*\d+[.)]\s+", line):
             flush_paragraph()
             m = re.match(r"^\s*(?:[-*]|\d+[.)])\s+(.*)$", line)
-            flows.append(Paragraph("&#8226; " + inline_markup(m.group(1)), styles["ListCustom"]))
+            flows.append(Paragraph("&#8226; " + markup(m.group(1)), styles["ListCustom"]))
             i += 1
             continue
         if line.startswith("> "):
             flush_paragraph()
-            flows.append(Paragraph(inline_markup(line[2:]), styles["QuoteCustom"]))
+            flows.append(Paragraph(markup(line[2:]), styles["QuoteCustom"]))
             i += 1
             continue
         paragraph.append(line)
@@ -220,12 +233,13 @@ class ReportDoc(BaseDocTemplate):
         canvas.setFillColor(colors.HexColor("#536B78"))
         canvas.drawString(LEFT, PAGE_H - 10 * mm, "LIBRIS / SOFTWARE QUALITY ENGINEERING")
         canvas.line(LEFT, 12 * mm, PAGE_W - RIGHT, 12 * mm)
-        canvas.drawString(LEFT, 7.5 * mm, "Section B | 21 November 2026 | Release recommendation: HOLD")
+        canvas.drawString(LEFT, 7.5 * mm, "Section B | Libris circulation verification")
         canvas.drawRightString(PAGE_W - RIGHT, 7.5 * mm, f"Page {doc.page}")
         canvas.restoreState()
 
 
 def main():
+    revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     root = ROOT
     font_dir = Path("C:/Windows/Fonts")
     pdfmetrics.registerFont(TTFont("Arial", str(font_dir / "arial.ttf")))
@@ -280,33 +294,42 @@ def main():
                               ("TOPPADDING", (0, 0), (-1, -1), 10),
                               ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
     story += [band, Spacer(1, 12 * mm),
-              Paragraph("Prepared 22 November 2026", styles["CoverSub"]),
-              Paragraph("Public repository: https://github.com/Artfever/libris-SQE-Project", styles["BodyTextCustom"]),
-              Paragraph("This report includes Phase 4 results and the 22 November central-owner takeover of issues #9, #23, and #25. Release remains on HOLD because concurrent MySQL borrow/return is untested. The report does not claim peer authorship or personal oral-viva performance.", styles["BodyTextCustom"]),
+              Paragraph("Verification update: 26 November 2026", styles["CoverSub"]),
+              Paragraph(f'Public repository: <link href="{REPO}">{REPO}</link>', styles["BodyTextCustom"]),
+              Paragraph(f"Packaged revision: {revision}", styles["BodyTextCustom"]),
+              Paragraph("The final section gives the release decision and results against the three release criteria. Earlier evidence retains the scope and limitations of the original runs.", styles["BodyTextCustom"]),
               PageBreak()]
 
     sections = [
-        ("TEST_COMPLETION_REPORT.md", "Completion report"),
+        ("RUBRIC_EVIDENCE.md", "Rubric and current execution evidence"),
+        ("evidence/registration-2026-11-20.md", "Section B registration record"),
+        ("ENVIRONMENT.md", "Reproducible environment and upstream baseline"),
+        ("REPOSITORY_RULES.md", "Team and area ownership"),
+        ("TEST_COMPLETION_REPORT.md", "Historical completion report"),
         ("PHASE4_REPORT.md", "Phase 4 quality evidence"),
         ("TEST_BASIS.md", "Test basis and requirements"),
         ("USE_CASES.md", "Circulation use cases"),
         ("TEST_PLAN.md", "Risk-based test plan and release criteria"),
         ("TRACEABILITY_ESTIMATE.md", "Traceability and estimates"),
+        ("unit/README.md", "Line, branch, MCC and MC/DC evidence"),
+        ("api/README.md", "OpenAPI generator and integration instructions"),
         ("evidence/api-integration-2026-11-21.md", "API integration evidence"),
         ("evidence/defect-quality-metrics-2026-11-21.md", "Defect analyses and weekly metrics"),
         ("evidence/phase5-findings-remediation-2026-11-21.md", "Phase 5 finding triage and fixes"),
         ("evidence/central-takeover-2026-11-22.md", "Central-owner takeover and current verification"),
         ("evidence/pitest/README.md", "Mutation analysis"),
+        ("evidence/pitest/SURVIVOR_REVIEW.md", "Full mutant review"),
         ("evidence/sonarqube/README.md", "SonarQube analysis"),
+        ("evidence/ci-gate-demonstration-2026-11-21.md", "Red and corrected pull requests"),
         ("AI_USE.md", "AI-use record"),
-        ("VIVA_REHEARSAL.md", "Individual test and viva rehearsal"),
+        ("RELEASE_DECISION.md", "Final release decision"),
     ]
     for idx, (rel, title) in enumerate(sections):
         path = root / "tests" / "team" / rel
         if not path.is_file():
             raise FileNotFoundError(path)
-        story.append(Paragraph(f"Appendix {chr(65 + idx)} - {escape(title)}", styles["Heading1"]))
-        story.extend(markdown_flows(path, styles))
+        story.append(Paragraph(f"Section {idx + 1} - {escape(title)}", styles["Heading1"]))
+        story.extend(markdown_flows(path, styles, revision))
         if idx != len(sections) - 1:
             story.append(PageBreak())
     ReportDoc(OUT, styles).build(story)

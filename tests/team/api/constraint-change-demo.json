@@ -158,6 +158,17 @@
       "path": "/api/borrow-records",
       "location": "body",
       "field": "borrowerName",
+      "partition": "nonempty-string",
+      "value": "x",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
       "partition": "wrong-type",
       "value": {
         "not": "a string"
@@ -344,6 +355,17 @@
       "field": "borrowerName",
       "partition": "string",
       "value": "",
+      "schema_expected": "valid",
+      "note": ""
+    },
+    {
+      "operation": "borrowItem",
+      "method": "POST",
+      "path": "/api/borrow-records",
+      "location": "body",
+      "field": "borrowerName",
+      "partition": "nonempty-string",
+      "value": "x",
       "schema_expected": "valid",
       "note": ""
     },

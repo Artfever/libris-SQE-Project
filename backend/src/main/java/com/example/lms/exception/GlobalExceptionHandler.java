@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -81,6 +82,19 @@ public class GlobalExceptionHandler {
         400,
         "INVALID_REQUEST",
         "Request body is malformed or contains invalid values.",
+        r,
+        List.of());
+  }
+
+  @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+  @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+  ApiErrorResponse unsupportedMediaType(
+      HttpMediaTypeNotSupportedException e, HttpServletRequest r) {
+    log.warn("Unsupported request content type: uri={}", r.getRequestURI());
+    return error(
+        415,
+        "UNSUPPORTED_MEDIA_TYPE",
+        "Use a supported content type for this request.",
         r,
         List.of());
   }
