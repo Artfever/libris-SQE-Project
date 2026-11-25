@@ -74,6 +74,9 @@ def run(run_name):
                 page.locator("#issueItemBtn").click()
                 form = page.locator("#borrow-form")
                 expect(form).to_be_visible()
+                # Playwright's visible state can precede the end of the fade-in.
+                expect(page.locator("#modal-root .modal-backdrop")).to_have_css("opacity", "1")
+                expect(page.get_by_role("dialog")).to_have_css("opacity", "1")
                 scans.append(axe_scan(page, "borrow-modal", run_name, "#modal-root"))
 
                 item = form.get_by_label("Item")

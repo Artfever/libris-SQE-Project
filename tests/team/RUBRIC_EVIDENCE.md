@@ -90,6 +90,14 @@ comparison measures the matching heading improvement and records all three
 requested categories. Both result sets distinguish severity, user impact,
 and correction in the [Phase 4 report](PHASE4_REPORT.md).
 
+One [hosted scan](evidence/usability/axe-borrow-modal-linux-animation.json)
+captured the dialog while its backdrop and panel were still fading in.
+At that instant axe measured some text at 1.28–1.8:1. Playwright's visible
+assertion only established layout visibility. Both runners now wait for
+the real form and full opacity on the panel and backdrop, then run the
+same contrast rules. This controls the measurement timing without changing
+the application's colors or suppressing any rules. Control: PR-10.
+
 | Role | Action | Expected | Observed |
 | --- | --- | ---: | ---: |
 | Student A | Borrow book | 403 | 403 |

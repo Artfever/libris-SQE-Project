@@ -33,7 +33,9 @@ async function main() {
     await scan("borrow");
     await issue.click();
     const dialog = page.getByRole("dialog", { name: "Issue an item" });
-    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("#borrow-form")).toBeVisible();
+    await expect(page.locator("#modal-root .modal-backdrop")).toHaveCSS("opacity", "1");
+    await expect(dialog).toHaveCSS("opacity", "1");
     await scan("borrow-dialog");
     await dialog.getByLabel("Item").selectOption(`book:${bookId}`);
     await dialog.getByLabel("Student").selectOption(String(studentId));

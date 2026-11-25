@@ -1,0 +1,569 @@
+{
+  "url": "http://127.0.0.1:18086/borrow.html",
+  "label": "borrow-modal",
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#42474b",
+                "bgColor": "#1c2024",
+                "contrastRatio": 1.74,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"modal-header\"><h2 id=\"borrow-modal-title\" class=\"serif\">Issue an item</h2><button class=\"modal-close borrow-modal-close\" type=\"button\" aria-label=\"Close\">\u00d7</button></div>",
+                  "target": [
+                    ".modal-header"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.74 (foreground color: #42474b, background color: #1c2024, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h2 id=\"borrow-modal-title\" class=\"serif\">Issue an item</h2>",
+          "target": [
+            "#borrow-modal-title"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.74 (foreground color: #42474b, background color: #1c2024, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#42474b",
+                "bgColor": "#1a1e22",
+                "contrastRatio": 1.78,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<select name=\"item\" required=\"\">",
+                  "target": [
+                    "select[name=\"item\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.78 (foreground color: #42474b, background color: #1a1e22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<select name=\"item\" required=\"\">",
+          "target": [
+            "select[name=\"item\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.78 (foreground color: #42474b, background color: #1a1e22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#31373c",
+                "bgColor": "#1b1f22",
+                "contrastRatio": 1.37,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"borrow-modal-title\">",
+                  "target": [
+                    ".modal"
+                  ]
+                },
+                {
+                  "html": "<div class=\"modal-backdrop\" role=\"presentation\">",
+                  "target": [
+                    ".modal-backdrop"
+                  ]
+                },
+                {
+                  "html": "<section class=\"collection-panel\" aria-label=\"Borrow records\">",
+                  "target": [
+                    ".collection-panel"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span>Student *</span>",
+          "target": [
+            ".span-all.field:nth-child(2) > span"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#42474b",
+                "bgColor": "#191d21",
+                "contrastRatio": 1.8,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<select name=\"studentId\" required=\"\"><option value=\"\">Select a student</option><option value=\"1\">SQE Synthetic Student \u2014 sqe_student_eea78d79</option></select>",
+                  "target": [
+                    "select[name=\"studentId\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<select name=\"studentId\" required=\"\"><option value=\"\">Select a student</option><option value=\"1\">SQE Synthetic Student \u2014 sqe_student_eea78d79</option></select>",
+          "target": [
+            "select[name=\"studentId\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#31373c",
+                "bgColor": "#1b1f22",
+                "contrastRatio": 1.37,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"borrow-modal-title\">",
+                  "target": [
+                    ".modal"
+                  ]
+                },
+                {
+                  "html": "<div class=\"modal-backdrop\" role=\"presentation\">",
+                  "target": [
+                    ".modal-backdrop"
+                  ]
+                },
+                {
+                  "html": "<section class=\"collection-panel\" aria-label=\"Borrow records\">",
+                  "target": [
+                    ".collection-panel"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span>Issue date *</span>",
+          "target": [
+            ".field:nth-child(3) > span"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#42474b",
+                "bgColor": "#191d21",
+                "contrastRatio": 1.8,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<input name=\"borrowDate\" type=\"date\" value=\"2026-11-25\" required=\"\">",
+                  "target": [
+                    "input[name=\"borrowDate\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<input name=\"borrowDate\" type=\"date\" value=\"2026-11-25\" required=\"\">",
+          "target": [
+            "input[name=\"borrowDate\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#31373c",
+                "bgColor": "#1b1f22",
+                "contrastRatio": 1.37,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"borrow-modal-title\">",
+                  "target": [
+                    ".modal"
+                  ]
+                },
+                {
+                  "html": "<div class=\"modal-backdrop\" role=\"presentation\">",
+                  "target": [
+                    ".modal-backdrop"
+                  ]
+                },
+                {
+                  "html": "<section class=\"collection-panel\" aria-label=\"Borrow records\">",
+                  "target": [
+                    ".collection-panel"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span>Due date</span>",
+          "target": [
+            ".field:nth-child(4) > span"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#42474b",
+                "bgColor": "#191d21",
+                "contrastRatio": 1.8,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<input name=\"dueDate\" type=\"date\" value=\"2026-12-09\">",
+                  "target": [
+                    "input[name=\"dueDate\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<input name=\"dueDate\" type=\"date\" value=\"2026-12-09\">",
+          "target": [
+            "input[name=\"dueDate\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.8 (foreground color: #42474b, background color: #191d21, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#31373c",
+                "bgColor": "#1b1f22",
+                "contrastRatio": 1.37,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button class=\"btn-ghost borrow-modal-close\" type=\"button\">Cancel</button>",
+                  "target": [
+                    ".btn-ghost"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button class=\"btn-ghost borrow-modal-close\" type=\"button\">Cancel</button>",
+          "target": [
+            ".btn-ghost"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.37 (foreground color: #31373c, background color: #1b1f22, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#1c2125",
+                "bgColor": "#203829",
+                "contrastRatio": 1.28,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button class=\"btn-primary\" type=\"submit\">Issue item</button>",
+                  "target": [
+                    "button[type=\"submit\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.28 (foreground color: #1c2125, background color: #203829, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button class=\"btn-primary\" type=\"submit\">Issue item</button>",
+          "target": [
+            "button[type=\"submit\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.28 (foreground color: #1c2125, background color: #203829, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#31373c",
+                "bgColor": "#1c2024",
+                "contrastRatio": 1.35,
+                "fontSize": "15.0pt (20px)",
+                "fontWeight": "normal",
+                "messageKey": "shortTextContent",
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"modal-header\"><h2 id=\"borrow-modal-title\" class=\"serif\">Issue an item</h2><button class=\"modal-close borrow-modal-close\" type=\"button\" aria-label=\"Close\">\u00d7</button></div>",
+                  "target": [
+                    ".modal-header"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element content is too short to determine if it is actual text content"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button class=\"modal-close borrow-modal-close\" type=\"button\" aria-label=\"Close\">\u00d7</button>",
+          "target": [
+            ".modal-close"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": null,
+                "bgColor": null,
+                "contrastRatio": 0,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1",
+                "shadowColor": null,
+                "colorParse": null
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"borrow-modal-title\">",
+                  "target": [
+                    ".modal"
+                  ]
+                },
+                {
+                  "html": "<div class=\"modal-backdrop\" role=\"presentation\">",
+                  "target": [
+                    ".modal-backdrop"
+                  ]
+                },
+                {
+                  "html": "<section class=\"collection-panel\" aria-label=\"Borrow records\">",
+                  "target": [
+                    ".collection-panel"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span>Item *</span>",
+          "target": [
+            ".span-all.field:nth-child(1) > span"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        }
+      ]
+    },
+    {
+      "id": "label-content-name-mismatch",
+      "impact": "serious",
+      "tags": [
+        "cat.semantics",
+        "wcag21a",
+        "wcag253",
+        "EN-301-549",
+        "EN-9.2.5.3",
+        "RGAAv4",
+        "RGAA-6.1.5"
+      ],
+      "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+      "help": "Elements must have their visible text as part of their accessible name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "label-content-name-mismatch",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Unable to determine if the visible text is part of the accessible name"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button class=\"modal-close borrow-modal-close\" type=\"button\" aria-label=\"Close\">\u00d7</button>",
+          "target": [
+            ".modal-close"
+          ],
+          "failureSummary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name"
+        }
+      ]
+    }
+  ],
+  "passes": 19,
+  "inapplicable": 68
+}
