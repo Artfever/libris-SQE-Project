@@ -56,9 +56,9 @@ def inline_markup(text: str, source: Path | None = None, revision: str = "main")
         if token.startswith("`"):
             out.append(f'<font name="Code">{escape(token[1:-1])}</font>')
         elif token.startswith("**"):
-            out.append(f"<b>{escape(token[2:-2])}</b>")
+            out.append(f"<b>{inline_markup(token[2:-2], source, revision)}</b>")
         elif token.startswith("*"):
-            out.append(f"<i>{escape(token[1:-1])}</i>")
+            out.append(f"<i>{inline_markup(token[1:-1], source, revision)}</i>")
         else:
             m = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", token)
             label, href = m.group(1), m.group(2)
@@ -199,7 +199,10 @@ def markdown_flows(path: Path, styles, revision: str):
             flows.append(Spacer(1, 5))
             i += 1
             continue
-        if re.match(r"^\s*[-*]\s+", line) or re.match(r"^\s*\d+[.)]\s+", line):
+        unordered_list = re.match(r"^\s*[-*]\s+", line)
+        ordered_list = re.match(r"^\s*\d+[.)]\s+", line)
+        starts_with_one = re.match(r"^\s*1[.)]\s+", line)
+        if unordered_list or (ordered_list and (not paragraph or starts_with_one)):
             flush_paragraph()
             m = re.match(r"^\s*(?:[-*]|\d+[.)])\s+(.*)$", line)
             flows.append(Paragraph("&#8226; " + markup(m.group(1)), styles["ListCustom"]))
