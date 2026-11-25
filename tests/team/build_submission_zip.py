@@ -41,6 +41,25 @@ def package_history(out, commit):
                 out.write(path, Path("libris-SQE-Project") / path.relative_to(root))
 
 
+def package_source(out, commit):
+    # Archive committed blobs so a Windows checkout cannot change line endings
+    # or executable modes in the source viewed by a Linux grader.
+    with tempfile.TemporaryDirectory(prefix="libris-sqe-source-") as scratch:
+        source = Path(scratch) / "source.zip"
+        subprocess.run(
+            ["git", "archive", "--format=zip", "--prefix=libris-SQE-Project/",
+             f"--output={source}", commit],
+            cwd=ROOT, check=True,
+        )
+        with zipfile.ZipFile(source) as snapshot:
+            for entry in snapshot.infolist():
+                if entry.is_dir() or any(part in EXCLUDED_DIRS for part in Path(entry.filename).parts):
+                    continue
+                entry.compress_type = out.compression
+                with snapshot.open(entry) as original, out.open(entry, "w") as destination:
+                    copyfileobj(original, destination)
+
+
 def main() -> None:
     status = subprocess.check_output(
         ["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, text=True
@@ -54,28 +73,8 @@ def main() -> None:
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
     ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
-    tracked = subprocess.check_output(
-        ["git", "ls-files", "--stage", "-z"], cwd=ROOT
-    ).decode("utf-8").split("\0")
     with zipfile.ZipFile(ARCHIVE, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as out:
-        for entry in tracked:
-            if not entry:
-                continue
-            metadata, rel_text = entry.split("\t", 1)
-            mode, _, stage = metadata.split()
-            if stage != "0":
-                raise RuntimeError(f"Unmerged index stages for {rel_text}")
-            rel = Path(rel_text)
-            if any(part in EXCLUDED_DIRS for part in rel.parts):
-                continue
-            path = ROOT / rel
-            if path.is_file():
-                info = zipfile.ZipInfo.from_file(path, Path("libris-SQE-Project") / rel)
-                info.create_system = 3
-                info.external_attr = int(mode, 8) << 16
-                info.compress_type = out.compression
-                with path.open("rb") as source, out.open(info, "w") as destination:
-                    copyfileobj(source, destination)
+        package_source(out, commit)
         out.write(PDF, Path("libris-SQE-Project") / PDF.relative_to(ROOT))
         package_history(out, commit)
         out.writestr(
