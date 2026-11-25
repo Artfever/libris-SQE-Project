@@ -97,7 +97,8 @@ def parse_table(lines: list[str], styles, source: Path, revision: str):
     rows = [r + [""] * (cols - len(r)) for r in rows]
     header = rows[0]
     body = rows[1:]
-    if cols > 3:
+    risk_matrix = cols == 6 and header[0] == "Likelihood / impact"
+    if cols > 3 and not risk_matrix:
         flow = []
         for n, row in enumerate(body, 1):
             card = [[Paragraph(f"<b>{markup(header[i])}</b>", styles["TableKey"]),
@@ -122,6 +123,8 @@ def parse_table(lines: list[str], styles, source: Path, revision: str):
         widths = [CONTENT_W * 0.31, CONTENT_W * 0.69]
     elif cols == 3:
         widths = [CONTENT_W * 0.22, CONTENT_W * 0.45, CONTENT_W * 0.33]
+    elif risk_matrix:
+        widths = [CONTENT_W * share for share in (0.18, 0.10, 0.10, 0.23, 0.24, 0.15)]
     table = Table(data, colWidths=widths, repeatRows=1, hAlign="LEFT", splitByRow=1)
     table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#173B57")),

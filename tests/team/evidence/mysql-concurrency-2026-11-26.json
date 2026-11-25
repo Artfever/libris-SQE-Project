@@ -1,0 +1,69 @@
+{
+  "mysql_version": "8.4.11",
+  "flyway_fresh_schema": true,
+  "races": [
+    {
+      "item": "book",
+      "borrow_http": [
+        201,
+        400
+      ],
+      "borrow_rejection": "UNAVAILABLE",
+      "return_http": [
+        204,
+        400
+      ],
+      "return_rejection": "ALREADY_RETURNED",
+      "borrow_simultaneous_waiters": 2,
+      "return_simultaneous_waiters": 2,
+      "loan_id": 1,
+      "final_available": true,
+      "final_loan_status": "RETURNED"
+    },
+    {
+      "item": "magazine",
+      "borrow_http": [
+        201,
+        400
+      ],
+      "borrow_rejection": "UNAVAILABLE",
+      "return_http": [
+        204,
+        400
+      ],
+      "return_rejection": "ALREADY_RETURNED",
+      "borrow_simultaneous_waiters": 2,
+      "return_simultaneous_waiters": 2,
+      "loan_id": 2,
+      "final_available": true,
+      "final_loan_status": "RETURNED"
+    },
+    {
+      "item": "newspaper",
+      "borrow_http": [
+        201,
+        400
+      ],
+      "borrow_rejection": "UNAVAILABLE",
+      "return_http": [
+        204,
+        400
+      ],
+      "return_rejection": "ALREADY_RETURNED",
+      "borrow_simultaneous_waiters": 2,
+      "return_simultaneous_waiters": 2,
+      "loan_id": 3,
+      "final_available": true,
+      "final_loan_status": "RETURNED"
+    }
+  ],
+  "borrow_timeout_http": 409,
+  "return_timeout_http": 409,
+  "conflict_code": "CONCURRENT_MODIFY",
+  "retry_http": [
+    201,
+    204
+  ],
+  "failed_writes_preserved_state": true,
+  "final_returned_loans": 4
+}

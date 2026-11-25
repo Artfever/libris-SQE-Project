@@ -46,6 +46,16 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Warm Maven Wrapper distribution
+        run: |
+          for attempt in 1 2 3; do
+            if ./mvnw --version; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+
       - name: Run team circulation unit tests
         run: ./mvnw -B clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest,TeamRecoveryTest
         working-directory: backend

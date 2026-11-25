@@ -110,3 +110,37 @@ takeover, refreshed GQM values, current issue state, and single-owner triage are
 recorded in [`central-takeover-2026-11-22.md`](central-takeover-2026-11-22.md).
 No deployment pipeline exists in this repository; CI blocks merges through
 branch rules and there is no automated deploy job to block.
+
+## Additional root-cause documentation for the security findings
+
+**#46, missing response policy (Medium/P2, high product risk PR-11).**
+Five Whys: the browser had no application CSP because the response chain
+never set it. The response chain had no policy configuration for this
+static frontend. Existing static pages and the shared shell used inline
+assets and an external stylesheet, so a restrictive policy needed both a
+configuration and resource change. Baseline checks did not assert CSP.
+The gate could pass before the policy was verified. The source and regression
+changes in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50)
+demonstrate the policy and compatibility work.
+Fishbone factors: configuration (header absent), frontend assets (inline
+blocks and external fonts), testing (no policy assertion), measurement
+(passive observation became available later). Correct by externalizing the
+assets and asserting the strict header. Prevent regression by retaining
+the header test, passive scan, and same-origin asset convention.
+
+**#47, stale resolved packages (High initial triage/P1, PR-11).**
+Five Whys: the scanner flagged affected versions present in the resolved
+Maven graph. Those versions were present through pinned application
+dependencies and the inherited dependency management. The audited baseline
+still selected those versions. Package resolution alone checks availability
+of versioned artifacts and does not assess advisory applicability. At the
+baseline, there was no checked-in result from a recurring resolved-package
+advisory review. The configuration and inventory establish the technical
+chain. Historical reasons for individual upgrade timing are unrecorded.
+Fishbone factors: dependency selection (managed and direct versions),
+process (inventory and applicability review absent from baseline evidence),
+measurement (packages must be checked after resolution), and policy
+(versions should be reviewed against fixes). Correct by upgrading verified
+affected families, rerunning tests, and recording applicability. Prevent
+recurrence with versioned inventories, recurring advisory review, and a
+tracked decision for each applicable observation.

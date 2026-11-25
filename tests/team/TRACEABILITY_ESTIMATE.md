@@ -79,3 +79,28 @@ guide is usable. MySQL, browser, and mutation tooling may increase actuals.
 - [x] Map each requirement/rule to planned tests, risks, owner, and evidence placeholder.
 - [ ] Record actual person-hour effort. The takeover did not invent or infer hours; no time log was available.
 
+
+## Follow-up traceability and estimates
+
+`T-BORROW-CONCURRENT` and `T-RETURN-CONCURRENT` now pass for all three
+catalogue types on [disposable MySQL 8.4.11](evidence/mysql-concurrency-2026-11-26.json).
+Both forced lock timeouts returned 409 and preserved state. FR-R04 now
+includes [two-student isolation](evidence/security/roles-playwright-2026-11-26.json)
+with both students' records present. The unsupported request media type
+case extends FR-B02 and PR-05. These results supersede the pending entries
+above for the current evidence set.
+
+The historical planning table covers test management. The following values
+are planning scenarios for repeating the technical work, in person-hours.
+No entries are represented as hours actually worked.
+
+| Verification area | Optimistic | Most likely | Pessimistic | PERT expected | Actual |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Sonar, white-box, mutation, and CI | 3 | 5 | 9 | 5.3 | Not captured |
+| API generation, integration, and MySQL | 3 | 5 | 9 | 5.3 | Not captured |
+| Browser, usability, and defensive security | 4 | 6 | 10 | 6.3 | Not captured |
+| Performance and controlled recovery | 2 | 3 | 6 | 3.3 | Not captured |
+
+Environment installation, dependency indexing, and hosted CI feedback
+account for the larger upper bounds. Compare actual time only when team
+records identify real work duration by area.
