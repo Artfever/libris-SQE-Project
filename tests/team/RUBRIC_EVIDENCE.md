@@ -27,7 +27,7 @@ native MySQL 8.4.11 suite with Connector/J 26.10.0.
 ## Static analysis and CI thresholds
 
 SonarQube Community Build 26.11 and SonarScanner for Maven 5.5.0.6356
-analyzed application revision `ddd2c0a526ae9bf250fa1bfd6f5ef1dc80df2464`.
+analyzed merged main revision `c009f80656f4b8282fe72b6dd9daf35995a6986e`.
 The [raw measurements](evidence/sonarqube/rubric-2026-11-26/project.json)
 and [gate export](evidence/sonarqube/rubric-2026-11-26/gate.json) record
 coverage 87.7% against an 85% floor and duplication 1.7% against a 3%
