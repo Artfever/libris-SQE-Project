@@ -51,7 +51,8 @@ to verify the returned row through the student history endpoint.
 Codex drafted and ran the browser flows for the request to complete the
 assigned issues. It inspected the UI and persisted records, fixed the
 empty-screen heading match and stale row selector, and reran the suite. Under
-Abdullah's 2026-11-22 central-owner takeover, all six use-case specifications
-are also authored under Abdullah; no peer authorship or review is claimed. The
-fresh 30-test result and attribution boundary are recorded in
+Abdullah's 2026-11-22 central-owner takeover, Abdullah consolidated the final
+specification text. The original assigned workflow contributions are credited
+in `USE_CASES.md`; Taha confirmed that he and Shaheer completed their assigned
+pairs. The fresh 30-test result and attribution boundary are recorded in
 [`../evidence/central-takeover-2026-11-22.md`](../evidence/central-takeover-2026-11-22.md).

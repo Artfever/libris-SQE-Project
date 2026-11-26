@@ -16,11 +16,12 @@ The repository owner assigned these phase owners on 21 November 2026. The issue 
 
 On 22 November 2026, `@Abdullah-SE-bit` explicitly requested that the remaining
 work previously allocated to other members be completed by the central owner.
-For this completion run, the six use cases, consolidated defect triage, weekly
-metrics, package, and technical mock viva are authored and verified under
-Abdullah's identity with Codex assistance. The prior three-person distribution
-is superseded for these deliverables. Do not add co-author credit or claim that
-another member personally reviewed, tested, or rehearsed. The takeover record is
+For this completion run, Abdullah consolidated the six specifications,
+consolidated defect triage, weekly metrics, package, and technical mock viva
+with Codex assistance. The original two-workflow assignments remain credited
+in `USE_CASES.md`; Taha confirmed completion of his and Shaheer's assigned
+pairs. Do not add commit co-author trailers or claim that another member
+reviewed, tested, or rehearsed the consolidated artifacts. The takeover record is
 [`evidence/central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
 No human oral viva performance is claimed.
 

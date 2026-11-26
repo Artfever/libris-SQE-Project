@@ -74,7 +74,7 @@ guide is usable. MySQL, browser, and mutation tooling may increase actuals.
 
 - [x] Draft at least eight requirements across both workflows, with more than three per workflow.
 - [x] Draft at least four source-backed rules, including boundary, two-condition decision, and state transition.
-- [x] Prepare and complete six numbered use cases with preconditions, main, alternate, exception, and persisted postconditions; all are centrally authored under the documented 2026-11-22 takeover.
+- [x] Prepare and complete six numbered use cases with preconditions, main, alternate, exception, and persisted postconditions; the final specifications were centrally consolidated under the documented 2026-11-22 takeover, with the original assigned workflow pairs credited separately in `USE_CASES.md`.
 - [x] Draft the risk plan, eight product risks, two project risks, 5×5 scores, controls, owners, and measurable criteria.
 - [x] Map each requirement/rule to planned tests, risks, owner, and evidence placeholder.
 - [x] Record reported actual person-hours and compare them with estimates where the scopes align.

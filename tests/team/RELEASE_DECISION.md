@@ -1,11 +1,12 @@
 # Circulation release decision
 
 **Product release decision: HOLD.** The selected circulation criteria passed
-in disposable H2 and MySQL. [Hosted CI on the draft PR](https://github.com/Artfever/libris-SQE-Project/actions/runs/45762750668)
-passed all nine checks, including the revised aggregate gate. A production
-release still requires a successful main-branch run for the actual release
-revision, review of the applicable dependency findings, and the operator's
-backup, migration, and smoke checks.
+in disposable H2 and MySQL. Main commit
+`52b9f3dea20759532f5a581ea6eb9a31545369cf` passed all nine CI jobs in
+[the main-branch run](https://github.com/Artfever/libris-SQE-Project/actions/runs/45868512051),
+including the required aggregate gate. Production release still requires
+review of the applicable dependency findings and the operator's backup,
+migration, and smoke checks.
 
 | Release criterion | Target defined in the test plan | Actual against target | Decision |
 | --- | --- | --- | --- |
@@ -20,6 +21,7 @@ and [recovery report](evidence/recovery/TEST-com.example.lms.team.TeamRecoveryTe
 See the [current rubric and residual-risk review](RUBRIC_EVIDENCE.md) for test
 scope, package readiness, and accountable follow-up.
 
-**Keep the product release on HOLD until the release revision passes the
-main-branch gate, dependency dispositions are reviewed, and the operator
-completes the deployment preflight.**
+**Keep the product release on HOLD until dependency dispositions are reviewed
+and the operator completes the deployment preflight.** The current main
+revision has passed CI; `scripts/check-release-ci.py` blocks the manual release
+preflight if the exact revision lacks a successful run or any required job.

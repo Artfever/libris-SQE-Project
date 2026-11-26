@@ -1,11 +1,16 @@
 # Circulation use cases
 
-These six use-case specifications are centrally owned and authored by Abdullah
-Adnan (24I-3020) under his explicit contribution-takeover instruction on
-2026-11-22. Codex assisted with drafting, source checks, and test execution; see
-`AI_USE.md`. This replaces the previous allocation of two use cases per member
-for this completion run. No work or review is attributed to Muhammad Shaheer or
-Taha Sohail.
+These six specifications were consolidated by Abdullah Adnan (24I-3020) under
+the contribution-takeover instruction recorded on 2026-11-22. That consolidation
+does not erase the original two-workflow allocation or the work completed in
+those assigned pairs: Muhammad Shaheer completed UC-01/UC-04 (book borrow and
+return), Taha Sohail completed UC-02/UC-05 (magazine borrow and return), and
+Abdullah Adnan completed UC-03/UC-06 (newspaper borrow and return). Taha
+confirmed the pair completion; the contribution record links related issue and
+pull-request evidence. Codex assisted Abdullah with consolidating the
+specification text, source checks, and test execution; see `AI_USE.md`. The
+individual case entries below identify workflow contributors and the editor of
+the consolidated specifications separately.
 
 Common conventions: staff actor means `ADMIN` or `LIBRARIAN`; requests are
 same-origin and authenticated with a valid CSRF token. Postconditions refer to
@@ -13,7 +18,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-01 — Borrow an available book
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central takeover)
+- **Workflow contributor:** Muhammad Shaheer (24I-3063; original assigned pair). **Consolidated specification editor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020).
 - **Links:** FR-B01–FR-B06; BR-C01–BR-C03; risks PR-01, PR-02, PR-03
 - **Actor:** Librarian
 - **Preconditions:** Student exists; book exists and is available; actor has a staff role; CSRF token is current.
@@ -24,7 +29,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-02 — Borrow an available magazine
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central takeover)
+- **Workflow contributor:** Taha Sohail (24I-3165; original assigned pair). **Consolidated specification editor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020).
 - **Links:** FR-B01–FR-B06; BR-C01–BR-C03; risks PR-01, PR-02, PR-03
 - **Actor:** Administrator
 - **Preconditions:** Student and available magazine exist; actor has staff role; valid session and CSRF token.
@@ -35,7 +40,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-03 — Borrow an available newspaper
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central owner)
+- **Workflow contributor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020). **Consolidated specification editor:** Abdullah Adnan.
 - **Links:** FR-B01–FR-B06; BR-C01–BR-C03; risks PR-01, PR-02, PR-03
 - **Actor:** Librarian
 - **Preconditions:** The student and newspaper exist; the newspaper is available; the caller is authenticated as `LIBRARIAN`; a current CSRF token is present.
@@ -46,7 +51,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-04 — Return a borrowed book
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central takeover)
+- **Workflow contributor:** Muhammad Shaheer (24I-3063; original assigned pair). **Consolidated specification editor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020).
 - **Links:** FR-R01–FR-R06; BR-C04; risks PR-04, PR-05, PR-06
 - **Actor:** Librarian
 - **Preconditions:** An active record references a book currently marked unavailable; actor has staff role; valid session and CSRF token.
@@ -57,7 +62,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-05 — Return a borrowed magazine
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central takeover)
+- **Workflow contributor:** Taha Sohail (24I-3165; original assigned pair). **Consolidated specification editor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020).
 - **Links:** FR-R01–FR-R06; BR-C04; risks PR-04, PR-05, PR-06
 - **Actor:** Administrator
 - **Preconditions:** Active borrow record references an unavailable magazine; staff session and valid CSRF token.
@@ -68,7 +73,7 @@ persisted database state, not only the HTTP response.
 
 ## UC-06 — Return a borrowed newspaper
 
-- **Author/owner:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020; central owner)
+- **Workflow contributor:** Abdullah Adnan (`@Abdullah-SE-bit`, 24I-3020). **Consolidated specification editor:** Abdullah Adnan.
 - **Links:** FR-R01–FR-R06; BR-C04; risks PR-04, PR-05, PR-06
 - **Actor:** Librarian
 - **Preconditions:** An active borrow record references a newspaper currently marked unavailable; the caller is authenticated as `LIBRARIAN`; a current CSRF token is present.

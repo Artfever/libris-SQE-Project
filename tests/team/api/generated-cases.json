@@ -3,6 +3,30 @@
     "operation": "borrowItem",
     "method": "POST",
     "path": "/api/borrow-records",
+    "location": "requestBody",
+    "field": "$requestBody",
+    "partition": "omitted",
+    "value": {
+      "$omit": true
+    },
+    "schema_expected": "invalid"
+  },
+  {
+    "operation": "borrowItem",
+    "method": "POST",
+    "path": "/api/borrow-records",
+    "location": "requestBody",
+    "field": "$requestBody",
+    "partition": "null-body",
+    "value": {
+      "$raw-json": "null"
+    },
+    "schema_expected": "invalid"
+  },
+  {
+    "operation": "borrowItem",
+    "method": "POST",
+    "path": "/api/borrow-records",
     "location": "body",
     "field": "bookId",
     "partition": "omitted",

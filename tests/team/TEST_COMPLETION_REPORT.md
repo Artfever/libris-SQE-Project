@@ -24,9 +24,11 @@ gates. Phase 4 evidence is available in `PHASE4_REPORT.md`; Phase 5 follow-up
 triage and locally verified fixes for #44–#47 are in
 `evidence/phase5-findings-remediation-2026-11-21.md`. On 22 November, the issue
 assignee directed a central-owner takeover of the remaining #9, #23, and #25
-deliverables. The six use cases, consolidated triage, package, fresh test runs,
-and technical mock viva are now authored under Abdullah Adnan with Codex
-assistance; no peer authorship or personal oral performance is claimed. See
+deliverables. Abdullah consolidated the final use-case text, triage, package,
+fresh test runs, and technical mock viva with Codex assistance. The original
+assigned workflow pairs are credited separately in `USE_CASES.md`; Taha
+confirmed that he and Shaheer completed their pairs. No peer review of the
+consolidated artifacts or personal oral performance is claimed. See
 `evidence/central-takeover-2026-11-22.md`. Issues #9, #23, and #25 were closed
 after PR #54 merged with that ownership boundary stated in their close comments.
 Release remains on HOLD because the planned concurrent MySQL borrow/return

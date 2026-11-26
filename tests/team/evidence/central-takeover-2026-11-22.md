@@ -7,23 +7,27 @@
 ## Ownership and attribution
 
 At Abdullah's explicit direction, the outstanding contribution work for issues
-#9, #23, and #25 is consolidated under one owner. The use cases, defect triage,
-metrics, package updates, test runs, and mock viva answers in this takeover are
-attributed to Abdullah with Codex assistance, as disclosed in `AI_USE.md`.
-Nothing here claims that Muhammad Shaheer or Taha Sohail authored, reviewed,
-tested, or rehearsed any part of the work. This supersedes the earlier planned
-two-use-cases-per-member and all-member-triage allocation for this completion
-run. After PR #54 merged, issues #9, #23, and #25 were closed with comments
-linking this evidence and stating the single-owner attribution boundary.
+#9, #23, and #25 was consolidated under one owner. The use-case text, defect
+triage, metrics, package updates, test runs, and mock viva answers in this
+takeover are attributed to Abdullah with Codex assistance, as disclosed in
+`AI_USE.md`. This records ownership of the consolidated completion artifacts;
+it does not retract the original member workflow assignments. Taha later
+confirmed that he completed his assigned UC-02/UC-05 pair and that Muhammad
+Shaheer completed UC-01/UC-04. The distinction between the original workflow
+contributions and Abdullah's later consolidated specification editing is
+recorded in `../USE_CASES.md` and `../RUBRIC_EVIDENCE.md`. After PR #54 merged,
+issues #9, #23, and #25 were closed with comments linking this evidence and
+stating the single-owner boundary for the takeover artifacts.
 
 ## Issue #9: six circulation use cases
 
-All six cases in `USE_CASES.md` now have Abdullah as author/owner and include
-actor, preconditions, main flow, two alternate flows, two exception flows,
-persisted postconditions, and FR/BR/risk links. The table in
-`browser/README.md` maps each case to its browser main, alternate, and exception
-coverage. API integration coverage verifies item selection, availability,
-history persistence, authorization, invalid requests, and date behavior.
+All six cases in `USE_CASES.md` were consolidated by Abdullah and include actor,
+preconditions, main flow, two alternate flows, two exception flows, persisted
+postconditions, and FR/BR/risk links. The original assigned workflow pairs are
+credited separately in that file. The table in `browser/README.md` maps each
+case to its browser main, alternate, and exception coverage. API integration
+coverage verifies item selection, availability, history persistence,
+authorization, invalid requests, and date behavior.
 
 The current 30-case Playwright run passed on the source commit above. The six
 case specifications are committed by one named contributor in this takeover;
