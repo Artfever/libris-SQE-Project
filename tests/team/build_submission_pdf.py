@@ -2,8 +2,6 @@
 
 import re
 import subprocess
-import sys
-import unicodedata
 from pathlib import Path
 from urllib.parse import quote
 from xml.sax.saxutils import escape
@@ -11,13 +9,14 @@ from xml.sax.saxutils import escape
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
+    Image,
     KeepTogether,
     PageBreak,
     PageTemplate,
@@ -32,10 +31,9 @@ from reportlab.platypus.tableofcontents import TableOfContents
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "output" / "pdf" / "Project_24I-3020_24I-3063_24I-3165_B.pdf"
 REPO = "https://github.com/Artfever/libris-SQE-Project"
+FAST_LOGO = Path(__file__).with_name("assets") / "fast-logo-black.png"
 PAGE_W, PAGE_H = A4
-LEFT = RIGHT = 19 * mm
-TOP = 20 * mm
-BOTTOM = 18 * mm
+LEFT = RIGHT = TOP = BOTTOM = 25.4 * mm
 CONTENT_W = PAGE_W - LEFT - RIGHT
 
 
@@ -71,7 +69,7 @@ def inline_markup(text: str, source: Path | None = None, revision: str = "main")
                     href = f"{REPO}/{route}/{revision}/{quote(destination.relative_to(ROOT).as_posix())}"
             href = escape(href, {"\"": "&quot;"})
             if href.startswith(("https://", "http://", "mailto:")):
-                out.append(f'<link href="{href}" color="#176B87">{label}</link>')
+                out.append(f'<link href="{href}"><u>{label}</u></link>')
             else:
                 out.append(label)
         pos = match.end()
@@ -99,23 +97,23 @@ def parse_table(lines: list[str], styles, source: Path, revision: str):
     header = rows[0]
     body = rows[1:]
     risk_matrix = cols == 6 and header[0] == "Likelihood / impact"
-    if cols > 3 and not risk_matrix:
+    if cols > 4 and not risk_matrix:
         flow = []
-        for n, row in enumerate(body, 1):
+        for row in body:
             card = [[Paragraph(f"<b>{markup(header[i])}</b>", styles["TableKey"]),
                      cell_text(row[i], styles["TableCell"])] for i in range(cols)]
-            title = Paragraph(f"<b>Record {n}</b>", styles["SmallHeading"])
-            table = Table(card, colWidths=[34 * mm, CONTENT_W - 34 * mm], hAlign="LEFT")
+            label_width = 37 * mm
+            table = Table(card, colWidths=[label_width, CONTENT_W - label_width], hAlign="LEFT")
             table.setStyle(TableStyle([
-                ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#EEF4F6")),
-                ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#C8D6DC")),
+                ("LINEABOVE", (0, 0), (-1, 0), 0.5, colors.black),
+                ("LINEBELOW", (0, -1), (-1, -1), 0.35, colors.black),
                 ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ("LEFTPADDING", (0, 0), (-1, -1), 6),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 6),
                 ("TOPPADDING", (0, 0), (-1, -1), 4),
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
             ]))
-            flow.extend([KeepTogether([title, table]), Spacer(1, 5)])
+            flow.extend([KeepTogether([table]), Spacer(1, 9)])
         return flow
     data = [[cell_text(c, styles["TableHeader"]) for c in header]]
     data += [[cell_text(c, styles["TableCell"]) for c in row] for row in body]
@@ -124,25 +122,32 @@ def parse_table(lines: list[str], styles, source: Path, revision: str):
         widths = [CONTENT_W * 0.31, CONTENT_W * 0.69]
     elif cols == 3:
         widths = [CONTENT_W * 0.22, CONTENT_W * 0.45, CONTENT_W * 0.33]
+    elif cols == 4 and header[0] == "Release criterion":
+        widths = [CONTENT_W * share for share in (0.17, 0.27, 0.36, 0.20)]
     elif risk_matrix:
         widths = [CONTENT_W * share for share in (0.18, 0.10, 0.10, 0.23, 0.24, 0.15)]
     table = Table(data, colWidths=widths, repeatRows=1, hAlign="LEFT", splitByRow=1)
-    table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#173B57")),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#F4F7F8")]),
-        ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#C8D6DC")),
+    rules = [
+        ("LINEABOVE", (0, 0), (-1, 0), 0.65, colors.black),
+        ("LINEBELOW", (0, 0), (-1, 0), 0.55, colors.black),
+        ("LINEBELOW", (0, -1), (-1, -1), 0.55, colors.black),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ("LEFTPADDING", (0, 0), (-1, -1), 5),
         ("RIGHTPADDING", (0, 0), (-1, -1), 5),
         ("TOPPADDING", (0, 0), (-1, -1), 5),
         ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-    ]))
+    ]
+    if len(data) > 2:
+        rules.append(("LINEABOVE", (0, 2), (-1, -1), 0.25, colors.black))
+    table.setStyle(TableStyle(rules))
     return [table, Spacer(1, 7)]
 
 
 def markdown_flows(path: Path, styles, revision: str):
     lines = path.read_text(encoding="utf-8-sig").splitlines()
+    # The generated section heading already names each imported document.
+    if lines and lines[0].startswith("# "):
+        lines = lines[1:]
     flows = []
     paragraph: list[str] = []
     code: list[str] = []
@@ -165,7 +170,7 @@ def markdown_flows(path: Path, styles, revision: str):
             flush_paragraph()
             if in_code:
                 code_text = plain("\n".join(code))
-                flows.append(Preformatted(code_text, styles["CodeBlock"], maxLineLength=100))
+                flows.append(Preformatted(code_text, styles["CodeBlock"], maxLineLength=84))
                 flows.append(Spacer(1, 5))
                 code.clear()
             in_code = not in_code
@@ -191,7 +196,7 @@ def markdown_flows(path: Path, styles, revision: str):
         if heading:
             flush_paragraph()
             level = len(heading.group(1))
-            style = styles.get(f"Heading{min(level, 3)}", styles["Heading3Custom"])
+            style = styles[f"Heading{max(2, min(level, 3))}"]
             flows.append(Paragraph(markup(heading.group(2)), style))
             i += 1
             continue
@@ -206,8 +211,18 @@ def markdown_flows(path: Path, styles, revision: str):
         if unordered_list or (ordered_list and (not paragraph or starts_with_one)):
             flush_paragraph()
             m = re.match(r"^\s*(?:[-*]|\d+[.)])\s+(.*)$", line)
-            flows.append(Paragraph("&#8226; " + markup(m.group(1)), styles["ListCustom"]))
+            marker = line.strip().split(maxsplit=1)[0] if ordered_list else "\u2022"
+            item = [m.group(1)]
             i += 1
+            while i < len(lines):
+                continuation = lines[i]
+                if not re.match(r"^\s{2,}\S", continuation):
+                    break
+                if re.match(r"^(?:[-*]|\d+[.)])\s+|^```", continuation.lstrip()):
+                    break
+                item.append(continuation.strip())
+                i += 1
+            flows.append(Paragraph(markup(" ".join(item)), styles["ListCustom"], bulletText=marker))
             continue
         if line.startswith("> "):
             flush_paragraph()
@@ -218,7 +233,7 @@ def markdown_flows(path: Path, styles, revision: str):
         i += 1
     flush_paragraph()
     if in_code and code:
-        flows.append(Preformatted(plain("\n".join(code)), styles["CodeBlock"], maxLineLength=100))
+        flows.append(Preformatted(plain("\n".join(code)), styles["CodeBlock"], maxLineLength=84))
     return flows
 
 
@@ -227,7 +242,8 @@ class ReportDoc(BaseDocTemplate):
         super().__init__(str(filename), pagesize=A4, leftMargin=LEFT, rightMargin=RIGHT,
                          topMargin=TOP, bottomMargin=BOTTOM, title="Libris Circulation SQE Report",
                          author="Libris SQE Team - Section B")
-        frame = Frame(LEFT, BOTTOM, CONTENT_W, PAGE_H - TOP - BOTTOM, id="normal")
+        frame = Frame(LEFT, BOTTOM, CONTENT_W, PAGE_H - TOP - BOTTOM, id="normal",
+                      leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
         self.addPageTemplates([PageTemplate(id="main", frames=[frame], onPage=self.draw_page)])
         self.styles = styles
 
@@ -240,16 +256,19 @@ class ReportDoc(BaseDocTemplate):
             self.notify("TOCEntry", (0, title, self.page, key))
 
     def draw_page(self, canvas, doc):
+        if doc.page == 1:
+            return
         canvas.saveState()
-        canvas.setStrokeColor(colors.HexColor("#D5E0E5"))
-        canvas.setLineWidth(0.6)
-        canvas.line(LEFT, PAGE_H - 13 * mm, PAGE_W - RIGHT, PAGE_H - 13 * mm)
-        canvas.setFont("Arial", 8)
-        canvas.setFillColor(colors.HexColor("#536B78"))
-        canvas.drawString(LEFT, PAGE_H - 10 * mm, "LIBRIS / SOFTWARE QUALITY ENGINEERING")
-        canvas.line(LEFT, 12 * mm, PAGE_W - RIGHT, 12 * mm)
-        canvas.drawString(LEFT, 7.5 * mm, "Section B | Libris circulation verification")
-        canvas.drawRightString(PAGE_W - RIGHT, 7.5 * mm, f"Page {doc.page}")
+        canvas.setStrokeColor(colors.black)
+        canvas.setFillColor(colors.black)
+        canvas.setLineWidth(0.35)
+        canvas.setFont("Report", 9)
+        canvas.drawString(LEFT, PAGE_H - 15 * mm, "SE3002 | Software Quality Engineering")
+        canvas.drawRightString(PAGE_W - RIGHT, PAGE_H - 15 * mm, "Libris Circulation")
+        canvas.line(LEFT, PAGE_H - 18 * mm, PAGE_W - RIGHT, PAGE_H - 18 * mm)
+        canvas.line(LEFT, 18 * mm, PAGE_W - RIGHT, 18 * mm)
+        canvas.drawString(LEFT, 13 * mm, "FAST NUCES | Fall 2026 | Section B")
+        canvas.drawRightString(PAGE_W - RIGHT, 13 * mm, f"Page {doc.page}")
         canvas.restoreState()
 
 
@@ -257,68 +276,66 @@ def main():
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     root = ROOT
     font_dir = Path("C:/Windows/Fonts")
-    pdfmetrics.registerFont(TTFont("Arial", str(font_dir / "arial.ttf")))
-    pdfmetrics.registerFont(TTFont("Arial-Bold", str(font_dir / "arialbd.ttf")))
+    for name, filename in (("Report", "times.ttf"), ("Report-Bold", "timesbd.ttf"),
+                           ("Report-Italic", "timesi.ttf"), ("Report-BoldItalic", "timesbi.ttf")):
+        pdfmetrics.registerFont(TTFont(name, str(font_dir / filename)))
+    pdfmetrics.registerFontFamily("Report", normal="Report", bold="Report-Bold",
+                                  italic="Report-Italic", boldItalic="Report-BoldItalic")
     pdfmetrics.registerFont(TTFont("Code", str(font_dir / "consola.ttf")))
-    base = getSampleStyleSheet()
+    body = ParagraphStyle("ReportBody", fontName="Report", fontSize=11, leading=15,
+                          alignment=TA_LEFT, textColor=colors.black, splitLongWords=1)
+
+    def style(name, **options):
+        return ParagraphStyle(name, parent=body, **options)
+
     styles = {
-        "CoverTitle": ParagraphStyle("CoverTitle", fontName="Arial-Bold", fontSize=27, leading=33,
-            textColor=colors.HexColor("#173B57"), alignment=TA_LEFT, spaceAfter=10),
-        "CoverSub": ParagraphStyle("CoverSub", fontName="Arial", fontSize=13, leading=19,
-            textColor=colors.HexColor("#426273"), spaceAfter=5),
-        "BodyTextCustom": ParagraphStyle("BodyTextCustom", parent=base["BodyText"], fontName="Arial",
-            fontSize=9, leading=13, textColor=colors.HexColor("#1E2E36"), alignment=TA_LEFT,
-            spaceAfter=3, splitLongWords=1),
-        "Heading1": ParagraphStyle("Heading1Custom", fontName="Arial-Bold", fontSize=18, leading=23,
-            textColor=colors.HexColor("#173B57"), spaceBefore=10, spaceAfter=8, keepWithNext=True),
-        "Heading2": ParagraphStyle("Heading2Custom", fontName="Arial-Bold", fontSize=13, leading=17,
-            textColor=colors.HexColor("#176B87"), spaceBefore=9, spaceAfter=5, keepWithNext=True),
-        "Heading3": ParagraphStyle("Heading3Custom", fontName="Arial-Bold", fontSize=10.5, leading=14,
-            textColor=colors.HexColor("#23485D"), spaceBefore=7, spaceAfter=4, keepWithNext=True),
-        "Heading3Custom": ParagraphStyle("Heading3Fallback", fontName="Arial-Bold", fontSize=10.5,
-            leading=14, textColor=colors.HexColor("#23485D"), spaceBefore=7, spaceAfter=4, keepWithNext=True),
-        "TableHeader": ParagraphStyle("TableHeader", fontName="Arial-Bold", fontSize=7.6, leading=9.4,
-            textColor=colors.white),
-        "TableCell": ParagraphStyle("TableCell", fontName="Arial", fontSize=7.2, leading=9.2,
-            textColor=colors.HexColor("#1E2E36"), splitLongWords=1),
-        "TableKey": ParagraphStyle("TableKey", fontName="Arial", fontSize=7, leading=9,
-            textColor=colors.HexColor("#1E2E36"), splitLongWords=1),
-        "SmallHeading": ParagraphStyle("SmallHeading", fontName="Arial-Bold", fontSize=8.5,
-            leading=11, textColor=colors.HexColor("#176B87"), spaceBefore=4, spaceAfter=3),
-        "ListCustom": ParagraphStyle("ListCustom", fontName="Arial", fontSize=9, leading=12.5,
-            leftIndent=12, firstLineIndent=-8, spaceAfter=2, textColor=colors.HexColor("#1E2E36")),
-        "QuoteCustom": ParagraphStyle("QuoteCustom", fontName="Arial", fontSize=8.5, leading=12,
-            leftIndent=14, borderColor=colors.HexColor("#176B87"), borderWidth=1, borderPadding=5,
-            textColor=colors.HexColor("#426273"), spaceAfter=5),
-        "CodeBlock": ParagraphStyle("CodeBlock", fontName="Code", fontSize=7, leading=9,
-            backColor=colors.HexColor("#F2F5F6"), borderColor=colors.HexColor("#D5E0E5"),
-            borderWidth=0.5, borderPadding=5, leftIndent=4, rightIndent=4, spaceAfter=5),
+        "CoverTitle": style("CoverTitle", fontName="Report-Bold", fontSize=30,
+                            leading=35, alignment=TA_CENTER, spaceAfter=7),
+        "CoverUniversity": style("CoverUniversity", fontName="Report-Bold", fontSize=16,
+                                 leading=20, alignment=TA_CENTER, spaceAfter=4),
+        "CoverSub": style("CoverSubtitle", fontSize=14, leading=19, alignment=TA_CENTER, spaceAfter=4),
+        "CoverMeta": style("CoverMeta", alignment=TA_CENTER, leading=17, spaceAfter=5),
+        "BodyTextCustom": body,
+        "Heading1": style("SectionHeading", fontName="Report-Bold", fontSize=20,
+                          leading=25, spaceAfter=13, keepWithNext=True),
+        "Heading2": style("Subheading", fontName="Report-Bold", fontSize=14,
+                          leading=18, spaceBefore=12, spaceAfter=5, keepWithNext=True),
+        "Heading3": style("MinorHeading", fontName="Report-Bold", fontSize=11.5,
+                          leading=15, spaceBefore=9, spaceAfter=4, keepWithNext=True),
+        "TableHeader": style("TableHeader", fontName="Report-Bold", fontSize=9.5, leading=12),
+        "TableCell": style("TableCell", fontSize=9.5, leading=12),
+        "TableKey": style("TableKey", fontSize=9.5, leading=12),
+        "ListCustom": style("ReportList", leftIndent=24, bulletIndent=5,
+                            bulletFontName="Report", bulletFontSize=11, spaceAfter=3),
+        "QuoteCustom": style("ReportQuote", fontName="Report-Italic", leftIndent=15, spaceAfter=6),
+        "CodeBlock": style("CodeBlock", fontName="Code", fontSize=8.5, leading=11,
+                           leftIndent=7, rightIndent=7, spaceAfter=6),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    story = [Spacer(1, 35 * mm),
-             Paragraph("Libris Circulation<br/>Test Completion &amp; Quality Evidence", styles["CoverTitle"]),
-             Spacer(1, 5 * mm),
-             Paragraph("SE3002 | Section B | Final project report", styles["CoverSub"]),
-             Spacer(1, 4 * mm),
-             Paragraph("Abdullah Adnan - 24I-3020<br/>Muhammad Shaheer - 24I-3063<br/>Taha Sohail - 24I-3165", styles["CoverSub"]),
-             Spacer(1, 10 * mm)]
-    band = Table([[Paragraph("PRODUCT RELEASE DECISION: HOLD", ParagraphStyle("Hold", fontName="Arial-Bold",
-                  fontSize=15, leading=19, textColor=colors.white))]], colWidths=[CONTENT_W])
-    band.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#9D3C36")),
-                              ("LEFTPADDING", (0, 0), (-1, -1), 12),
-                              ("TOPPADDING", (0, 0), (-1, -1), 10),
-                              ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
-    story += [band, Spacer(1, 12 * mm),
-              Paragraph("Final report | 26 November 2026", styles["CoverSub"]),
-              Paragraph(f'Public repository: <link href="{REPO}">{REPO}</link>', styles["BodyTextCustom"]),
-              Paragraph(f"Packaged revision: {revision}", styles["BodyTextCustom"]),
-              Paragraph("The contents links open the rubric map, detailed tests, and final release decision. Dated evidence retains the scope and limitations of the original runs.", styles["BodyTextCustom"]),
-              PageBreak()]
+    logo = Image(str(FAST_LOGO), width=62 * mm, height=30 * mm, kind="proportional")
+    logo.hAlign = "CENTER"
+    story = [
+        Spacer(1, 12 * mm), logo, Spacer(1, 10 * mm),
+        Paragraph("National University of Computer &amp; Emerging Sciences", styles["CoverUniversity"]),
+        Paragraph("SE3002 | Software Quality Engineering", styles["CoverMeta"]),
+        Paragraph("Fall 2026 | Section B", styles["CoverMeta"]),
+        Spacer(1, 21 * mm),
+        Paragraph("Libris Circulation", styles["CoverTitle"]),
+        Paragraph("Final Project Report", styles["CoverSub"]),
+        Paragraph("Test Completion and Quality Evidence", styles["CoverMeta"]),
+        Spacer(1, 19 * mm),
+        Paragraph("<b>Prepared by</b>", styles["CoverMeta"]),
+        Paragraph("Abdullah Adnan (24I-3020)<br/>Muhammad Shaheer (24I-3063)<br/>"
+                  "Taha Sohail (24I-3165)", styles["CoverMeta"]),
+        Spacer(1, 14 * mm),
+        Paragraph("26 November 2026", styles["CoverMeta"]),
+        Paragraph(f'<link href="{REPO}"><u>{REPO}</u></link>', styles["CoverMeta"]),
+        Paragraph(f"Repository revision {revision}", styles["CoverMeta"]),
+        PageBreak(),
+    ]
 
     contents = TableOfContents()
-    contents.levelStyles = [ParagraphStyle("ContentsEntry", fontName="Arial",
-                                          fontSize=10, leading=18,
-                                          textColor=colors.HexColor("#173B57"))]
+    contents.levelStyles = [style("ContentsEntry", fontSize=11, leading=19)]
     contents.dotsMinLevel = 0
     story.extend([Paragraph("Contents", styles["Heading1"]), contents, PageBreak()])
 
