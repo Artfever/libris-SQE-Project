@@ -69,3 +69,14 @@ to Taha's report. Issue assignments and closure events support task history.
 Taha subsequently confirmed that he and Shaheer completed their assigned
 use-case pairs. Codex recorded that confirmation beside the existing GitHub
 evidence and kept the consolidated specification history intact.
+
+## 27 November rubric closeout
+
+Codex compared the 120-mark rubric with the current evidence and main-branch
+workflow. After confirming that PR #56 was merged and that the 26 November
+main run passed all nine jobs, the authenticated GitHub CLI closed issue #57
+as completed. Codex updated the API finding status, clarified the historical
+completion report against the newer concurrency and CI results, regenerated
+the PDF with the marking rubric, and checked its extracted text and rendered
+pages. No teammate peer-review or instructor approval is claimed; those
+judgments remain with the humans responsible for them.

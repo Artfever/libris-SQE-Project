@@ -1,8 +1,10 @@
 # Libris circulation test completion report
 
-This report preserves the 21–22 November completion snapshot. The
-[26 November verification](RUBRIC_EVIDENCE.md) and [current release decision](RELEASE_DECISION.md)
-supersede its MySQL, browser authorization, and CI status where they provide newer evidence.
+> **Historical snapshot (21–22 November 2026):** the results and release
+> criterion tables in this archived report are not the current status. The
+> [26 November verification](RUBRIC_EVIDENCE.md) and [current release
+> decision](RELEASE_DECISION.md) supersede its MySQL concurrency, browser
+> authorization, and CI results. Use those current documents for evaluation.
 
 **Status:** HOLD for release. **Snapshot:** 21 November 2026. **Team:**
 Section B — Abdullah Adnan (24I-3020), Muhammad Shaheer (24I-3063), and Taha
@@ -117,22 +119,23 @@ The required-check demonstration consists of:
 - Submission ZIP contents were corrected in [PR #49](https://github.com/Artfever/libris-SQE-Project/pull/49), merged as `2a7d783d9d9da21eafd5dd09a1444a766bf6f7c8`. After [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) merged as `9fe7692e0b44d573bb0df401587f94c7885c08ba`, the named 45-page PDF and repository ZIP were regenerated from `main`; the PDF was rendered for visual review, and the ZIP passed integrity and content checks. Under the 22 November central takeover, the files, test runs, and technical mock viva are maintained under Abdullah's ownership; no separate member review or oral performance is claimed.
 - Strict same-origin CSP hardening, the CSP-safe axe runner, and final ZAP evidence merged in [PR #50](https://github.com/Artfever/libris-SQE-Project/pull/50) as `7bbf69bdd9c8c9dc289d242d761d41d6c29d6ce3`, closing issue #46. [PR #51](https://github.com/Artfever/libris-SQE-Project/pull/51) updated the post-merge Phase 5 metrics and completion report; issue #24 is closed. The report keeps the release on HOLD for MySQL concurrency; the 22 November central-owner takeover and its authorship boundary are recorded in the linked takeover evidence.
 
-The active main ruleset is
+At the 21 November snapshot, the active main ruleset was
 [SQE main branch CI](https://github.com/Artfever/libris-SQE-Project/rules/27724105).
-At this snapshot it requires `build`, `javascript`, `phase5`, `backup-script`,
+It required `build`, `javascript`, `phase5`, `backup-script`,
 `docker-build`, and `sonarqube`. The new `team-tests` and `mutation` checks run
-and pass on PR #37 but are **not live required contexts**: updating the ruleset
-returned HTTP 404 to this account, and the permission endpoint reports write
-access without admin access. Do not treat the repository file's intended
-eight-context list as evidence of live enforcement. The repository owner/admin
-must add `team-tests` and `mutation`; no bypass was used. CI has no deployment
-job, so there is no automated deployment path to block.
+and pass on PR #37 but were not individually required contexts then. The later
+workflow makes all eight quality jobs dependencies of the required aggregate
+`build` check. The main revision and its nine-job successful run are recorded
+in the [current CI evidence](RUBRIC_EVIDENCE.md). No bypass was used. CI has no
+deployment job; the separate release preflight checks the exact revision and
+all required jobs before a manual deployment.
 
-**Recommendation: HOLD release.** The executed H2 state-integrity and selected
-authorization criteria pass, but the high-risk concurrency criterion does not.
-Hold until the owner enables both new required checks, Phase 4 evidence is
-reviewed, and concurrent MySQL evidence resolves PR-02/PR-04. This hold is an
-evidence-backed completion decision, not a claim of product release.
+**Historical recommendation at this snapshot: HOLD release.** The high-risk
+concurrency criterion had not yet been run. The 26 November MySQL concurrency
+results and current product release decision are recorded in
+[`RELEASE_DECISION.md`](RELEASE_DECISION.md); the current HOLD is for the
+remaining dependency review and operator deployment preflight, not for missing
+concurrency evidence.
 
 ## Evidence and GitHub references
 
