@@ -1,11 +1,11 @@
 # Circulation release decision
 
-**Decision: HOLD.** The selected circulation criteria passed in disposable
-H2 and MySQL. The revised merge gate still needs a successful hosted run on
-the reviewed revision and the operator's release preflight. The new
-dependency inventory also needs release-specific application and optional
-authentication review. The production environment has separate backup,
-migration, and smoke checks.
+**Product release decision: HOLD.** The selected circulation criteria passed
+in disposable H2 and MySQL. [Hosted CI on the draft PR](https://github.com/Artfever/libris-SQE-Project/actions/runs/45762750668)
+passed all nine checks, including the revised aggregate gate. A production
+release still requires a successful main-branch run for the actual release
+revision, review of the applicable dependency findings, and the operator's
+backup, migration, and smoke checks.
 
 | Release criterion | Target defined in the test plan | Actual against target | Decision |
 | --- | --- | --- | --- |
@@ -20,6 +20,6 @@ and [recovery report](evidence/recovery/TEST-com.example.lms.team.TeamRecoveryTe
 See the [current rubric and residual-risk review](RUBRIC_EVIDENCE.md) for test
 scope, package readiness, and accountable follow-up.
 
-**Keep the release on HOLD until the revised hosted checks are observed on
-the release revision, dependency dispositions are reviewed, and the operator
+**Keep the product release on HOLD until the release revision passes the
+main-branch gate, dependency dispositions are reviewed, and the operator
 completes the deployment preflight.**

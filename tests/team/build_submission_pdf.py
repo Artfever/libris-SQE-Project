@@ -27,6 +27,7 @@ from reportlab.platypus import (
     Table,
     TableStyle,
 )
+from reportlab.platypus.tableofcontents import TableOfContents
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "output" / "pdf" / "Project_24I-3020_24I-3063_24I-3165_B.pdf"
@@ -230,6 +231,14 @@ class ReportDoc(BaseDocTemplate):
         self.addPageTemplates([PageTemplate(id="main", frames=[frame], onPage=self.draw_page)])
         self.styles = styles
 
+    def afterFlowable(self, flowable):
+        if isinstance(flowable, Paragraph) and hasattr(flowable, "section_key"):
+            title = flowable.getPlainText()
+            key = flowable.section_key
+            self.canv.bookmarkPage(key)
+            self.canv.addOutlineEntry(title, key, level=0)
+            self.notify("TOCEntry", (0, title, self.page, key))
+
     def draw_page(self, canvas, doc):
         canvas.saveState()
         canvas.setStrokeColor(colors.HexColor("#D5E0E5"))
@@ -289,22 +298,29 @@ def main():
     story = [Spacer(1, 35 * mm),
              Paragraph("Libris Circulation<br/>Test Completion &amp; Quality Evidence", styles["CoverTitle"]),
              Spacer(1, 5 * mm),
-             Paragraph("Section B | Group submission package", styles["CoverSub"]),
+             Paragraph("SE3002 | Section B | Final project report", styles["CoverSub"]),
              Spacer(1, 4 * mm),
              Paragraph("Abdullah Adnan - 24I-3020<br/>Muhammad Shaheer - 24I-3063<br/>Taha Sohail - 24I-3165", styles["CoverSub"]),
              Spacer(1, 10 * mm)]
-    band = Table([[Paragraph("RELEASE DECISION: HOLD", ParagraphStyle("Hold", fontName="Arial-Bold",
+    band = Table([[Paragraph("PRODUCT RELEASE DECISION: HOLD", ParagraphStyle("Hold", fontName="Arial-Bold",
                   fontSize=15, leading=19, textColor=colors.white))]], colWidths=[CONTENT_W])
     band.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#9D3C36")),
                               ("LEFTPADDING", (0, 0), (-1, -1), 12),
                               ("TOPPADDING", (0, 0), (-1, -1), 10),
                               ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
     story += [band, Spacer(1, 12 * mm),
-              Paragraph("Verification update: 26 November 2026", styles["CoverSub"]),
+              Paragraph("Final report | 26 November 2026", styles["CoverSub"]),
               Paragraph(f'Public repository: <link href="{REPO}">{REPO}</link>', styles["BodyTextCustom"]),
               Paragraph(f"Packaged revision: {revision}", styles["BodyTextCustom"]),
-              Paragraph("The final section gives the release decision and results against the three release criteria. Earlier evidence retains the scope and limitations of the original runs.", styles["BodyTextCustom"]),
+              Paragraph("The contents links open the rubric map, detailed tests, and final release decision. Dated evidence retains the scope and limitations of the original runs.", styles["BodyTextCustom"]),
               PageBreak()]
+
+    contents = TableOfContents()
+    contents.levelStyles = [ParagraphStyle("ContentsEntry", fontName="Arial",
+                                          fontSize=10, leading=18,
+                                          textColor=colors.HexColor("#173B57"))]
+    contents.dotsMinLevel = 0
+    story.extend([Paragraph("Contents", styles["Heading1"]), contents, PageBreak()])
 
     sections = [
         ("RUBRIC_EVIDENCE.md", "Rubric and current execution evidence"),
@@ -322,7 +338,7 @@ def main():
         ("evidence/api-integration-2026-11-21.md", "API integration evidence"),
         ("evidence/defect-quality-metrics-2026-11-21.md", "Defect analyses and weekly metrics"),
         ("evidence/phase5-findings-remediation-2026-11-21.md", "Phase 5 finding triage and fixes"),
-        ("evidence/central-takeover-2026-11-22.md", "Central-owner takeover and current verification"),
+        ("evidence/central-takeover-2026-11-22.md", "Historical use-case consolidation and verification"),
         ("evidence/pitest/README.md", "Mutation analysis"),
         ("evidence/pitest/SURVIVOR_REVIEW.md", "Full mutant review"),
         ("evidence/sonarqube/README.md", "SonarQube analysis"),
@@ -334,11 +350,13 @@ def main():
         path = root / "tests" / "team" / rel
         if not path.is_file():
             raise FileNotFoundError(path)
-        story.append(Paragraph(f"Section {idx + 1} - {escape(title)}", styles["Heading1"]))
+        heading = Paragraph(f"{idx + 1}. {escape(title)}", styles["Heading1"])
+        heading.section_key = f"section-{idx + 1}"
+        story.append(heading)
         story.extend(markdown_flows(path, styles, revision))
         if idx != len(sections) - 1:
             story.append(PageBreak())
-    ReportDoc(OUT, styles).build(story)
+    ReportDoc(OUT, styles).multiBuild(story)
     print(OUT)
 
 
