@@ -91,10 +91,11 @@ and oral performance are not claimed; the takeover and test evidence are in
 
 The central takeover work for issues #9, #23, and #25 is complete and has fresh
 Java, API, browser, accessibility, and MySQL concurrency evidence. Main commit
-`52b9f3dea20759532f5a581ea6eb9a31545369cf` passed all nine CI jobs in
-[run 45868512051](https://github.com/Artfever/libris-SQE-Project/actions/runs/45868512051),
+`29c3abc0d0b9ef45edce875429348d398c04785e` passed all nine CI jobs in
+[run 45872478751](https://github.com/Artfever/libris-SQE-Project/actions/runs/45872478751),
 including the required aggregate `build` job and its eight quality-job
-dependencies. Preserve the production release HOLD until the dependency
+dependencies. The run passed after retrying a transient wrapper download
+failure. Preserve the production release HOLD until the dependency
 dispositions are reviewed and the operator completes the backup, migration,
 and smoke-test preflight in `docs/DEPLOYMENT.md`. The release preflight checks
 the exact main revision and all required CI jobs; no deployment workflow runs

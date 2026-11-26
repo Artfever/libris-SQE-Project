@@ -328,7 +328,7 @@ def main():
         Paragraph("Abdullah Adnan (24I-3020)<br/>Muhammad Shaheer (24I-3063)<br/>"
                   "Taha Sohail (24I-3165)", styles["CoverMeta"]),
         Spacer(1, 14 * mm),
-        Paragraph("26 November 2026", styles["CoverMeta"]),
+        Paragraph("27 November 2026", styles["CoverMeta"]),
         Paragraph(f'<link href="{REPO}"><u>{REPO}</u></link>', styles["CoverMeta"]),
         Paragraph(f"Repository revision {revision}", styles["CoverMeta"]),
         PageBreak(),
@@ -341,6 +341,7 @@ def main():
 
     sections = [
         ("RUBRIC_EVIDENCE.md", "Rubric and current execution evidence"),
+        ("MARKING_RUBRIC.md", "SE3002 marking rubric (120 marks)"),
         ("evidence/registration-2026-11-20.md", "Section B registration record"),
         ("ENVIRONMENT.md", "Reproducible environment and upstream baseline"),
         ("REPOSITORY_RULES.md", "Team and area ownership"),

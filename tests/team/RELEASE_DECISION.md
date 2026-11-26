@@ -2,9 +2,10 @@
 
 **Product release decision: HOLD.** The selected circulation criteria passed
 in disposable H2 and MySQL. Main commit
-`52b9f3dea20759532f5a581ea6eb9a31545369cf` passed all nine CI jobs in
-[the main-branch run](https://github.com/Artfever/libris-SQE-Project/actions/runs/45868512051),
-including the required aggregate gate. Production release still requires
+`29c3abc0d0b9ef45edce875429348d398c04785e` passed all nine CI jobs in
+[the main-branch run](https://github.com/Artfever/libris-SQE-Project/actions/runs/45872478751),
+including the required aggregate gate after a transient wrapper-download retry.
+Production release still requires
 review of the applicable dependency findings and the operator's backup,
 migration, and smoke checks.
 

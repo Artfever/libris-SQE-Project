@@ -58,7 +58,7 @@ defects are closed. Their issue timelines contain no reopen events in the
 | Defect density | 6 confirmed tracked defects / 4,060 nonblank Java lines x 1,000 = **1.48 defects/KLOC**; 95 Java files. Recounted from `backend/src/main/java`. | Scoped screening measure; accessibility and configuration findings are included in a Java-source denominator. Recount with the same scope next week. |
 | Requirements coverage | **12/12 selected circulation FRs linked to passing API/browser evidence**. Fresh Java verification, seven-case H2 API integration, and 30-case browser suite passed. | This is selected circulation requirements coverage, not full product or code coverage. Keep traceability updated when requirements or flows change. |
 | Reopen rate | **0/6 = 0%** over 2026-11-15 through 2026-11-22; the six tracked defects closed during the window and the GitHub timelines show no reopen event. | Small scoped denominator. Continue checking issue timelines; report N/A rather than zero if a future window has no closures. |
-| Weekly control | Issues #9, #22, #23, #24, and #25 are closed; #9, #23, and #25 were closed under this documented central takeover. PR #42 remains the intentionally open blocked demonstration. | Keep release on HOLD until planned MySQL concurrency evidence is run. The live branch ruleset still needs an administrator to add `team-tests` and `mutation` as required contexts. |
+| Weekly control (snapshot dated 2026-11-22) | Issues #9, #22, #23, #24, and #25 are closed; #9, #23, and #25 were closed under this documented central takeover. PR #42 remains the intentionally open blocked demonstration. | Historical action at this snapshot: keep release on HOLD pending MySQL concurrency evidence and administrator updates to required branch-protection contexts. For current CI and release status, use `tests/team/RUBRIC_EVIDENCE.md` and `tests/team/RELEASE_DECISION.md` (updated 2026-11-26). |
 
 ## Issue #25: package, selected tests, and mock viva
 
@@ -93,5 +93,7 @@ data; no production system or credentials were used.
 This is a centralized, AI-assisted technical mock rehearsal and test execution
 under Abdullah's takeover instruction. It is not evidence of any student's
 personal oral performance or a test run claimed by Muhammad Shaheer or Taha
-Sohail. Actual human viva performance is not represented. Production behavior,
-MySQL concurrency, and the release HOLD decision remain unchanged.
+Sohail. Actual human viva performance is not represented. The production
+behavior, MySQL concurrency evidence, and release decision statements in this
+file are historical to 2026-11-22; check `tests/team/RUBRIC_EVIDENCE.md` and
+`tests/team/RELEASE_DECISION.md` for the current 2026-11-26 status.

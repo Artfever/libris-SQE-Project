@@ -8,16 +8,41 @@ Run `backend\mvnw.cmd -q -f ../tests/team/mutation/pom.xml install`, then from `
 
 ## Usability and accessibility (#18)
 
+This section records the initial Phase 4 baseline. Its original open-finding
+and score summaries below are historical and are superseded by the Phase 5
+fixes and reruns documented in `evidence/phase5-findings-remediation-2026-11-21.md`
+and `RUBRIC_EVIDENCE.md` (current verification snapshot: 2026-11-26).
+
 Run `npm.cmd ci` in `tests/team/usability`, build the backend JAR, then run `python tests/team/usability/compare_axe.py` and `python tests/team/usability/compare_lighthouse.py` from the repository root. Both comparison scripts reproduce the pre-fix state from the recorded source baseline, restoring the current source and JAR in a `finally` block. Axe runs its full default rule set. The two Playwright tasks used the staff circulation screen: (1) submit a borrow form with no item, observe the correction message, choose an item and student, verify keyboard focus order and submit by Enter; (2) submit a stale return ID, verify the failure left state unchanged, correct the ID and return. Both confirmed the displayed result, final availability and one retained returned loan. See [task results](evidence/usability/tasks-after.json), [axe before](evidence/usability/axe-borrow-before.json), [axe after](evidence/usability/axe-borrow-after.json), and the four Lighthouse JSON files in `evidence/usability/`.
 
-| Screen | Lighthouse accessibility before → after | Best practices | SEO | axe violations before → after |
+| Key workflow screen | Lighthouse accessibility before → after | Best practices | SEO | `@axe-core/playwright` violations before → after |
 | --- | ---: | ---: | ---: | ---: |
-| Empty borrow screen/modal | 88 → 90 | 100 → 100 | 90 → 90 | 3 → 2 |
-| Active return screen | 90 → 90 | 100 → 100 | 90 → 90 | 2 → 2 |
+| Empty borrow screen | 88 → 90 | 100 → 100 | 90 → 90 | 1 → 0 |
+| Active return screen | 90 → 90 | 100 → 100 | 90 → 90 | 0 → 0 |
 
-Overlapping color-contrast and accessible-name findings from the two tools are counted once by affected element. Finding UX-01: the empty state used `h3` immediately after the page `h1`; axe classified the heading-order issue as moderate. Root cause: incorrect heading level in `showEmpty()` in `borrow.js`. Impact: assistive-technology heading navigation skips level 2. Fix: use `h2`; the after axe scan has no heading-order violation and Lighthouse borrow accessibility rose from 88 to 90. Risk: PR-10.
+Overlapping issues found by Lighthouse and axe are counted once per affected
+element. Phase 4 initially found three UX issues; Phase 5 fixed them and
+reran both tools. The current before/after `@axe-core/playwright` comparison
+is 1 to 0 on borrow, 1 to 0 in the borrow dialog, and 0 to 0 on return.
+The matched dark-theme Lighthouse comparison is borrow accessibility 88 to
+90 and return 90 to 90; both screens retain best-practices 100 and SEO 90.
+The post-fix run also records accessibility 90, best-practices 100, and SEO
+90 for borrow and return in the light theme. Full raw reports are linked from
+`RUBRIC_EVIDENCE.md` under Accessibility and defensive checks.
 
-Remaining UX-02: axe reported serious color contrast on text/buttons in the circulation shell (including search shortcut, top-bar role, issue button); Lighthouse also reported contrast. Root cause: current CSS colors do not meet the tool's contrast threshold in the tested theme. Impact: reduced readability for low-vision users. Proposed fix: adjust foreground/background tokens and rerun both tools in each supported theme. Risk: PR-10. Remaining UX-03: axe reported serious label/content name mismatch for the brand and profile links; visible words differ from their `aria-label` text. Impact: voice-control users may not be able to invoke links by the visible name. Proposed fix: include the visible wording in each accessible name and rerun axe. Risk: PR-10. These remain open and should be included in the Phase 5 completion decision.
+| Finding | Affected element and user impact | Correction and current status |
+| --- | --- | --- |
+| UX-01, moderate | Empty-state `h3` immediately followed page `h1`; heading navigation skipped level 2 for assistive-technology users. | Changed to `h2`; current axe scan has no heading-order violation. |
+| UX-02, serious | Low-contrast shell text and controls, including search shortcut, top-bar role, and issue button; reduced readability for users with low vision. | Raised and paired theme-specific text/foreground/background tokens; current axe scans report no contrast violations in tested screens/themes. |
+| UX-03, serious | Brand and profile links had accessible names that replaced visible wording; voice-control users could not invoke links by their visible names. | Removed redundant overriding labels from visible links and retained a name for the icon-only profile control; current axe scans report no name mismatch. |
+
+These three findings were closed in Phase 5; their remediation and raw
+before/after evidence are recorded in
+`evidence/phase5-findings-remediation-2026-11-21.md` and
+`evidence/usability/axe-playwright-rubric-before.json`,
+`evidence/usability/axe-playwright-rubric-after.json`, and the Lighthouse
+reports in `evidence/usability/`. See the current [rubric evidence](RUBRIC_EVIDENCE.md)
+for the final task run and axe results.
 
 ## Security and dependencies (#19)
 
@@ -41,6 +66,11 @@ For the open-source dependency audit, from `backend` run `mvnw.cmd -q org.apache
 
 Run `python -u tests/team/performance/run.py` after building the backend JAR. The runner starts a fresh H2 app for each of four runs, seeds the same five books, one synthetic student and five distinct librarian accounts, then executes the same `circulation.js` script at one or five simultaneous users twice. Each run holds target concurrency for 65 seconds; custom metrics begin after five seconds, leaving at least 60 seconds at target load. The build, host, fixture shape and zero-loan starting state are consistent. Both borrow and return targets were set before execution: **p95 < 1000 ms** and **0% unexpected failures**. These are conservative local-H2 feedback targets for staff state-changing operations; they are not production SLOs. Risk: PR-09, with state integrity cross-checks for PR-01/PR-04.
 
+The table immediately below preserves the original Phase 4 run as historical
+evidence. The newer, 26 November rubric rerun supersedes these figures for the
+current completion decision; see `RUBRIC_EVIDENCE.md` and the raw files in
+`evidence/performance/rubric-2026-11-26/`.
+
 | Users / repeat | Borrow p95 ms | Return p95 ms | Borrow/return completed per second | Unexpected failures |
 | --- | ---: | ---: | ---: | ---: |
 | 1 / 1 | 27.44 | 24.55 | 11.53 each | 0% |
@@ -56,7 +86,10 @@ Run `backend\mvnw.cmd test -Dtest=TeamRecoveryTest` from `backend`. `TeamRecover
 
 ## Outstanding risk for Phase 5
 
-Phase 4 is complete for the selected local scope, with open UX-02, UX-03, CSP/SRI and dependency-advisory findings. Phase 5 must triage those findings, link defect issues, and decide release/hold against the test plan. H2 and five-user results do not establish MySQL, a public deployment or higher concurrency. The final report must preserve this limit.
+At the Phase 4 snapshot, UX-02, UX-03, CSP/SRI and dependency-advisory findings
+were still open. Phase 5 later recorded their triage, fixes and retests. H2 and
+five-user results do not establish MySQL, a public deployment or higher
+concurrency. Preserve this scope limit in the final report.
 
 ## Phase 5 follow-up
 
