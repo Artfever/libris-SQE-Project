@@ -200,11 +200,21 @@ measure for this scope.
 
 ### Individual use-case ownership
 
-An allocation for individual validation is Taha on UC-01/UC-04, Shaheer on
-UC-02/UC-05, and Abdullah on UC-03/UC-06. It is a proposed allocation only.
-Each member should take their pair, verify source and requirements, exercise
-the alternate and exception flows, and commit their own substantive checks.
-Retain the central author's true history. Closed issue #9 and the team effort entry do not establish individual ownership of two named cases per person.
+[Issue #9](https://github.com/Artfever/libris-SQE-Project/issues/9) records the
+following original allocation and its later replacement by the central takeover.
+
+| Member | Originally assigned cases | Verified contribution |
+| --- | --- | --- |
+| Muhammad Shaheer | UC-01 and UC-04, book borrow and return | [PR #43](https://github.com/Artfever/libris-SQE-Project/pull/43) documents browser usability and accessibility work on the borrow and return workflows. |
+| Taha Sohail | UC-02 and UC-05, magazine borrow and return | [Issue #16](https://github.com/Artfever/libris-SQE-Project/issues/16) and [PR #35](https://github.com/Artfever/libris-SQE-Project/pull/35) document Playwright automation of all six cases, including the assigned pair. |
+| Abdullah Adnan | UC-03 and UC-06, newspaper borrow and return | [PR #40](https://github.com/Artfever/libris-SQE-Project/pull/40) explicitly records Abdullah's specification contribution for these two cases. |
+
+The closing comment on #9 and [PR #54](https://github.com/Artfever/libris-SQE-Project/pull/54)
+record that Abdullah subsequently took over all six specifications. The links
+above establish real contributions and the original allocation. The current
+record lacks confirmation of a later individual ownership split for Shaheer
+and Taha. Preserve the specification history and record individual case
+validation separately if the members complete it.
 
 PR-01 retains environment-specific risk beyond verified transaction and
 recovery paths. PR-02/PR-04 now have same-item MySQL evidence. PR-03 has
