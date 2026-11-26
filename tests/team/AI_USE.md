@@ -56,3 +56,8 @@ in `evidence/central-takeover-2026-11-22.md`.
 | --- | --- | --- |
 | Codex. “You need to compelete each and everything end to end so I can get full marks all parts 1 to 5 , read carefully everything should be completed and should be analyzed properly” | Implement and review test and evidence gaps across the five parts. Drafted the MySQL race harness, browser security and keyboard checks, CI and release preflight changes, troubleshooting and report updates. | Model-assisted work run against synthetic fixtures. [Current evidence](RUBRIC_EVIDENCE.md) gives observed results and limitations. Team review and acceptance should be recorded by the actual reviewer. |
 | Maven, SonarQube, Chromium, MySQL, k6, ZAP, OWASP Dependency-Check, ReportLab | Execute and cross-check runtime evidence, static analysis, dependencies, and package integrity. | Keep historical raw evidence and distinguish additional results by date and scope. No new individual use-case authorship, actual effort, registration, or instructor approval has been inferred. |
+
+Taha later supplied ten retrospective effort figures and confirmed registration.
+Codex calculated the total and comparable differences, checked the closed GitHub
+issues for task references, and refreshed the package. The hours are attributed
+to Taha's report. Issue assignments and closure events support task history.

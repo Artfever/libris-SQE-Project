@@ -61,14 +61,14 @@ Estimates are person-hours, not calendar duration. PERT expected effort is
 H2 are available, contributors can review promptly, and the Phase 1 fixture
 guide is usable. MySQL, browser, and mutation tooling may increase actuals.
 
-| Work area | Owner | O (h) | M (h) | P (h) | Expected (h) | Actual (h) | Assumptions / evidence |
-| --- | --- | -: | -: | -: | -: | --- | --- |
-| Requirements and business rules (#8) | `@Abdullah-SE-bit` | 2 | 3 | 5 | 3.2 | Pending owner entry | Source review and review cycle; this draft exists. |
-| Six use-case authoring/review (#9) | `@Abdullah-SE-bit` (central takeover) | 4 | 6 | 10 | 6.3 | Not timed | All six cases are centrally authored under the 2026-11-22 takeover; no peer authorship or human time actuals are claimed. |
-| Risk plan and register (#10) | `@Abdullah-SE-bit` | 3 | 5 | 8 | 5.2 | Pending owner entry | Risk scoring and control mapping; this draft exists. |
-| Traceability and estimate (#11) | `@Abdullah-SE-bit` | 2 | 3 | 5 | 3.2 | Pending owner entry | Initial plan-to-test links; update after Phase 3/4 execution. |
-| Integration and review | `@Abdullah-SE-bit` (central takeover) | 1 | 2 | 4 | 2.2 | Not timed | Central review checked the six cases against source and fresh API/browser execution. No peer review or human time actuals are claimed. |
-| **Total** |  | **12** | **19** | **32** | **20.1** | **Not measured** | Person-hour actuals were not captured and cannot be reconstructed from commit timestamps or agent runtime. |
+| Work area | O (h) | M (h) | P (h) | PERT expected |
+| --- | ---: | ---: | ---: | ---: |
+| Requirements and business rules | 2 | 3 | 5 | 3h 10m |
+| Six use-case specifications and review | 4 | 6 | 10 | 6h 20m |
+| Risk plan and register | 3 | 5 | 8 | 5h 10m |
+| Traceability and estimation | 2 | 3 | 5 | 3h 10m |
+| Phase 2 integration and review | 1 | 2 | 4 | 2h 10m |
+| **Phase 2 total** | **12** | **19** | **32** | **20h** |
 
 ## Phase 2 completion checklist
 
@@ -77,7 +77,7 @@ guide is usable. MySQL, browser, and mutation tooling may increase actuals.
 - [x] Prepare and complete six numbered use cases with preconditions, main, alternate, exception, and persisted postconditions; all are centrally authored under the documented 2026-11-22 takeover.
 - [x] Draft the risk plan, eight product risks, two project risks, 5×5 scores, controls, owners, and measurable criteria.
 - [x] Map each requirement/rule to planned tests, risks, owner, and evidence placeholder.
-- [ ] Record actual person-hour effort. The takeover did not invent or infer hours; no time log was available.
+- [x] Record reported actual person-hours and compare them with estimates where the scopes align.
 
 
 ## Follow-up traceability and estimates
@@ -90,17 +90,66 @@ with both students' records present. The unsupported request media type
 case extends FR-B02 and PR-05. These results supersede the pending entries
 above for the current evidence set.
 
-The historical planning table covers test management. The following values
-are planning scenarios for repeating the technical work, in person-hours.
-No entries are represented as hours actually worked.
+## Reported actual effort and comparison
 
-| Verification area | Optimistic | Most likely | Pessimistic | PERT expected | Actual |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Sonar, white-box, mutation, and CI | 3 | 5 | 9 | 5.3 | Not captured |
-| API generation, integration, and MySQL | 3 | 5 | 9 | 5.3 | Not captured |
-| Browser, usability, and defensive security | 4 | 6 | 10 | 6.3 | Not captured |
-| Performance and controlled recovery | 2 | 3 | 6 | 3.3 | Not captured |
+Taha Sohail provided these retrospective figures for work already completed.
+Rows marked Team are team totals supplied by Taha. Rows with a named member
+record that person's reported contribution. No individual breakdown was
+provided for the team rows. The ten figures total **14 person-hours of
+reported effort**. GitHub issues corroborate task scope, assignment and
+closure. Issue or commit timestamps do not measure working time.
 
-Environment installation, dependency indexing, and hosted CI feedback
-account for the larger upper bounds. Compare actual time only when team
-records identify real work duration by area.
+| Area | Reported effort | Attribution | Closed GitHub references |
+| --- | ---: | --- | --- |
+| Setup and baseline | 30m | Team | [#6](https://github.com/Artfever/libris-SQE-Project/issues/6), [#7](https://github.com/Artfever/libris-SQE-Project/issues/7) |
+| Requirements and business rules | 40m | Team | [#8](https://github.com/Artfever/libris-SQE-Project/issues/8) |
+| Use-case specifications and review | 2h | Team | [#9](https://github.com/Artfever/libris-SQE-Project/issues/9) |
+| Test plan and risk register | 50m | Abdullah | [#10](https://github.com/Artfever/libris-SQE-Project/issues/10) |
+| Traceability and effort estimation | 1h | Taha | [#11](https://github.com/Artfever/libris-SQE-Project/issues/11) |
+| SonarQube, white-box tests, mutation and CI | 2h | Team | [#12](https://github.com/Artfever/libris-SQE-Project/issues/12), [#13](https://github.com/Artfever/libris-SQE-Project/issues/13), [#17](https://github.com/Artfever/libris-SQE-Project/issues/17), [#22](https://github.com/Artfever/libris-SQE-Project/issues/22) |
+| API, OpenAPI generation and MySQL integration | 3h | Team | [#14](https://github.com/Artfever/libris-SQE-Project/issues/14), [#15](https://github.com/Artfever/libris-SQE-Project/issues/15), [MySQL follow-up](https://github.com/Artfever/libris-SQE-Project/pull/56) |
+| Browser, usability, accessibility and security | 1h | Shaheer | [#16](https://github.com/Artfever/libris-SQE-Project/issues/16), [#18](https://github.com/Artfever/libris-SQE-Project/issues/18), [#19](https://github.com/Artfever/libris-SQE-Project/issues/19) |
+| Performance and recovery | 1h | Taha | [#20](https://github.com/Artfever/libris-SQE-Project/issues/20), [#21](https://github.com/Artfever/libris-SQE-Project/issues/21) |
+| Final integration, review, report and archive | 2h | Abdullah | [#24](https://github.com/Artfever/libris-SQE-Project/issues/24), [#25](https://github.com/Artfever/libris-SQE-Project/issues/25) |
+| **Total reported** | **14h** | Mixed team totals and named contributions | |
+
+The issue assignee and the reported contributor can differ. Abdullah was the
+assignee for #11. Shaheer, using the Artfever account, was the assignee
+for #20?#21. Issue #16 was assigned to Taha. This evidence preserves those
+assignments and the reported effort in separate fields. The 2h for use cases
+is a team effort figure and gives no breakdown of case authorship or
+individual ownership. The historical single-author record still applies.
+
+### Phase 2 estimate versus reported effort
+
+| Matched area | PERT expected | Reported | Difference |
+| --- | ---: | ---: | --- |
+| Requirements and business rules | 3h 10m | 40m | 2h 30m below |
+| Six use-case specifications and review | 6h 20m | 2h | 4h 20m below |
+| Test plan and risk register | 5h 10m | 50m | 4h 20m below |
+| Traceability and estimation | 3h 10m | 1h | 2h 10m below |
+| **Matched subtotal** | **17h 50m** | **4h 30m** | **13h 20m below** |
+
+Setup has no matching recorded estimate. The historical 2h 10m Phase 2
+integration and review estimate excludes the final report and archive,
+so the broader 2h entry has no direct variance. Comparing the 14h total
+to the 20h Phase 2 estimate would compare different scopes.
+
+### Technical planning scenarios versus reported effort
+
+These scenarios estimate repeating the technical work. The differences
+provide context for a repeat run. They do not measure the forecast
+accuracy of the original Phase 2 plan.
+
+| Area | O (h) | M (h) | P (h) | PERT expected | Reported | Difference |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Sonar, white-box, mutation and CI | 3 | 5 | 9 | 5h 20m | 2h | 3h 20m below |
+| API generation, integration and MySQL | 3 | 5 | 9 | 5h 20m | 3h | 2h 20m below |
+| Browser, usability, accessibility and security | 4 | 6 | 10 | 6h 20m | 1h | 5h 20m below |
+| Performance and recovery | 2 | 3 | 6 | 3h 20m | 1h | 2h 20m below |
+
+Potential causes of variance include tool installation, dependency indexing
+and CI feedback. The retrospective entries do not show which activities
+account for the differences. A future run should log each member's time
+against the same areas used for the estimate, with waiting time distinguished
+from hands-on work.

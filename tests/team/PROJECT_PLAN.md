@@ -40,8 +40,7 @@ Draft artifacts are maintained in [the test basis](TEST_BASIS.md),
 [the traceability/estimate](TRACEABILITY_ESTIMATE.md). Under the takeover, all
 six use cases are maintained by the central owner. The prior three-way
 authorship allocation is superseded for this run; this is not represented as
-individual member contribution. Person-hour actuals remain unrecorded because
-no time log was kept, and estimates are not substituted for actuals.
+individual member contribution. The [effort comparison](TRACEABILITY_ESTIMATE.md) records 14 retrospectively reported person-hours and distinguishes them from the original estimates.
 
 ## Phase 3 — design and automate functional tests
 
