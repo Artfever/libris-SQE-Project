@@ -40,10 +40,47 @@ class GeneratorTests(unittest.TestCase):
         self.assertTrue(any(c['operation'] == 'returnItem' and c['location'] == 'path' and c['field'] == 'id' for c in cases))
         self.assertEqual(self.select(self.spec, 'borrowDate', 'invalid-date')['schema_expected'], 'invalid')
 
+    def test_required_request_body_partitions_are_generated(self):
+        cases = [c for c in generate(self.spec) if c['location'] == 'requestBody']
+        self.assertEqual([(c['partition'], c['schema_expected']) for c in cases],
+                         [('omitted', 'invalid'), ('null-body', 'invalid')])
+        self.assertEqual(cases[0]['value'], {'$omit': True})
+        self.assertEqual(cases[1]['value'], {'$raw-json': 'null'})
+
+    def test_unsupported_schema_constraints_fail_loudly(self):
+        props = self.spec['components']['schemas']['BorrowRequest']['properties']
+        for keyword, value in [('pattern', '^[A-Z]+$'), ('enum', ['A', 'B'])]:
+            with self.subTest(keyword=keyword):
+                props['borrowerName'][keyword] = value
+                with self.assertRaisesRegex(ValueError, keyword):
+                    generate(self.spec)
+                del props['borrowerName'][keyword]
+        props['borrowerName']['format'] = 'email'
+        with self.assertRaisesRegex(ValueError, 'Unsupported string format'):
+            generate(self.spec)
+        del props['borrowerName']['format']
+
+    def test_unsupported_request_schema_features_fail_loudly(self):
+        changed = copy.deepcopy(self.spec)
+        operation = changed['paths']['/api/borrow-records']['post']
+        operation['requestBody']['content']['text/plain'] = {'schema': {'type': 'string'}}
+        with self.assertRaisesRegex(ValueError, 'Only application/json'):
+            generate(changed)
+        del operation['requestBody']['content']['text/plain']
+        changed['components']['schemas']['BorrowRequest']['allOf'] = []
+        with self.assertRaisesRegex(ValueError, 'Composite request schemas'):
+            generate(changed)
+
     def test_invalid_bounds_fail_instead_of_silently_generating(self):
         props = self.spec['components']['schemas']['BorrowRequest']['properties']
         props['studentId'].update(minimum=5, maximum=2)
         with self.assertRaises(ValueError):
+            generate(self.spec)
+        props['studentId'].pop('minimum')
+        props['studentId'].pop('maximum')
+        props['studentId']['minimum'] = 1
+        props['studentId']['exclusiveMinimum'] = True
+        with self.assertRaisesRegex(ValueError, 'Exclusive integer bounds'):
             generate(self.spec)
 
 

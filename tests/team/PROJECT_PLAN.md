@@ -24,8 +24,10 @@ The Phase 1 fixture and H2 reset procedure are in [the circulation fixture guide
 
 Lead: `@Abdullah-SE-bit` (#8–#11). On 22 November 2026, Abdullah directed a
 central-owner takeover of the remaining contributions for #9, #23, and #25.
-All six use cases and the follow-up issue evidence are authored under Abdullah;
-no teammate authorship or review is claimed. Details and verification are in
+The final specification text and follow-up issue evidence were consolidated
+under Abdullah. The original assigned pairs (UC-01/04 for Shaheer, UC-02/05 for
+Taha, UC-03/06 for Abdullah) are credited separately; Taha confirmed completion
+of his and Shaheer's pairs. Details and verification are in
 [`central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
 
 1. Derive at least eight functional requirements across both workflows, at least three per workflow. Include validation, dates, availability, history, repeat requests, and role access.
@@ -37,10 +39,11 @@ no teammate authorship or review is claimed. Details and verification are in
 
 Draft artifacts are maintained in [the test basis](TEST_BASIS.md),
 [the use cases](USE_CASES.md), [the risk-based test plan](TEST_PLAN.md), and
-[the traceability/estimate](TRACEABILITY_ESTIMATE.md). Under the takeover, all
-six use cases are maintained by the central owner. The prior three-way
-authorship allocation is superseded for this run; this is not represented as
-individual member contribution. The [effort comparison](TRACEABILITY_ESTIMATE.md) records 14 retrospectively reported person-hours and distinguishes them from the original estimates.
+[the traceability/estimate](TRACEABILITY_ESTIMATE.md). Under the takeover, the
+central owner consolidated the final six specifications; the original assigned
+workflow contributions remain credited separately in `USE_CASES.md`. The
+[effort comparison](TRACEABILITY_ESTIMATE.md) records 14 retrospectively
+reported person-hours and distinguishes them from the original estimates.
 
 ## Phase 3 — design and automate functional tests
 
@@ -87,7 +90,12 @@ and oral performance are not claimed; the takeover and test evidence are in
 ## Current completion state
 
 The central takeover work for issues #9, #23, and #25 is complete and has fresh
-Java, API, browser, and accessibility verification. Preserve the documented
-release HOLD until MySQL concurrency evidence is produced. The repository
-owner/admin must still add `team-tests` and `mutation` to the live required
-checks; no branch-protection bypass is allowed.
+Java, API, browser, accessibility, and MySQL concurrency evidence. Main commit
+`52b9f3dea20759532f5a581ea6eb9a31545369cf` passed all nine CI jobs in
+[run 45868512051](https://github.com/Artfever/libris-SQE-Project/actions/runs/45868512051),
+including the required aggregate `build` job and its eight quality-job
+dependencies. Preserve the production release HOLD until the dependency
+dispositions are reviewed and the operator completes the backup, migration,
+and smoke-test preflight in `docs/DEPLOYMENT.md`. The release preflight checks
+the exact main revision and all required CI jobs; no deployment workflow runs
+automatically from this repository.

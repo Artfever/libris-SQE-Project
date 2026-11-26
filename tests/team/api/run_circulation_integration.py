@@ -99,7 +99,7 @@ class CirculationIntegration(GeneratedApiFixture):
 
     def test_generated_body_field_partitions(self):
         for case in self.cases:
-            if case['operation'] != 'borrowItem' or case['field'] == 'x-non-null-count':
+            if case['operation'] != 'borrowItem' or case['location'] != 'body' or case['field'] == 'x-non-null-count':
                 continue
             field, partition, value = case['field'], case['partition'], case['value']
             with self.subTest(field=field, partition=partition):
@@ -135,6 +135,18 @@ class CirculationIntegration(GeneratedApiFixture):
                 else:
                     loan = self.borrow(selected, payload)
                     self.return_item(selected, loan)
+
+    def test_generated_required_request_body_partitions(self):
+        for case in self.cases:
+            if case['operation'] != 'borrowItem' or case['location'] != 'requestBody':
+                continue
+            with self.subTest(partition=case['partition']):
+                if case['partition'] == 'omitted':
+                    self.reject(400, 'INVALID_REQUEST')
+                elif case['partition'] == 'null-body':
+                    self.reject(400, 'INVALID_REQUEST', payload=case['value']['$raw-json'].encode())
+                else:
+                    self.fail(f"Unhandled generated request-body partition: {case['partition']}")
 
     def test_item_selection_decision_table(self):
         generated = {

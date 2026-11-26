@@ -8,7 +8,16 @@ from pathlib import Path
 
 
 def candidates(schema, required):
+    unsupported = {
+        'enum', 'const', 'pattern', 'multipleOf', 'oneOf', 'anyOf', 'allOf', 'not',
+        'items', 'additionalProperties', 'minItems', 'maxItems', 'uniqueItems',
+        'minProperties', 'maxProperties', 'contains', 'dependentRequired',
+    }
+    present = unsupported.intersection(schema)
+    if present:
+        raise ValueError(f'Unsupported OpenAPI validation keyword(s): {", ".join(sorted(present))}')
     typ = schema.get('type')
+    schema_format = schema.get('format')
     nullable = schema.get('nullable', False)
     values = []
     def add(group, value, expected, note=''):
@@ -16,6 +25,8 @@ def candidates(schema, required):
     add('omitted', {'$omit': True}, 'invalid' if required else 'valid')
     add('null', None, 'valid' if nullable else 'invalid')
     if typ == 'integer':
+        if schema_format not in (None, 'int64'):
+            raise ValueError(f'Unsupported integer format: {schema_format!r}')
         lo, hi = schema.get('minimum'), schema.get('maximum')
         if schema.get('exclusiveMinimum') or schema.get('exclusiveMaximum'):
             raise ValueError('Exclusive integer bounds are not yet supported')
@@ -39,7 +50,9 @@ def candidates(schema, required):
                     add(f'{boundary}-{suffix}', value, 'valid' if valid else 'invalid')
         add('wrong-type', 'not-an-integer', 'invalid')
     elif typ == 'string':
-        if schema.get('format') == 'date':
+        if schema_format not in (None, 'date'):
+            raise ValueError(f'Unsupported string format: {schema_format!r}')
+        if schema_format == 'date':
             add('date', '2026-11-21', 'valid')
             add('invalid-date', '2026-02-30', 'invalid')
             add('invalid-format', 'not-a-date', 'invalid')
@@ -77,12 +90,25 @@ def generate(spec):
                 for case in candidates(parameter['schema'], parameter.get('required', False)):
                     output.append({'operation': operation['operationId'], 'method': method.upper(), 'path': path,
                                    'location': parameter['in'], 'field': parameter['name'], **case})
-            request = operation.get('requestBody', {}).get('content', {}).get('application/json', {}).get('schema', {})
+            request_body = operation.get('requestBody', {})
+            if request_body.get('required'):
+                output.append({'operation': operation['operationId'], 'method': method.upper(), 'path': path,
+                               'location': 'requestBody', 'field': '$requestBody', 'partition': 'omitted',
+                               'value': {'$omit': True}, 'schema_expected': 'invalid'})
+                output.append({'operation': operation['operationId'], 'method': method.upper(), 'path': path,
+                               'location': 'requestBody', 'field': '$requestBody', 'partition': 'null-body',
+                               'value': {'$raw-json': 'null'}, 'schema_expected': 'invalid'})
+            content = request_body.get('content', {})
+            if content and set(content) != {'application/json'}:
+                raise ValueError('Only application/json request bodies are supported')
+            request = content.get('application/json', {}).get('schema', {})
             if '$ref' in request:
                 ref = request['$ref']
                 if not ref.startswith('#/components/schemas/'):
                     raise ValueError('Only local component schema references are supported')
                 request = components[ref.rsplit('/', 1)[-1]]
+            if {'oneOf', 'anyOf', 'allOf', 'not'}.intersection(request):
+                raise ValueError('Composite request schemas are not supported')
             required = set(request.get('required', []))
             for field, schema in request.get('properties', {}).items():
                 for case in candidates(schema, field in required):

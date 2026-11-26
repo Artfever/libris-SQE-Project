@@ -34,11 +34,15 @@ Commits use the configured repository Git identity for `Abdullah-SE-bit`; no
 automated-agent co-author trailer or generated-tool attribution was added.
 PR #40 originally contained Abdullah's newspaper use cases. On 2026-11-22,
 Abdullah explicitly directed a central-owner takeover of the remaining work.
-All six use cases and the additional defect-triage and package records are
-therefore authored under Abdullah with Codex assistance. This records the
-ownership change and does not claim peer authorship, peer review, or personal
-oral-viva performance. The fresh commands, results, predictions, and limits are
-in `evidence/central-takeover-2026-11-22.md`.
+The consolidated specification text and additional defect-triage and package
+records were therefore prepared under Abdullah with Codex assistance. The
+original workflow allocation remains separately credited: Shaheer's UC-01/04,
+Taha's UC-02/05, and Abdullah's UC-03/06. Taha confirmed that he and Shaheer
+completed their assigned pairs; the contribution links and the distinction
+between earlier workflow contributions and later specification consolidation
+are recorded in `USE_CASES.md`. No peer review of the consolidated artifacts
+or personal oral-viva performance is claimed. The fresh commands, results,
+predictions, and limits are in `evidence/central-takeover-2026-11-22.md`.
 
 ## Latest continuation prompt
 
