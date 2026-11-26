@@ -1,8 +1,8 @@
 ﻿# SonarQube baseline and cyclomatic complexity (#12)
 
-The [GitHub Actions run](https://github.com/Artfever/libris-SQE-Project/actions/runs/44898526072)
-analyzed revision `f3fb34d18642c766dc20e054b52b61798500ff12`, the pull request
-merge revision. It used SonarQube Community Build 26.11.0.134175,
+The [GitHub Actions run](https://github.com/Artfever/libris-SQE-Project/actions/runs/45775443237)
+analyzed the merged main revision `c009f80656f4b8282fe72b6dd9daf35995a6986e`.
+It used SonarQube Community Build 26.11.0.134175,
 Sonar Maven scanner 5.5.0.6356, Java 21, JaCoCo 0.8.12, and the Java
 Sonar way core profile (263 rules). The gate reported OK. Raw API
 responses are next to this report, including the gate, profile and revision.
@@ -19,18 +19,18 @@ mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356:
 
 | Metric | Java project | BorrowRecordService | Interpretation |
 | --- | ---: | ---: | --- |
-| Cyclomatic complexity | 513 | 39 | Independent paths add verification effort. The file repeatedly branches on item type and return state. |
+| Cyclomatic complexity | 518 | 39 | Independent paths add verification effort. The file repeatedly branches on item type and return state. |
 | Cognitive complexity | 214 | 29 | Branch nesting and dispatch contribute to reading effort. |
 | Duplication | 1.7% | — | Repeated lines can require coordinated changes. |
 | Code smells | 4 | — | Maintainability warnings are candidates for review and refactoring. |
 | Bugs | 0 | — | Active rules reported no bugs in this scan. |
-| Vulnerabilities | 1 | — | A project-level finding requires triage. The count alone does not establish runtime impact. |
-| Coverage | 87.7% | 97.9% | Sonar combines line and condition coverage from the baseline JaCoCo data. These are combined baseline results rather than team-only unit coverage. |
+| Vulnerabilities | 1 | — | One low-severity Sonar finding concerns the browser-readable CSRF cookie. The session cookie remains HttpOnly, and role tests verify that writes without a CSRF header are rejected. |
+| Coverage | 87.7% | 99.0% | Sonar combines line and condition coverage from JaCoCo. Project coverage is not team-only unit coverage. |
 | Technical debt | 80 min | — | Estimated remediation effort for maintainability findings. |
 | Maintainability rating | A | A | Ratio of estimated remediation effort to codebase size. |
 | Reliability rating | A | A | Rating based on detected reliability issues. |
 | Security rating | B | A | Project-wide rating reflects a detected security issue. |
-| Source lines | 4124 | 229 | Size provides context for these aggregates. |
+| Source lines | 4240 | 229 | Size provides context for these aggregates. |
 
 The dash denotes a metric omitted by the file API. The quality gate
 uses its configured conditions and does not imply all overall scores are ideal.
