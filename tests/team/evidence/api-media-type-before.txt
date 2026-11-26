@@ -1,0 +1,25 @@
+uv : WARN `--no-project` was provided, but no project was found
+At line:2 char:175
++ ... $env:Path"; uv run --no-project --python 3.12 python tests/team/api/r ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARN `--no-proj...oject was found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+test_borrow_request_body_and_media_type (__main__.CirculationIntegration.test_borrow_request_body_and_media_type) ...
+FAIL
+
+======================================================================
+FAIL: test_borrow_request_body_and_media_type (__main__.CirculationIntegration.test_borrow_request_body_and_media_type)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\libris-sqe-rubric\tests\team\api\run_circulation_integration.py", line 194, in
+test_borrow_request_body_and_media_type
+    self.reject(415, 'UNSUPPORTED_MEDIA_TYPE', payload=self.baseline, content_type='text/plain')
+  File "E:\libris-sqe-rubric\tests\team\api\run_circulation_integration.py", line 62, in reject
+    self.assertEqual(actual, status)
+AssertionError: 500 != 415
+
+----------------------------------------------------------------------
+Ran 1 test in 36.405s
+
+FAILED (failures=1)

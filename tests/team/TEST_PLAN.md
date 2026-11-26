@@ -86,8 +86,8 @@ baseline again, then rerun the failed case and affected regression set.
 3. **Authorization (PR-06):** every planned role decision has an observed
    response; student write attempts and requests without required authentication
    or CSRF protection produce no database mutation.
-4. **Coverage/traceability:** every FR/BR has at least one passing test or a
-   documented deviation; all high risks have an executed control before release.
+**Evidence prerequisite:** every FR/BR has at least one passing test or a
+documented deviation. Review all high-risk controls before a release decision.
 
 ## Risk register
 
@@ -111,19 +111,33 @@ defect authors.
 | PJ-01 | Docker/MySQL or browser tooling unavailable delays evidence or causes unsupported claims. | 3 | 3 | 9 | H2 fallback; mark MySQL/browser evidence conditional and do not claim unrun checks. | `@Abdullah-SE-bit` |
 | PJ-02 | Team ownership/review or fixture conflicts delay completion or invalidate results. | 3 | 3 | 9 | Assign owners; shared fixture reset rules; review evidence and commit ownership; record schedule variance. | `@Abdullah-SE-bit` |
 
+### 5 × 5 likelihood and impact matrix
+
+Cells show the score and risks assigned at that coordinate. Read likelihood
+down the rows and impact across the columns.
+
+| Likelihood / impact | 1 | 2 | 3 | 4 | 5 |
+| --- | ---: | ---: | --- | --- | --- |
+| 5 | 5 | 10 | 15 | 20 | 25 |
+| 4 | 4 | 8 | 12 | 16 | 20 |
+| 3 | 3 | 6 | 9: PR-07, PR-09, PR-10, PJ-01, PJ-02 | 12: PR-02, PR-03, PR-04, PR-11 | 15: PR-01 |
+| 2 | 2 | 4 | 6 | 8: PR-05, PR-08 | 10: PR-06 |
+| 1 | 1 | 2 | 3 | 4 | 5 |
+
+Use full state assertions, transaction or role isolation, and a focused
+regression gate for high risks. Use representative partitions and targeted
+negative tests for moderate risks. PR-01 and PR-02/PR-04 are covered by two
+separate measurable criteria because partial writes and duplicate transitions
+are distinct failure modes.
+
 ## Release decision record
 
 | Criterion | Result | Evidence | Decision |
 | --- | --- | --- | --- |
 | State integrity | Met for the executed H2 scope | `evidence/api-integration-2026-11-21.md`; 7-case rerun checked complete availability/history snapshots after every rejection and success. Six browser flows also assert persisted outcomes; PR #35 records 30 browser tests. | Accept for tested scope; MySQL transaction/concurrency behavior remains unverified. |
-| Repeat/concurrency safety | Not met | API suite verifies sequential repeated borrow/return; no concurrent borrow/return race or MySQL lock-contention evidence is recorded. | Hold release; execute the planned race tests against a disposable MySQL database. |
-| Authorization | Met for planned circulation API/browser decisions | API integration covers anonymous, student, librarian, administrator, CSRF, own-history read, denied writes, and no state mutation. Strict CSP is asserted on API and circulation-page responses. Post-fix passive ZAP proxied a successful H2 borrow/return and reported informational alerts only. | Accept for these local scenarios; explicit cross-student-history isolation and production behavior remain unverified. |
-| Requirement traceability | 12/12 selected FR-B01–B06 and FR-R01–R06 have passing evidence links; BR-C01–C05 are exercised, with concurrency deviation for BR-C03/04. | `TRACEABILITY_ESTIMATE.md`, `evidence/api-integration-2026-11-21.md`, `browser/playwright-results.txt`. | Traceability is sufficient for selected scope; do not infer untested MySQL concurrency. |
+| Repeat/concurrency safety | Met for the exercised disposable MySQL scope | Two transactions were simultaneously waiting on every tested book, magazine and newspaper borrow and return. Exactly one succeeded per race. Both forced timeout paths returned the documented 409, preserved state, and allowed retry. | Accept for the exercised MySQL 8.4.11 scenarios. |
+| Authorization | Met for planned circulation API/browser decisions | H2 API tests exercise staff, student, anonymous and CSRF rules. Playwright independently verified eleven decisions including two mutually isolated student histories and unchanged state after denied writes. | Accept for these local scenarios. |
 
-The release recommendation is **HOLD** until PR-02/PR-04 concurrency controls
-are executed, member-owned Phase 2 use cases and review/viva evidence are
-submitted, and production release gates are verified. The local post-fix
-passive ZAP scan is complete; it does not prove production behavior. See
-`TEST_COMPLETION_REPORT.md` for risk-by-risk residuals and the actual-versus-
-target summary.
+See [the release decision](RELEASE_DECISION.md) for the formal comparison and
+remaining release conditions.
 

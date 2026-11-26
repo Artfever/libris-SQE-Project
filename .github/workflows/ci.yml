@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  maven:
     runs-on: ubuntu-latest
 
     steps:
@@ -46,6 +46,16 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Warm Maven Wrapper distribution
+        run: |
+          for attempt in 1 2 3; do
+            if ./mvnw --version; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+
       - name: Run team circulation unit tests
         run: ./mvnw -B clean test -Dtest=TeamCirculationTest,TeamOverdueCalculatorTest,TeamRecoveryTest
         working-directory: backend
@@ -66,6 +76,11 @@ jobs:
       - name: Run circulation API integration suite
         run: python tests/team/api/run_circulation_integration.py
 
+      - name: Verify circulation transactions on disposable MySQL
+        run: |
+          python -m pip install 'PyMySQL[rsa]==1.1.2'
+          bash tests/team/api/run_mysql_container.sh mysql-concurrency-ci.json
+
       - name: Install Playwright and Chromium
         run: |
           python -m pip install -r tests/team/browser/requirements.txt
@@ -73,6 +88,21 @@ jobs:
 
       - name: Run browser acceptance flows
         run: python -u tests/team/browser/run_circulation.py 2>&1 | tee playwright-results-ci.txt
+
+      - name: Verify circulation role decisions in the browser
+        run: python tests/team/security/check_roles.py --output security-roles-ci.json
+
+      - name: Install accessibility tools
+        run: |
+          npm ci
+          npx --no-install playwright install --with-deps chromium
+        working-directory: tests/team/usability
+
+      - name: Verify keyboard and accessible task behavior
+        run: python tests/team/usability/run_tasks.py ci-after
+
+      - name: Verify key screens with the axe Playwright integration
+        run: python tests/team/usability/run_axe.py --output axe-playwright-ci.json --expect-clean
 
       - name: Upload team test evidence
         if: always()
@@ -82,6 +112,10 @@ jobs:
           path: |
             backend/target/site/jacoco/jacoco.xml
             playwright-results-ci.txt
+            security-roles-ci.json
+            mysql-concurrency-ci.json
+            axe-playwright-ci.json
+            tests/team/evidence/usability/*-ci-after.json
           if-no-files-found: warn
 
   mutation:
@@ -161,14 +195,34 @@ jobs:
           echo "::add-mask::$token"
           echo "SONAR_TOKEN=$token" >> "$GITHUB_ENV"
 
+      - name: Set measurable overall Sonar conditions
+        env:
+          SONAR_HOST_URL: http://127.0.0.1:9000
+        run: |
+          post() {
+            local endpoint=$1
+            shift
+            curl --fail-with-body --silent --show-error --user "${SONAR_TOKEN}:" \
+              --request POST "$SONAR_HOST_URL/api/$endpoint" "$@"
+          }
+          post projects/create --data-urlencode project=libris-sqe --data-urlencode name=Libris
+          post qualitygates/create --data-urlencode 'name=Libris SQE overall'
+          post qualitygates/create_condition --data-urlencode 'gateName=Libris SQE overall' \
+            --data-urlencode metric=coverage --data-urlencode op=LT --data-urlencode error=85
+          post qualitygates/create_condition --data-urlencode 'gateName=Libris SQE overall' \
+            --data-urlencode metric=duplicated_lines_density --data-urlencode op=GT --data-urlencode error=3
+          post qualitygates/select --data-urlencode 'gateName=Libris SQE overall' \
+            --data-urlencode projectKey=libris-sqe
+
       - name: Analyze Java and enforce SonarQube quality gate
         working-directory: backend
         env:
           SONAR_HOST_URL: http://127.0.0.1:9000
         run: |
-          mvn -B clean verify \
+          env -u GITHUB_ACTIONS mvn -B clean verify \
             org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356:sonar \
             -Dsonar.projectKey=libris-sqe \
+            -Dsonar.scm.revision="${GITHUB_SHA}" \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
@@ -177,6 +231,7 @@ jobs:
         env:
           SONAR_HOST_URL: http://127.0.0.1:9000
         run: |
+          set -euo pipefail
           mkdir -p sonar-evidence
           metrics=complexity,cognitive_complexity,duplicated_lines_density,code_smells,bugs,vulnerabilities,coverage,sqale_index,sqale_rating,reliability_rating,security_rating,ncloc
           sonar() {
@@ -186,7 +241,11 @@ jobs:
           sonar measures/component_tree --data-urlencode component=libris-sqe             --data-urlencode "metricKeys=$metrics" --data-urlencode q=BorrowRecordService.java             > sonar-evidence/circulation.json
           sonar qualityprofiles/search --data-urlencode project=libris-sqe > sonar-evidence/profiles.json
           sonar qualitygates/project_status --data-urlencode projectKey=libris-sqe > sonar-evidence/gate.json
+          sonar issues/search --data-urlencode componentKeys=libris-sqe --data-urlencode types=VULNERABILITY > sonar-evidence/vulnerabilities.json
           git rev-parse HEAD > sonar-evidence/analyzed-commit.txt
+          jq -e '.projectStatus | .status == "OK" and
+            any(.conditions[]; .metricKey == "coverage" and .status == "OK") and
+            any(.conditions[]; .metricKey == "duplicated_lines_density" and .status == "OK")' sonar-evidence/gate.json
 
       - name: Upload SonarQube evidence
         uses: actions/upload-artifact@v4
@@ -295,3 +354,17 @@ jobs:
           # build layers warm so the cost is paid on the first run only.
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # The active main ruleset already requires this context. Preserve its name
+  # and make every quality job a prerequisite for merging or a releasable build.
+  build:
+    needs: [maven, team-tests, mutation, sonarqube, javascript, phase5, backup-script, docker-build]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      QUALITY_RESULTS: ${{ toJSON(needs) }}
+    steps:
+      - name: Require every quality job to succeed
+        run: jq -e 'length == 8 and all(.[]; .result == "success")' <<< "$QUALITY_RESULTS"

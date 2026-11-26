@@ -1,5 +1,9 @@
 # Libris circulation test completion report
 
+This report preserves the 21–22 November completion snapshot. The
+[26 November verification](RUBRIC_EVIDENCE.md) and [current release decision](RELEASE_DECISION.md)
+supersede its MySQL, browser authorization, and CI status where they provide newer evidence.
+
 **Status:** HOLD for release. **Snapshot:** 21 November 2026. **Team:**
 Section B — Abdullah Adnan (24I-3020), Muhammad Shaheer (24I-3063), and Taha
 Sohail (24I-3165). **Module:** circulation management. **Workflows:** borrow

@@ -50,6 +50,8 @@ def candidates(schema, required):
             if hi is not None and lo > hi:
                 raise ValueError('minLength exceeds maxLength')
             add('string', 'x' * lo, 'valid')
+            if lo == 0 and hi != 0:
+                add('nonempty-string', 'x', 'valid')
             for name, bound in [('minLength', schema.get('minLength')), ('maxLength', hi)]:
                 if bound is not None:
                     for offset, suffix in [(-1, 'below'), (0, 'at'), (1, 'above')]:

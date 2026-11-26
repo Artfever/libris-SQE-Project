@@ -77,6 +77,35 @@ short-circuit search test covers null, blank, and nonblank search text.
 Each record state has success or rejection checks for the applicable
 operation, including unknown return records and repeated returns.
 
+### Compound decisions and feasible MC/DC pairs
+
+`–` means that the second predicate is unreachable because evaluation stopped.
+Availability is a two-step decision with a repository lookup followed by a
+Boolean check. Staff search is an explicit short-circuit decision.
+
+| Decision / ID | First predicate | Second predicate | Outcome and evidence |
+| --- | --- | --- | --- |
+| A1 | Item exists: false | Item available: – | Not found, no save. `missingItemStopsBorrow`, for all three types. |
+| A2 | Item exists: true | Item available: false | Unavailable, no save. `unavailableItemStopsBorrow`, for all types. |
+| A3 | Item exists: true | Item available: true | Save exactly one loan and change availability. One-item rows of `itemSelectionMcc`. |
+| S1 | Search is non-null: false | Search is nonblank: – | Read the requested status branch. `routesStaffHistorySearchAndFilters`. |
+| S2 | Search is non-null: true | Search is nonblank: false | Read the requested status branch. `routesStaffHistorySearchAndFilters`. |
+| S3 | Search is non-null: true | Search is nonblank: true | Read via the search repository query. `routesStaffHistorySearchAndFilters`. |
+| R1 | Loan exists: false | Return date absent: – | Not found without a state transition. `rejectsMissingLoan`. |
+| R2 | Loan exists: true | Return date absent: false | Repeat return rejected without changing the original date. `firstReturnRestoresItemAndRepeatPreservesDate`. |
+| R3 | Loan exists: true | Return date absent: true | Persist the one return transition. `firstReturnRestoresItemAndRepeatPreservesDate`. |
+
+For each family, rows 1 and 3 show that the first predicate independently
+determines the successful outcome under masking MC/DC. Rows 2 and 3
+hold the first predicate true and vary the second. A missing item has
+no availability flag. A null search has no nonblank value. An absent loan
+has no return date. Enumerating an additional combination for those
+states would invent a value the source never evaluates. Status and date
+selection use individual predicates. Borrowed and returned status
+predicates cannot both be true for the same input. The remaining branches
+and direct date checks are captured by the coverage extract and the tests
+nominated in the behavior table below.
+
 | Behavior | Team verification | Traceability |
 | --- | --- | --- |
 | Selection, missing student/item, availability | Full table and per-type negative cases | FR-B01, FR-B03, FR-B04, BR-C01–BR-C03, PR-01, PR-03, PR-05 |

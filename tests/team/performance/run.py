@@ -1,5 +1,6 @@
 """Run four comparable, disposable H2 circulation workloads with k6."""
 
+import argparse
 import json
 import secrets
 import subprocess
@@ -13,11 +14,10 @@ from verify_h2 import JAR, start_app, stop_app
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
-EVIDENCE = ROOT / "tests" / "team" / "evidence" / "performance"
 BASE = "http://127.0.0.1:18085"
 
 
-def one_run(vus, repeat):
+def one_run(vus, repeat, evidence):
     admin_secret = secrets.token_urlsafe(24) + "Aa1!"
     student_secret = secrets.token_urlsafe(24) + "Aa1!"
     process = start_app(18085, admin_secret)
@@ -50,8 +50,8 @@ def one_run(vus, repeat):
                   "borrow_date": date.today().isoformat(), "users": users}
         local = HERE / "k6-config.local.json"
         local.write_text(json.dumps(config), encoding="utf-8")
-        summary = EVIDENCE / f"k6-{vus}vu-{repeat}.json"
-        stdout = EVIDENCE / f"k6-{vus}vu-{repeat}.txt"
+        summary = evidence / f"k6-{vus}vu-{repeat}.json"
+        stdout = evidence / f"k6-{vus}vu-{repeat}.txt"
         try:
             with stdout.open("w", encoding="utf-8") as output:
                 completed = subprocess.run(
@@ -80,16 +80,20 @@ def one_run(vus, repeat):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "output/performance")
+    args = parser.parse_args()
+    evidence = args.output_dir.resolve()
     if not JAR.is_file():
         raise RuntimeError("Build the backend JAR first")
-    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    evidence.mkdir(parents=True, exist_ok=True)
     results = []
     for vus in (1, 5):
         for repeat in (1, 2):
-            result = one_run(vus, repeat)
+            result = one_run(vus, repeat, evidence)
             results.append(result)
             print(json.dumps(result), flush=True)
-    (EVIDENCE / "runs.json").write_text(json.dumps(results, indent=2) + "\n")
+    (evidence / "runs.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

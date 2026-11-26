@@ -48,3 +48,34 @@ Confirm that `Q:` is free before running this example. Java 21 must be on `PATH`
 ## Full circulation integration run (#14)
 
 After building the Java 21 JAR as above, run `python tests/team/api/run_circulation_integration.py` from the repository root. It starts a fresh H2 server on loopback and stops it when finished. The runner loads the contract directly, substitutes real fixture IDs for positive cases, and uses the generated signed 64-bit boundary values for integer binding. The exactly-one-item rule gets all eight selection combinations across book, magazine and newspaper. The complete availability and loan history snapshots are compared around each rejection and expected transition. See [the coverage matrix and findings](../evidence/api-integration-2026-11-21.md).
+
+## MySQL concurrency and conflict verification
+
+Run from the repository root after packaging the Java 21 application. Install
+`PyMySQL[rsa]==1.1.2` for the SQL observation connections. On a Docker
+workstation use `bash tests/team/api/run_mysql_container.sh output/mysql.json`.
+The runner starts a disposable MySQL 8.4 container bound at loopback 13384
+with generated credentials and no named volume. It removes its own container
+on exit. The runner requires port 18091 for its local app.
+
+For native MySQL, provision a fresh, isolated MySQL 8.4 instance listening
+only on loopback, with an empty database and account both called
+`libris_sqe`. Grant that account permissions on its disposable schema and
+SELECT on `performance_schema.data_locks` and `data_lock_waits`. Set
+`LIBRIS_SQE_MYSQL_PASSWORD` privately, then run
+`python tests/team/api/run_mysql_concurrency.py --output output/mysql.json`.
+Flyway builds the empty schema. Never reuse a shared or live database.
+On Windows, use the MySQL ZIP binary distribution and let the harness
+provision its own loopback instance:
+
+```powershell
+python tests/team/api/run_mysql_native.py --mysql-home 'C:/tools/mysql-8.4' --output output/mysql.json
+```
+
+For each catalogue type, a test transaction holds its own fixture row lock
+until MySQL confirms that both independent HTTP sessions are waiting. Once
+released, exactly one borrow succeeds. A second race on the loan record
+confirms that only one return succeeds. The same runner holds a lock past
+the test-only timeout to verify HTTP 409 and unchanged persisted state
+for each operation. The application uses its normal service, controller
+and migrations. See the [observed results](../evidence/mysql-concurrency-2026-11-26.json).

@@ -1,0 +1,83 @@
+{
+  "profile": "h2",
+  "browser": "Chromium 159.0.8154.6",
+  "driver": "Playwright",
+  "decisions": [
+    {
+      "role": "STUDENT A",
+      "action": "borrow book",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "ADMIN",
+      "action": "borrow without CSRF",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "ADMIN",
+      "action": "borrow book",
+      "expected_http": 201,
+      "observed_http": 201
+    },
+    {
+      "role": "ADMIN",
+      "action": "borrow magazine",
+      "expected_http": 201,
+      "observed_http": 201
+    },
+    {
+      "role": "STUDENT A",
+      "action": "list all loans",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "STUDENT A",
+      "action": "read own history when both students have loans",
+      "expected_http": 200,
+      "observed_http": 200
+    },
+    {
+      "role": "STUDENT B",
+      "action": "read own history when both students have loans",
+      "expected_http": 200,
+      "observed_http": 200
+    },
+    {
+      "role": "STUDENT A",
+      "action": "return book",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "ADMIN",
+      "action": "return without CSRF",
+      "expected_http": 403,
+      "observed_http": 403
+    },
+    {
+      "role": "ADMIN",
+      "action": "return book",
+      "expected_http": 204,
+      "observed_http": 204
+    },
+    {
+      "role": "ADMIN",
+      "action": "return magazine",
+      "expected_http": 204,
+      "observed_http": 204
+    }
+  ],
+  "cross_student_history_isolated": true,
+  "local_session_cookie": {
+    "httpOnly": true,
+    "sameSite": "Lax"
+  },
+  "final_available": {
+    "book": true,
+    "magazine": true
+  },
+  "returned_loans": 2
+}

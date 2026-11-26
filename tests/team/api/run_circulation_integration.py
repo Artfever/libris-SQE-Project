@@ -24,11 +24,12 @@ class CirculationIntegration(GeneratedApiFixture):
         self.baseline = {'bookId': self.ids['bookId'], 'studentId': self.student,
                          'borrowDate': self.borrow_date}
 
-    def request(self, method, path, payload=None, client=None, csrf=True):
+    def request(self, method, path, payload=None, client=None, csrf=True,
+                content_type='application/json'):
         client = client or self.api
         headers = {'Accept': 'application/json'}
         if payload is not None:
-            headers['Content-Type'] = 'application/json'
+            headers['Content-Type'] = content_type
         if csrf and client.csrf_token:
             headers['X-XSRF-TOKEN'] = client.csrf_token
         body = None if payload is None else (payload if isinstance(payload, bytes)
@@ -186,6 +187,11 @@ class CirculationIntegration(GeneratedApiFixture):
     def test_malformed_json_and_return_id_have_client_error_responses(self):
         self.reject(400, 'INVALID_REQUEST', payload=b'{"studentId":')
         self.reject(400, 'INVALID_ARGUMENT', path=f'{LOANS}/not-a-number/return')
+
+    def test_borrow_request_body_and_media_type(self):
+        self.reject(400, 'INVALID_REQUEST', payload=b'')
+        self.reject(400, 'INVALID_REQUEST', payload=[])
+        self.reject(415, 'UNSUPPORTED_MEDIA_TYPE', payload=self.baseline, content_type='text/plain')
 
     def login(self, username, password):
         client = Api(self.api.base_url)

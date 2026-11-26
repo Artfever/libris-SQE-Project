@@ -1,0 +1,13 @@
+﻿test_borrow_request_body_and_media_type (__main__.CirculationIntegration.test_borrow_request_body_and_media_type) ... ok
+test_explicit_due_dates_around_borrow_date (__main__.CirculationIntegration.test_explicit_due_dates_around_borrow_date) ... ok
+test_generated_body_field_partitions (__main__.CirculationIntegration.test_generated_body_field_partitions) ... ok
+test_item_existence_availability_and_return_transitions (__main__.CirculationIntegration.test_item_existence_availability_and_return_transitions) ... ok
+test_item_selection_decision_table (__main__.CirculationIntegration.test_item_selection_decision_table) ... ok
+test_malformed_json_and_return_id_have_client_error_responses (__main__.CirculationIntegration.test_malformed_json_and_return_id_have_client_error_responses) ... ok
+test_return_path_partitions_and_wrong_method (__main__.CirculationIntegration.test_return_path_partitions_and_wrong_method) ... ok
+test_roles_and_csrf (__main__.CirculationIntegration.test_roles_and_csrf) ... ok
+System.Management.Automation.RemoteException
+----------------------------------------------------------------------
+Ran 8 tests in 58.960s
+System.Management.Automation.RemoteException
+OK

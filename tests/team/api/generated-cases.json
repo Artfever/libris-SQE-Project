@@ -488,6 +488,17 @@
     "path": "/api/borrow-records",
     "location": "body",
     "field": "borrowerName",
+    "partition": "nonempty-string",
+    "value": "x",
+    "schema_expected": "valid",
+    "note": ""
+  },
+  {
+    "operation": "borrowItem",
+    "method": "POST",
+    "path": "/api/borrow-records",
+    "location": "body",
+    "field": "borrowerName",
     "partition": "wrong-type",
     "value": {
       "not": "a string"
@@ -536,6 +547,17 @@
     "path": "/api/borrow-records",
     "location": "body",
     "field": "borrowerEmail",
+    "partition": "nonempty-string",
+    "value": "x",
+    "schema_expected": "valid",
+    "note": ""
+  },
+  {
+    "operation": "borrowItem",
+    "method": "POST",
+    "path": "/api/borrow-records",
+    "location": "body",
+    "field": "borrowerEmail",
     "partition": "wrong-type",
     "value": {
       "not": "a string"
@@ -575,6 +597,17 @@
     "field": "borrowerPhone",
     "partition": "string",
     "value": "",
+    "schema_expected": "valid",
+    "note": ""
+  },
+  {
+    "operation": "borrowItem",
+    "method": "POST",
+    "path": "/api/borrow-records",
+    "location": "body",
+    "field": "borrowerPhone",
+    "partition": "nonempty-string",
+    "value": "x",
     "schema_expected": "valid",
     "note": ""
   },

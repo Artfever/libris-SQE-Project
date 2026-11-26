@@ -1,0 +1,87 @@
+{
+    "total":  1,
+    "p":  1,
+    "ps":  100,
+    "paging":  {
+                   "pageIndex":  1,
+                   "pageSize":  100,
+                   "total":  1
+               },
+    "effortTotal":  10,
+    "issues":  [
+                   {
+                       "key":  "efa22d17-b901-4e43-b2a4-0e0723c80dac",
+                       "rule":  "java:S3330",
+                       "severity":  "MINOR",
+                       "component":  "libris-sqe:src/main/java/com/example/lms/security/SecurityConfig.java",
+                       "project":  "libris-sqe",
+                       "line":  75,
+                       "hash":  "dbada244216a3f532dcc1a1a483f24b9",
+                       "textRange":  {
+                                         "startLine":  75,
+                                         "endLine":  75,
+                                         "startOffset":  95,
+                                         "endOffset":  97
+                                     },
+                       "flows":  [
+
+                                 ],
+                       "status":  "OPEN",
+                       "message":  "Make sure creating this cookie without the \"HttpOnly\" flag is safe.",
+                       "effort":  "10min",
+                       "debt":  "10min",
+                       "author":  "pkmail2005@gmail.com",
+                       "tags":  [
+                                    "cwe",
+                                    "privacy",
+                                    "former-hotspot"
+                                ],
+                       "creationDate":  "2026-07-24T11:41:03+0500",
+                       "updateDate":  "2026-11-26T02:46:52+0500",
+                       "type":  "VULNERABILITY",
+                       "scope":  "MAIN",
+                       "quickFixAvailable":  false,
+                       "messageFormattings":  [
+
+                                              ],
+                       "codeVariants":  [
+
+                                        ],
+                       "cleanCodeAttribute":  "COMPLETE",
+                       "cleanCodeAttributeCategory":  "INTENTIONAL",
+                       "impacts":  [
+                                       {
+                                           "softwareQuality":  "SECURITY",
+                                           "severity":  "LOW"
+                                       }
+                                   ],
+                       "issueStatus":  "OPEN",
+                       "prioritizedRule":  false,
+                       "fromSonarQubeUpdate":  false,
+                       "internalTags":  [
+
+                                        ],
+                       "linkedTicketStatus":  "NOT_LINKED"
+                   }
+               ],
+    "components":  [
+                       {
+                           "key":  "libris-sqe:src/main/java/com/example/lms/security/SecurityConfig.java",
+                           "enabled":  true,
+                           "qualifier":  "FIL",
+                           "name":  "SecurityConfig.java",
+                           "longName":  "src/main/java/com/example/lms/security/SecurityConfig.java",
+                           "path":  "src/main/java/com/example/lms/security/SecurityConfig.java"
+                       },
+                       {
+                           "key":  "libris-sqe",
+                           "enabled":  true,
+                           "qualifier":  "TRK",
+                           "name":  "libris",
+                           "longName":  "libris"
+                       }
+                   ],
+    "facets":  [
+
+               ]
+}

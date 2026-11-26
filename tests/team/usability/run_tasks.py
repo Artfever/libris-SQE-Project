@@ -74,32 +74,38 @@ def run(run_name):
                 page.locator("#issueItemBtn").click()
                 form = page.locator("#borrow-form")
                 expect(form).to_be_visible()
+                # Playwright's visible state can precede the end of the fade-in.
+                expect(page.locator("#modal-root .modal-backdrop")).to_have_css("opacity", "1")
+                expect(page.get_by_role("dialog")).to_have_css("opacity", "1")
                 scans.append(axe_scan(page, "borrow-modal", run_name, "#modal-root"))
 
-                # Invalid item is rejected with a correction instruction, then repaired.
-                form.get_by_role("button", name="Issue item").click()
+                item = form.get_by_label("Item")
+                expect(item).to_be_focused()
+                submit = form.get_by_role("button", name="Issue item")
+                focus_order = []
+                for _ in range(20):
+                    label = page.evaluate("document.activeElement.getAttribute('name') || document.activeElement.textContent.trim()")
+                    if not focus_order or label != focus_order[-1]:
+                        focus_order.append(label)
+                    if label == "Issue item":
+                        break
+                    page.keyboard.press("Tab")
+                assert focus_order == ["item", "studentId", "borrowDate", "dueDate", "Cancel", "Issue item"], focus_order
+                expect(submit).to_be_focused()
+                page.keyboard.press("Enter")
                 error = page.locator("[data-borrow-error]")
                 expect(error).to_contain_text("Choose an item, a student, and an issue date.")
                 book_id = fixture["items"]["book"]["id"]
                 student_id = fixture["student"]["id"]
-                item = form.get_by_label("Item")
+                assert api.call("GET", f"/api/books/{book_id}")["available"] is True
+                assert api.count("/api/borrow-records") == 0
+
                 item.select_option(f"book:{book_id}")
                 form.get_by_label("Student").select_option(str(student_id))
-
-                # Check sequential keyboard focus and submit with Enter.
-                item.focus()
-                focus_order = []
-                for _ in range(12):
-                    focus_order.append(page.evaluate("document.activeElement.getAttribute('name') || document.activeElement.textContent.trim()"))
-                    if "Cancel" in focus_order[-1]:
-                        break
-                    page.keyboard.press("Tab")
-                assert focus_order[:2] == ["item", "studentId"], focus_order
-                assert focus_order.index("borrowDate") < focus_order.index("dueDate"), focus_order
-                assert "Cancel" in focus_order[-1], focus_order
-                form.get_by_role("button", name="Issue item").focus()
+                expect(submit).to_be_focused()
                 page.keyboard.press("Enter")
                 expect(page.locator("#borrow-form")).to_have_count(0)
+                expect(page.locator(".toast").last).to_contain_text("Item issued successfully.")
                 expect(page.locator(".circulation-row")).to_contain_text(fixture["items"]["book"]["title"])
                 assert api.call("GET", f"/api/books/{book_id}")["available"] is False
                 history = api.call("GET", "/api/borrow-records")
@@ -114,7 +120,7 @@ def run(run_name):
                 button = page.locator(".return-book").first
                 button.evaluate("(el) => el.dataset.id = '999999999'")
                 button.click()
-                expect(page.locator(".toast").last).to_be_visible()
+                expect(page.locator(".toast").last).to_contain_text("Borrow record not found.")
                 assert api.call("GET", f"/api/books/{book_id}")["available"] is False
                 assert api.count("/api/borrow-records") == 1
                 button.evaluate(f"(el) => el.dataset.id = '{loan_id}'")
