@@ -18,7 +18,7 @@ native MySQL 8.4.11 suite with Connector/J 26.10.0.
 | Part | Evidence and interpretation |
 | --- | --- |
 | 1. System and scope | The [basis](TEST_BASIS.md) documents 12 functional requirements, five business rules, staff and student permissions, and the shared records. The [fresh seed and reset](evidence/fixture-h2-rubric-2026-11-26.json) found an empty H2 database, inserted and inspected synthetic records, and verified all five entity counts returned to zero after restart. The [registration record](evidence/registration-2026-11-20.md) and [closed issue #5](https://github.com/Artfever/libris-SQE-Project/issues/5) support the team's confirmation that Section B registration was completed. The Sheet row and timing were not independently inspected. |
-| 2. Plan and functional automation | The [plan](TEST_PLAN.md) supplies the 5 × 5 matrix, three release criteria and controls. The [traceability and estimate](TRACEABILITY_ESTIMATE.md) links 12 of 12 selected requirements. The team supplied 14 person-hours of reported effort across ten areas. The estimate document compares matched areas and links the closed issues. The [Java unit evidence](unit/README.md) explains the unreachable branch and maps the feasible MCC rows and MC/DC pairs. The [API suite](api/README.md) uses the OpenAPI generator, complete state snapshots, and MySQL race and 409 evidence. The [six specifications](USE_CASES.md) each have main, two alternate, and two exception flows. [Thirty Playwright cases](browser/README.md) automate them. All six specifications have one recorded author. The brief calls for two per member, which needs new member contributions or an instructor-approved exception. |
+| 2. Plan and functional automation | The [plan](TEST_PLAN.md) supplies the 5 × 5 matrix, three release criteria and controls. The [traceability and estimate](TRACEABILITY_ESTIMATE.md) links 12 of 12 selected requirements. The team supplied 14 person-hours of reported effort across ten areas. The estimate document compares matched areas and links the closed issues. The [Java unit evidence](unit/README.md) explains the unreachable branch and maps the feasible MCC rows and MC/DC pairs. The [API suite](api/README.md) uses the OpenAPI generator, complete state snapshots, and MySQL race and 409 evidence. The [six specifications](USE_CASES.md) each have main, two alternate, and two exception flows. [Thirty Playwright cases](browser/README.md) automate them. The individual ownership section below records two cases per member using the original allocation, linked contributions, and Taha's confirmation that he and Shaheer completed their pairs. Abdullah authored the consolidated specifications. |
 | 2. Mutation and CI | The expanded focused PIT run killed 72 of 74 mutants (97.3%) and killed both business-rule operators. The [survivor review](evidence/pitest/SURVIVOR_REVIEW.md) distinguishes 14 killable calibration survivors and two equivalent full-suite survivors. The [red run and corrective PR](evidence/ci-gate-demonstration-2026-11-21.md) establish the existing documented blocked merge. The updated workflow puts all eight checks behind the already-required `build` context and checks actual Sonar conditions. The [release procedure](../../docs/DEPLOYMENT.md) also checks the exact successful `main` revision and image revision. Live enforcement of these new files depends on their integration and hosted execution. |
 | 3. Usability and accessibility | The [task output](evidence/usability/tasks-rubric-after.json) records Tab from Item through Student, Issue date, Due date, Cancel, and finally Issue item. Enter first triggers a corrective message and leaves state unchanged, then completes the corrected issue. The return task first sees the missing-record message, then confirms the successful return. The five task scan states had zero axe violations. Historical Lighthouse reports retain the before-and-after comparison, including improved heading hierarchy, accessibility 88 to 90 on borrow, best practices 100, and SEO 90. The [Phase 4 report](PHASE4_REPORT.md) and [retest analysis](evidence/phase5-findings-remediation-2026-11-21.md) explain root cause, user impact, severity, and correction for heading order, contrast, and accessible names. |
 | 4. Defensive security | The [Playwright access table](evidence/security/roles-playwright-2026-11-26.json) records 11 expected and observed HTTP decisions, session cookie flags, cross-student isolation, CSRF denials, and final state. The [passive ZAP report](evidence/security/zap-passive-rubric-2026-11-26.json) retained 48 messages observed during the two workflows and three informational alerts. The resolved Maven/OSV inventory and [triage](evidence/phase5-findings-remediation-2026-11-21.md) document component versions, impact, upgraded dependencies, and residual applicability. |
@@ -191,7 +191,7 @@ The [effort comparison](TRACEABILITY_ESTIMATE.md) records the retrospectively re
 | Window | Against plan | Defect density | Requirements coverage | Reopen rate | Control |
 | --- | --- | --- | --- | --- | --- |
 | 15–22 November | Initial phases and functional suite executed, with MySQL and branch enforcement held. | 6 / 4,060 nonblank Java lines = 1.48 per KLOC | 12/12 | 0/6 = 0% | Prioritize same-record races and complete branch enforcement. |
-| 23–26 November, in progress | MySQL, 409s, browser role isolation, keyboard focus, full axe integration and dependency recheck executed. Hosted enforcement and individual records remain pending. | 7 tracked defects / 4,073 nonblank Java lines = 1.72 per KLOC. | 12/12 | N/A, no closures among these defects in this partial window. | Review the candidate on hosted CI, submit exact-revision evidence, and obtain the missing academic records. |
+| 23–26 November, in progress | MySQL, 409s, browser role isolation, keyboard focus, full axe integration and dependency recheck executed. At this snapshot, integration and individual confirmation were pending. | 7 tracked defects / 4,073 nonblank Java lines = 1.72 per KLOC. | 12/12 | N/A, no closures among these defects in this partial window. | Review the candidate on hosted CI, submit exact-revision evidence, and obtain the missing academic records. |
 
 The small defect sample spans Java, dependency and frontend findings while
 the denominator uses Java source. The density changed because the new
@@ -209,12 +209,13 @@ following original allocation and its later replacement by the central takeover.
 | Taha Sohail | UC-02 and UC-05, magazine borrow and return | [Issue #16](https://github.com/Artfever/libris-SQE-Project/issues/16) and [PR #35](https://github.com/Artfever/libris-SQE-Project/pull/35) document Playwright automation of all six cases, including the assigned pair. |
 | Abdullah Adnan | UC-03 and UC-06, newspaper borrow and return | [PR #40](https://github.com/Artfever/libris-SQE-Project/pull/40) explicitly records Abdullah's specification contribution for these two cases. |
 
-The closing comment on #9 and [PR #54](https://github.com/Artfever/libris-SQE-Project/pull/54)
-record that Abdullah subsequently took over all six specifications. The links
-above establish real contributions and the original allocation. The current
-record lacks confirmation of a later individual ownership split for Shaheer
-and Taha. Preserve the specification history and record individual case
-validation separately if the members complete it.
+Taha Sohail confirmed that he and Muhammad Shaheer completed their original
+assigned pairs. This is a participant-reported completion record for Taha's
+UC-02/UC-05 and Shaheer's UC-01/UC-04. PR #40 directly records Abdullah's
+UC-03/UC-06 specification contribution. The associated PRs above establish
+the contribution types. The closing comment on #9 and [PR #54](https://github.com/Artfever/libris-SQE-Project/pull/54)
+record Abdullah's subsequent authorship of the consolidated specifications.
+The completion confirmation leaves that authorship history intact.
 
 PR-01 retains environment-specific risk beyond verified transaction and
 recovery paths. PR-02/PR-04 now have same-item MySQL evidence. PR-03 has
@@ -226,8 +227,8 @@ snapshots and retained records, with profile deletion outside this check.
 PR-09 remains limited to the measured workload. PR-10 has automated
 keyboard and accessibility evidence, with untested assistive technology
 combinations. PR-11 retains dependency applicability and source-review
-limits. PJ-01 now has runnable MySQL and browser evidence. PJ-02 remains
-open because the individual use-case ownership evidence is still incomplete.
+limits. PJ-01 now has runnable MySQL and browser evidence. PJ-02
+retains a review risk because the confirmation for two of the pairs is participant-reported and the consolidated specifications have one author.
 
 See the [release decision](RELEASE_DECISION.md) for the formal actual versus
 target comparison.

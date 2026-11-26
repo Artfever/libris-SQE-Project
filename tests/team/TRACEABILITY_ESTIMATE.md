@@ -118,7 +118,7 @@ assignee for #11. Shaheer, using the Artfever account, was the assignee
 for #20?#21. Issue #16 was assigned to Taha. This evidence preserves those
 assignments and the reported effort in separate fields. The 2h for use cases
 is a team effort figure and gives no breakdown of case authorship or
-individual ownership. The historical single-author record still applies.
+individual ownership. The [individual case record](RUBRIC_EVIDENCE.md) separately documents Taha's completion confirmation and the linked contributions. The historical authorship of the consolidated specifications still applies.
 
 ### Phase 2 estimate versus reported effort
 
