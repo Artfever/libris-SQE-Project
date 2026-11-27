@@ -96,8 +96,9 @@ Java, API, browser, accessibility, and MySQL concurrency evidence. Main commit
 [run 45872478751](https://github.com/Artfever/libris-SQE-Project/actions/runs/45872478751),
 including the required aggregate `build` job and its eight quality-job
 dependencies. The run passed after retrying a transient wrapper download
-failure. Preserve the production release HOLD until the dependency
-dispositions are reviewed and the operator completes the backup, migration,
-and smoke-test preflight in `docs/DEPLOYMENT.md`. The release preflight checks
+failure. On 27 November, Taha reported the team completed dependency review
+and the backup, migration, and smoke-test preflight and approved release; see
+`RELEASE_DECISION.md`. The report records team approval without claiming a
+production deployment. The release preflight checks
 the exact main revision and all required CI jobs; no deployment workflow runs
 automatically from this repository.
