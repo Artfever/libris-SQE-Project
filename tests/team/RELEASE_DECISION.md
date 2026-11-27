@@ -1,13 +1,15 @@
 # Circulation release decision
 
-**Product release decision: HOLD.** The selected circulation criteria passed
-in disposable H2 and MySQL. Main commit
+**Product release decision: APPROVED FOR RELEASE (team-reported).** The
+selected circulation criteria passed in disposable H2 and MySQL. Main commit
 `29c3abc0d0b9ef45edce875429348d398c04785e` passed all nine CI jobs in
 [the main-branch run](https://github.com/Artfever/libris-SQE-Project/actions/runs/45872478751),
 including the required aggregate gate after a transient wrapper-download retry.
-Production release still requires
-review of the applicable dependency findings and the operator's backup,
-migration, and smoke checks.
+On 27 November, Taha reported that the team completed the dependency review and
+the operator's backup, migration, and smoke preflight and approved release.
+See the user-confirmed status recorded in `AI_USE.md`. This report does not
+claim that a live production deployment was performed or independently
+observed.
 
 | Release criterion | Target defined in the test plan | Actual against target | Decision |
 | --- | --- | --- | --- |
@@ -22,7 +24,8 @@ and [recovery report](evidence/recovery/TEST-com.example.lms.team.TeamRecoveryTe
 See the [current rubric and residual-risk review](RUBRIC_EVIDENCE.md) for test
 scope, package readiness, and accountable follow-up.
 
-**Keep the product release on HOLD until dependency dispositions are reviewed
-and the operator completes the deployment preflight.** The current main
-revision has passed CI; `scripts/check-release-ci.py` blocks the manual release
-preflight if the exact revision lacks a successful run or any required job.
+**Decision: APPROVED FOR RELEASE per the team's 27 November confirmation.**
+The team reports that dependency dispositions and deployment preflight are
+complete. `scripts/check-release-ci.py` still blocks a manual release if the
+exact revision lacks a successful run or any required job. Production
+deployment itself is not claimed in this report.

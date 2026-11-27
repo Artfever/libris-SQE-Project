@@ -84,3 +84,10 @@ pages. On 27 November, Taha reported that a teammate had reviewed the
 consolidated project/report. The reviewer identity and review comments were
 not supplied, so this records Taha's confirmation rather than a named formal
 approval. No instructor approval or personal oral-viva performance is claimed.
+
+## 27 November release confirmation
+
+Taha confirmed that the team completed the dependency review and the operator
+backup, migration, and smoke-test preflight, and approved the product release.
+The current `RELEASE_DECISION.md` records this as team-reported approval. No
+production deployment is claimed or represented as observed by Codex.
