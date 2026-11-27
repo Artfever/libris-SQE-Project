@@ -16,7 +16,6 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
-    Image,
     KeepTogether,
     PageBreak,
     PageTemplate,
@@ -31,7 +30,6 @@ from reportlab.platypus.tableofcontents import TableOfContents
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "output" / "pdf" / "Project_24I-3020_24I-3063_24I-3165_B.pdf"
 REPO = "https://github.com/Artfever/libris-SQE-Project"
-FAST_LOGO = Path(__file__).with_name("assets") / "fast-logo-black.png"
 PAGE_W, PAGE_H = A4
 LEFT = RIGHT = TOP = BOTTOM = 25.4 * mm
 CONTENT_W = PAGE_W - LEFT - RIGHT
@@ -312,10 +310,8 @@ def main():
                            leftIndent=7, rightIndent=7, spaceAfter=6),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    logo = Image(str(FAST_LOGO), width=62 * mm, height=30 * mm, kind="proportional")
-    logo.hAlign = "CENTER"
     story = [
-        Spacer(1, 12 * mm), logo, Spacer(1, 10 * mm),
+        Spacer(1, 12 * mm),
         Paragraph("National University of Computer &amp; Emerging Sciences", styles["CoverUniversity"]),
         Paragraph("SE3002 | Software Quality Engineering", styles["CoverMeta"]),
         Paragraph("Fall 2026 | Section B", styles["CoverMeta"]),
