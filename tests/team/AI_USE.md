@@ -40,9 +40,11 @@ original workflow allocation remains separately credited: Shaheer's UC-01/04,
 Taha's UC-02/05, and Abdullah's UC-03/06. Taha confirmed that he and Shaheer
 completed their assigned pairs; the contribution links and the distinction
 between earlier workflow contributions and later specification consolidation
-are recorded in `USE_CASES.md`. No peer review of the consolidated artifacts
-or personal oral-viva performance is claimed. The fresh commands, results,
-predictions, and limits are in `evidence/central-takeover-2026-11-22.md`.
+are recorded in `USE_CASES.md`. At the 22 November snapshot, no peer review of
+the consolidated artifacts or personal oral-viva performance was claimed.
+Taha later reported that a teammate reviewed the consolidated project/report;
+see the 27 November closeout below. The fresh commands, results, predictions,
+and limits are in `evidence/central-takeover-2026-11-22.md`.
 
 ## Latest continuation prompt
 
@@ -78,5 +80,7 @@ main run passed all nine jobs, the authenticated GitHub CLI closed issue #57
 as completed. Codex updated the API finding status, clarified the historical
 completion report against the newer concurrency and CI results, regenerated
 the PDF with the marking rubric, and checked its extracted text and rendered
-pages. No teammate peer-review or instructor approval is claimed; those
-judgments remain with the humans responsible for them.
+pages. On 27 November, Taha reported that a teammate had reviewed the
+consolidated project/report. The reviewer identity and review comments were
+not supplied, so this records Taha's confirmation rather than a named formal
+approval. No instructor approval or personal oral-viva performance is claimed.
