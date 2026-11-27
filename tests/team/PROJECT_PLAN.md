@@ -69,8 +69,9 @@ Lead: `@Artfever` (#17–#21).
 
 Lead: `@Abdullah-SE-bit` (#22–#25). At Abdullah's direction, the report,
 package, AI-use record, consolidated triage, and technical mock viva are
-completed by one central owner with Codex assistance. Individual peer review
-and oral performance are not claimed; the takeover and test evidence are in
+completed by one central owner with Codex assistance. Taha later reported that
+a teammate reviewed the consolidated project/report; see `AI_USE.md`. This
+does not claim peer authorship or individual oral performance. The takeover and test evidence are in
 [`central-takeover-2026-11-22.md`](evidence/central-takeover-2026-11-22.md).
 
 1. Add GitHub Actions gates for SonarQube, all team tests, coverage, and mutation score. Demonstrate both a blocked and passing pull request without bypasses.

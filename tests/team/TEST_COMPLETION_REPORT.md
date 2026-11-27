@@ -29,8 +29,9 @@ assignee directed a central-owner takeover of the remaining #9, #23, and #25
 deliverables. Abdullah consolidated the final use-case text, triage, package,
 fresh test runs, and technical mock viva with Codex assistance. The original
 assigned workflow pairs are credited separately in `USE_CASES.md`; Taha
-confirmed that he and Shaheer completed their pairs. No peer review of the
-consolidated artifacts or personal oral performance is claimed. See
+confirmed that he and Shaheer completed their pairs. At this report's
+snapshot, no peer review or personal oral performance was recorded. Taha later
+reported teammate review on 27 November; see `AI_USE.md`. See
 `evidence/central-takeover-2026-11-22.md`. Issues #9, #23, and #25 were closed
 after PR #54 merged with that ownership boundary stated in their close comments.
 Release remains on HOLD because the planned concurrent MySQL borrow/return
@@ -98,7 +99,8 @@ are documented in `evidence/phase5-findings-remediation-2026-11-21.md`.
 **Untested or incomplete:** concurrent MySQL borrow/return and production
 deployment. The central takeover completed the artifacts and fresh H2/browser
 verification for #9, #23, and #25 under one named owner; it does not claim peer
-authorship, peer review, or any student's personal oral viva performance.
+authorship or any student's personal oral viva performance. Taha subsequently
+reported a teammate review; see `AI_USE.md` for the attribution boundary.
 Phase 4 baseline mutation, accessibility, security, performance, and recovery
 evidence is in `PHASE4_REPORT.md`; local H2 and passive ZAP evidence do not prove
 production behavior.
