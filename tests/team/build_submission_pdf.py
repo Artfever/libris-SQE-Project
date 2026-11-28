@@ -347,7 +347,6 @@ def main():
 
     sections = [
         ("RUBRIC_EVIDENCE.md", "Rubric and current execution evidence"),
-        ("MARKING_RUBRIC.md", "SE3002 marking rubric (120 marks)"),
         ("evidence/registration-2026-11-20.md", "Section B registration record"),
         ("ENVIRONMENT.md", "Reproducible environment and upstream baseline"),
         ("REPOSITORY_RULES.md", "Team and area ownership"),
