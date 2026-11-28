@@ -350,7 +350,6 @@ def main():
         ("evidence/registration-2026-11-20.md", "Section B registration record"),
         ("ENVIRONMENT.md", "Reproducible environment and upstream baseline"),
         ("REPOSITORY_RULES.md", "Team and area ownership"),
-        ("TEST_COMPLETION_REPORT.md", "Historical completion report"),
         ("PHASE4_REPORT.md", "Phase 4 quality evidence"),
         ("TEST_BASIS.md", "Test basis and requirements"),
         ("USE_CASES.md", "Circulation use cases"),
