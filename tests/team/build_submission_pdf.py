@@ -256,10 +256,16 @@ class ReportDoc(BaseDocTemplate):
             self.notify("TOCEntry", (0, title, self.page, key))
 
     def draw_page(self, canvas, doc):
-        if doc.page == 1:
-            return
         canvas.saveState()
         canvas.setStrokeColor(colors.black)
+        canvas.setLineWidth(0.45)
+        border_inset = 8 * mm
+        canvas.rect(border_inset, border_inset,
+                    PAGE_W - 2 * border_inset, PAGE_H - 2 * border_inset,
+                    stroke=1, fill=0)
+        if doc.page == 1:
+            canvas.restoreState()
+            return
         canvas.setFillColor(colors.black)
         canvas.setLineWidth(0.35)
         canvas.setFont("Report", 9)
